@@ -12,91 +12,136 @@ import { WinningSet } from '../types/winning-set';
 export class MegaMillionsService {
 	private readonly megaAPI: string = environment.djangoServer + '/mega_millions';
 	// TODO: Remove
-	private readonly auth: string = `Token ${environment.token}`;
+	private readonly headers: {
+		[header: string]: string | string[];
+	} = {
+		Authorization: `Token ${environment.token}`,
+		'Content-Type': 'application/json',
+	};
 
 	constructor(private client: HttpClient) {}
-
+	/**
+	 * @param token
+	 * @returns all standard balls
+	 */
 	public getAllBalls(token: string): Observable<Array<Ball>> {
 		return this.client.get<Array<Ball>>(`${this.megaAPI}/balls`, {
-			headers: { Authorization: this.auth },
+			headers: this.headers,
 		});
 	}
-
-	public getBall(token: string, primaryKey: string): Observable<Ball> {
-		return this.client.get<Ball>(`${this.megaAPI}/balls/${primaryKey}`, {
-			headers: { Authorization: this.auth },
+	/**
+	 * @param number
+	 * @returns a ball matching the specified number
+	 */
+	public getBall(number: string): Observable<Ball> {
+		return this.client.get<Ball>(`${this.megaAPI}/balls/${number}`, {
+			headers: this.headers,
 		});
 	}
-
-	public getAllMegaBalls(token: string): Observable<Array<MegaBall>> {
+	/**
+	 * @returns all mega balls
+	 */
+	public getAllMegaBalls(): Observable<Array<MegaBall>> {
 		return this.client.get<Array<Ball>>(`${this.megaAPI}/mega_balls`, {
-			headers: { Authorization: this.auth },
+			headers: this.headers,
 		});
 	}
-
-	public getMegaBall(token: string, primaryKey: string): Observable<MegaBall> {
-		return this.client.get<Ball>(`${this.megaAPI}/mega_balls/${primaryKey}`, {
-			headers: { Authorization: this.auth },
+	/**
+	 * @param number
+	 * @returns a mega ball matching the specified number
+	 */
+	public getMegaBall(number: string): Observable<MegaBall> {
+		return this.client.get<Ball>(`${this.megaAPI}/mega_balls/${number}`, {
+			headers: this.headers,
 		});
 	}
-
-	public getAllWinningSets(token: string): Observable<Array<WinningSet>> {
+	/**
+	 * @returns all winning sets
+	 */
+	public getAllWinningSets(): Observable<Array<WinningSet>> {
 		return this.client.get<Array<WinningSet>>(`${this.megaAPI}/winning_sets`, {
-			headers: { Authorization: this.auth },
+			headers: this.headers,
 		});
 	}
-
-	public getWinningSet(token: string, primaryKey: string): Observable<WinningSet> {
-		return this.client.get<WinningSet>(`${this.megaAPI}/winning_sets/${primaryKey}`, {
-			headers: { Authorization: this.auth },
+	/**
+	 * @param number
+	 * @returns a winning set with the matching ID
+	 */
+	public getWinningSet(setID: string): Observable<WinningSet> {
+		return this.client.get<WinningSet>(`${this.megaAPI}/winning_sets/${setID}`, {
+			headers: this.headers,
 		});
 	}
-
-	public getWinningSetsWithFirstBall(token: string, ball: Ball): Observable<Array<WinningSet>> {
+	/**
+	 * @param ball
+	 * @returns all winning sets where the specified ball is the first ball
+	 */
+	public getWinningSetsWithFirstBall(ball: Ball): Observable<Array<WinningSet>> {
 		return this.client.post<Array<WinningSet>>(`${this.megaAPI}/winning_sets/first_ball`, ball, {
-			headers: { Authorization: this.auth },
+			headers: this.headers,
 		});
 	}
-
-	public getWinningSetsWithSecondBall(token: string, ball: Ball): Observable<Array<WinningSet>> {
+	/**
+	 * @param ball
+	 * @returns all winning sets where the specified ball is the second ball
+	 */
+	public getWinningSetsWithSecondBall(ball: Ball): Observable<Array<WinningSet>> {
 		return this.client.post<Array<WinningSet>>(`${this.megaAPI}/winning_sets/second_ball`, ball, {
-			headers: { Authorization: this.auth },
+			headers: this.headers,
 		});
 	}
-
-	public getWinningSetsWithThirdBall(token: string, ball: Ball): Observable<Array<WinningSet>> {
+	/**
+	 * @param ball
+	 * @returns all winning sets where the specified ball is the third ball
+	 */
+	public getWinningSetsWithThirdBall(ball: Ball): Observable<Array<WinningSet>> {
 		return this.client.post<Array<WinningSet>>(`${this.megaAPI}/winning_sets/third_ball`, ball, {
-			headers: { Authorization: this.auth },
+			headers: this.headers,
 		});
 	}
-
-	public getWinningSetsWithFourthBall(token: string, ball: Ball): Observable<Array<WinningSet>> {
+	/**
+	 * @param ball
+	 * @returns all winning sets where the specified ball is the fourth ball
+	 */
+	public getWinningSetsWithFourthBall(ball: Ball): Observable<Array<WinningSet>> {
 		return this.client.post<Array<WinningSet>>(`${this.megaAPI}/winning_sets/fourth_ball`, ball, {
-			headers: { Authorization: this.auth },
+			headers: this.headers,
 		});
 	}
-
-	public getWinningSetsWithFifthBall(token: string, ball: Ball): Observable<Array<WinningSet>> {
+	/**
+	 * @param ball
+	 * @returns all winning sets where the specified ball is the fifth ball
+	 */
+	public getWinningSetsWithFifthBall(ball: Ball): Observable<Array<WinningSet>> {
 		return this.client.post<Array<WinningSet>>(`${this.megaAPI}/winning_sets/fifth_ball`, ball, {
-			headers: { Authorization: this.auth },
+			headers: this.headers,
 		});
 	}
-
-	public getWinningSetsWithMegaBall(token: string, megaBall: MegaBall): Observable<Array<WinningSet>> {
+	/**
+	 * @param megaBall
+	 * @returns all winning sets where the mega ball matches the specified mega ball
+	 */
+	public getWinningSetsWithMegaBall(megaBall: MegaBall): Observable<Array<WinningSet>> {
 		return this.client.post<Array<WinningSet>>(`${this.megaAPI}/winning_sets/mega_ball`, megaBall, {
-			headers: { Authorization: this.auth },
+			headers: this.headers,
 		});
 	}
-
-	public getWinningSetsWithBall(token: string, ball: Ball): Observable<Array<WinningSet>> {
+	/**
+	 * @param ball
+	 * @returns all winning sets that contain the specified ball in any position except the mega ball
+	 */
+	public getWinningSetsWithBall(ball: Ball): Observable<Array<WinningSet>> {
 		return this.client.post<Array<WinningSet>>(`${this.megaAPI}/winning_sets/ball`, ball, {
-			headers: { Authorization: this.auth },
+			headers: this.headers,
 		});
 	}
-
-	public getWinningSetsWithAnyBall(token: string, ball: Ball): Observable<Array<WinningSet>> {
+	/**
+	 * @param ball
+	 * @returns all winning sets that contain the specified ball in all positions, including the mega ball position
+	 */
+	public getWinningSetsWithAnyBall(ball: Ball): Observable<Array<WinningSet>> {
 		return this.client.post<Array<WinningSet>>(`${this.megaAPI}/winning_sets/any_ball`, ball, {
-			headers: { Authorization: this.auth },
+			headers: this.headers,
 		});
 	}
 }
