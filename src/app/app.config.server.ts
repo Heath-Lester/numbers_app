@@ -6,4 +6,7 @@ const serverConfig: ApplicationConfig = {
     providers: [provideServerRendering()],
 };
 
-export const config = mergeApplicationConfig(appConfig, serverConfig);
+export const config: ApplicationConfig = mergeApplicationConfig(
+    appConfig,
+    serverConfig
+);

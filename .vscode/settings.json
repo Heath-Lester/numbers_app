@@ -1,3 +1,4 @@
 {
-    "cSpell.words": ["deeppurple", "prerender"]
+    "cSpell.words": ["deeppurple", "prerender"],
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
 }
