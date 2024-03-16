@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from './../environments/environment';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, catchError, map } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { Observable, map } from 'rxjs';
 import { Ball } from '../types/ball';
 import { MegaBall } from '../types/mega-ball';
 import { WinningSet } from '../types/winning-set';
