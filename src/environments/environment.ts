@@ -1,4 +1,5 @@
 export const environment = {
-    production: true,
-    djangoServer: null,
+	production: true,
+	djangoServer: null,
+	token: null,
 };

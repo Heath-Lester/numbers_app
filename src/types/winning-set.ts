@@ -52,7 +52,7 @@ export type WinningSet = {
 	threeMatchPrize: number;
 	/** Winnings for two matches and the mega ball match */
 	twoMatchWithMegaPrize: number;
-	/** Winnings for one matche and the mega ball match */
+	/** Winnings for one match and the mega ball match */
 	oneMatchWithMegaPrize: number;
 	/** Winnings the mega ball match */
 	megaMatchPrize: number;

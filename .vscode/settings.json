@@ -1,4 +1,5 @@
 {
-    "cSpell.words": ["deeppurple", "prerender"],
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+	"cSpell.words": ["deeppurple", "prerender"],
+	"editor.defaultFormatter": "esbenp.prettier-vscode",
+	"prettier.printWidth": 120
 }
