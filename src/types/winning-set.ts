@@ -4,19 +4,19 @@ import { MegaBall } from './mega-ball';
 export type WinningSet = {
 	/** Date set was drawn */
 	date: Date;
-	/** Lowest number */
+	/** Smallest number */
 	firstBall: Ball;
-	/** Second lowest number */
+	/** Second smallest number */
 	secondBall: Ball;
-	/** Third lowest number */
+	/** Third smallest number */
 	thirdBall: Ball;
-	/** Fourth lowest number */
+	/** Fourth smallest number */
 	fourthBall: Ball;
-	/** Last number */
+	/** Largest number */
 	fifthBall: Ball;
 	/** Mega ball */
 	megaBall: MegaBall;
-	/** Multiplier */
+	/** Winnings multiplier */
 	megaplier: number;
 	/** Number of jackpot winners */
 	jackpotWinners: number;
