@@ -1,6 +1,0 @@
-{
-    "extends": ["prettier"],
-    "rules": {
-        "angular-eslint/sort-lifecycle-methods": true
-    }
-}
