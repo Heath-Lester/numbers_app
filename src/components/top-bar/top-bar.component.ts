@@ -4,12 +4,12 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
-    selector: 'app-top-bar',
-    standalone: true,
-    imports: [MatToolbarModule, MatButtonModule, MatIconModule],
-    templateUrl: './top-bar.component.html',
-    styleUrl: './top-bar.component.scss',
+	selector: 'app-top-bar',
+	standalone: true,
+	imports: [MatToolbarModule, MatButtonModule, MatIconModule],
+	templateUrl: './top-bar.component.html',
+	styleUrl: './top-bar.component.scss',
 })
 export class TopBarComponent {
-    @Input({ required: false }) title?: string;
+	@Input({ required: false }) title?: string;
 }

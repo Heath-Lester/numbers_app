@@ -7,10 +7,11 @@ import { provideStore } from '@ngrx/store';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 export const appConfig: ApplicationConfig = {
-    providers: [
-        provideRouter(routes),
-        provideClientHydration(),
-        provideAnimations(),
-        provideStore(), provideAnimationsAsync(),
-    ],
+	providers: [
+		provideRouter(routes),
+		provideClientHydration(),
+		provideAnimations(),
+		provideStore(),
+		provideAnimationsAsync(),
+	],
 };
