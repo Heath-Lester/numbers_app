@@ -1,5 +1,6 @@
+/** Production environment */
 export const environment = {
 	production: true,
-	djangoServer: null,
-	token: null,
+	djangoServer: '',
+	token: '',
 };
