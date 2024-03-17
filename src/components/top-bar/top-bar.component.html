@@ -1,5 +1,8 @@
-<mat-toolbar class="top-bar">
-	<button mat-icon-button>
+<mat-toolbar>
+	<button
+		mat-icon-button
+		(click)="menuToggle.value ? menuToggle.next(false) : menuToggle.next(true)"
+	>
 		<mat-icon>menu</mat-icon>
 	</button>
 	<span>{{ title }}</span>

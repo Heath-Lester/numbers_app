@@ -1,4 +1,9 @@
 <main class="main">
-	<app-top-bar [title]="title"></app-top-bar>
-	<router-outlet></router-outlet>
+	<app-top-bar
+		[title]="title"
+		[menuToggle]="sidebarToggle"
+	></app-top-bar>
+	<app-side-bar [toggle]="sidebarToggle">
+		<router-outlet></router-outlet>
+	</app-side-bar>
 </main>

@@ -1,0 +1,19 @@
+mat-drawer-container {
+	display: flex;
+	height: 100%;
+	width: 100%;
+}
+
+mat-drawer-content {
+	display: flex;
+	height: 100%;
+}
+
+mat-nav-list {
+	padding-top: 0;
+	padding-bottom: 0;
+}
+
+.side-nav-item {
+	min-width: 200px;
+}

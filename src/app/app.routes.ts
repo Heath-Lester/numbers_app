@@ -8,11 +8,11 @@ import { SetDetailsComponent } from '../components/set-details/set-details.compo
 import { PredictionDetailsComponent } from '../components/prediction-details/prediction-details.component';
 
 export const routes: Routes = [
-	{ path: 'picker', component: PickerViewComponent },
-	{ path: 'set', component: SetDetailsComponent },
-	{ path: 'sets', component: SetsViewComponent },
-	{ path: 'number', component: NumberDetailsComponent },
-	{ path: 'numbers', component: NumbersViewComponent },
-	{ path: 'predictions', component: PredictionsViewComponent },
-	{ path: 'prediction', component: PredictionDetailsComponent },
+	{ path: 'picker', component: PickerViewComponent, title: 'Picker' },
+	{ path: 'set', component: SetDetailsComponent, title: 'Set' },
+	{ path: 'sets', component: SetsViewComponent, title: 'Sets' },
+	{ path: 'number', component: NumberDetailsComponent, title: 'Number' },
+	{ path: 'numbers', component: NumbersViewComponent, title: 'Numbers' },
+	{ path: 'prediction', component: PredictionDetailsComponent, title: 'Prediction' },
+	{ path: 'predictions', component: PredictionsViewComponent, title: 'Predictions' },
 ];

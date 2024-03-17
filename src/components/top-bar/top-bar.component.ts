@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
 	selector: 'app-top-bar',
@@ -13,4 +14,5 @@ import { MatIconModule } from '@angular/material/icon';
 })
 export class TopBarComponent {
 	@Input({ required: false }) title?: string;
+	@Input() menuToggle!: BehaviorSubject<boolean>;
 }

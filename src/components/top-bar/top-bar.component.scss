@@ -1,5 +1,10 @@
-.top-bar {
+mat-toolbar {
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
+}
+
+mat-drawer-container {
+	display: flex;
+	width: 100%;
 }
