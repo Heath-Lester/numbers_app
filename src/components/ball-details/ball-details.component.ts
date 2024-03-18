@@ -1,13 +1,13 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
-  selector: 'app-number-details',
+  selector: 'app-ball-details',
   standalone: true,
   imports: [],
-  templateUrl: './number-details.component.html',
-  styleUrl: './number-details.component.scss',
+  templateUrl: './ball-details.component.html',
+  styleUrl: './ball-details.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class NumberDetailsComponent {
+export class BallDetailsComponent {
 
 }

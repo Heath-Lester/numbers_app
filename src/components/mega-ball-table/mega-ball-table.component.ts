@@ -1,13 +1,13 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
-  selector: 'app-numbers-view',
+  selector: 'app-mega-ball-table',
   standalone: true,
   imports: [],
-  templateUrl: './numbers-view.component.html',
-  styleUrl: './numbers-view.component.scss',
+  templateUrl: './mega-ball-table.component.html',
+  styleUrl: './mega-ball-table.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class NumbersViewComponent {
+export class MegaBallTableComponent {
 
 }

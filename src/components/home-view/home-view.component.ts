@@ -1,13 +1,13 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
-  selector: 'app-number-card',
+  selector: 'app-home-view',
   standalone: true,
   imports: [],
-  templateUrl: './number-card.component.html',
-  styleUrl: './number-card.component.scss',
+  templateUrl: './home-view.component.html',
+  styleUrl: './home-view.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class NumberCardComponent {
+export class HomeViewComponent {
 
 }

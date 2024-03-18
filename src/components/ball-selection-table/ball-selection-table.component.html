@@ -1,0 +1,23 @@
+<mat-table [dataSource]="dataSource">
+	<!-- Selection Checkbox -->
+	<ng-container matColumnDef="Selected">
+		<mat-header-cell *matHeaderCellDef="Select"> Selected </mat-header-cell>
+		<mat-cell *matCellDef="let row">
+			<mat-checkbox
+				(click)="$event.stopPropagation()"
+				(change)="$event ? tableSelection.toggle(row) : null"
+				[checked]="tableSelection.isSelected(row)"
+			/>
+		</mat-cell>
+	</ng-container>
+
+	<!-- Ball Definition -->
+	<ng-container matColumnDef="Ball">
+		<mat-header-cell *matHeaderCellDef="Ball"> Ball </mat-header-cell>
+		<mat-cell *matCellDef="let row"> {{ row.number }} </mat-cell>
+	</ng-container>
+
+	<!-- Header and Row Declarations -->
+	<mat-header-row *matHeaderRowDef="['Selected, Ball']"></mat-header-row>
+	<mat-row *matRowDef="let row; columns: ['Selected, Ball']"></mat-row>
+</mat-table>

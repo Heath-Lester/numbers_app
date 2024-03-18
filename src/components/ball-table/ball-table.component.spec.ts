@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { NumberCardComponent } from './number-card.component';
+import { BallTableComponent } from './ball-table.component';
 
-describe('NumberCardComponent', () => {
-  let component: NumberCardComponent;
-  let fixture: ComponentFixture<NumberCardComponent>;
+describe('BallTableComponent', () => {
+  let component: BallTableComponent;
+  let fixture: ComponentFixture<BallTableComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [NumberCardComponent]
+      imports: [BallTableComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(NumberCardComponent);
+    fixture = TestBed.createComponent(BallTableComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

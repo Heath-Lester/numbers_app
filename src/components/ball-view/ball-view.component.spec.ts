@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { NumberTableComponent } from './number-table.component';
+import { BallViewComponent } from './ball-view.component';
 
-describe('NumberTableComponent', () => {
-  let component: NumberTableComponent;
-  let fixture: ComponentFixture<NumberTableComponent>;
+describe('BallViewComponent', () => {
+  let component: BallViewComponent;
+  let fixture: ComponentFixture<BallViewComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [NumberTableComponent]
+      imports: [BallViewComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(NumberTableComponent);
+    fixture = TestBed.createComponent(BallViewComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

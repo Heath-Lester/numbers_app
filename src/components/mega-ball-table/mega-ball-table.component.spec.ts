@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { NumberDetailsComponent } from './number-details.component';
+import { MegaBallTableComponent } from './mega-ball-table.component';
 
-describe('NumberDetailsComponent', () => {
-  let component: NumberDetailsComponent;
-  let fixture: ComponentFixture<NumberDetailsComponent>;
+describe('MegaBallTableComponent', () => {
+  let component: MegaBallTableComponent;
+  let fixture: ComponentFixture<MegaBallTableComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [NumberDetailsComponent]
+      imports: [MegaBallTableComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(NumberDetailsComponent);
+    fixture = TestBed.createComponent(MegaBallTableComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

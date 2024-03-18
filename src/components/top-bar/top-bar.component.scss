@@ -8,3 +8,8 @@ mat-drawer-container {
 	display: flex;
 	width: 100%;
 }
+
+.title-link {
+	color: var(--mdc-list-list-item-label-text-color);
+	text-decoration: none;
+}
