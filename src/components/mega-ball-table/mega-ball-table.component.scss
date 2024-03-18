@@ -1,17 +1,15 @@
 .mega-ball-table {
 	height: 40vh;
+	width: 95%;
 	overflow: auto;
-	margin-top: 16px;
-	margin-right: 8px;
-	margin-left: 8px;
+	border-radius: 4px;
 }
 
-@media screen and (min-width: 1600px) {
+@media screen and (min-width: 1800px) {
 	.mega-ball-table {
 		height: 90vh;
+		width: 48vw;
 		overflow: auto;
-		margin-top: 16px;
-		margin-right: 8px;
-		margin-left: 8px;
+		border-radius: 4px;
 	}
 }

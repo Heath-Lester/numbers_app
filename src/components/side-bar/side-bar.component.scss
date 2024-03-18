@@ -1,14 +1,11 @@
 mat-drawer-container {
-	display: flex;
+	display: block;
 	height: 100%;
 	width: 100%;
 }
 
 mat-drawer-content {
-	display: flex;
-	height: 100%;
-	width: 100%;
-	justify-content: center;
+	padding: 16px;
 }
 
 mat-nav-list {

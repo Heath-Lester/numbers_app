@@ -1,58 +1,107 @@
 <mat-table
-	class="ball-table"
+	matSort
+	class="ball-table mat-elevation-z2"
 	[dataSource]="dataSource"
 >
 	<!-- Ball Definition -->
 	<ng-container matColumnDef="ball">
-		<mat-header-cell *matHeaderCellDef> Ball </mat-header-cell>
+		<mat-header-cell
+			*matHeaderCellDef
+			mat-sort-header
+			sortActionDescription="Sort by ball"
+		>
+			Ball
+		</mat-header-cell>
 		<mat-cell *matCellDef="let row"> {{ row.ball.number }} </mat-cell>
 	</ng-container>
 
 	<!-- Total Draws Definition -->
 	<ng-container matColumnDef="totalDraws">
-		<mat-header-cell *matHeaderCellDef> Total Draws </mat-header-cell>
+		<mat-header-cell
+			*matHeaderCellDef
+			mat-sort-header
+			sortActionDescription="Sort by total draws"
+		>
+			Total Draws
+		</mat-header-cell>
 		<mat-cell *matCellDef="let row"> {{ row.totalDraws }} </mat-cell>
 	</ng-container>
 
 	<!-- Draw Percentage Definition -->
 	<ng-container matColumnDef="drawPercentage">
-		<mat-header-cell *matHeaderCellDef> Draw Percentage </mat-header-cell>
+		<mat-header-cell
+			*matHeaderCellDef
+			mat-sort-header
+			sortActionDescription="Sort by draw percentage"
+		>
+			Draw Percentage
+		</mat-header-cell>
 		<mat-cell *matCellDef="let row"> {{ row.drawPercentage.toFixed(2) }}% </mat-cell>
 	</ng-container>
 
 	<!-- Recent Draw -->
 	<ng-container matColumnDef="mostRecentDraw">
-		<mat-header-cell *matHeaderCellDef> Most Recent Draw </mat-header-cell>
+		<mat-header-cell
+			*matHeaderCellDef
+			mat-sort-header
+			sortActionDescription="Sort by recent draw"
+		>
+			Most Recent Draw
+		</mat-header-cell>
 		<mat-cell *matCellDef="let row"> {{ row.mostRecentDraw?.toDateString() ?? "-" }} </mat-cell>
 	</ng-container>
 
 	<!-- Current Draw Interval -->
 	<ng-container matColumnDef="intervalSinceLastDrawing">
-		<mat-header-cell *matHeaderCellDef> Current Draw Interval </mat-header-cell>
+		<mat-header-cell
+			*matHeaderCellDef
+			mat-sort-header
+			sortActionDescription="Sort by current draw interval"
+		>
+			Current Draw Interval
+		</mat-header-cell>
 		<mat-cell *matCellDef="let row"> {{ row.intervalSinceLastDrawing }} </mat-cell>
 	</ng-container>
 
 	<!-- Average Draw Interval -->
 	<ng-container matColumnDef="averageDrawInterval">
-		<mat-header-cell *matHeaderCellDef> Average Draw Interval </mat-header-cell>
+		<mat-header-cell
+			*matHeaderCellDef
+			mat-sort-header
+			sortActionDescription="Sort by average draw interval"
+		>
+			Average Draw Interval
+		</mat-header-cell>
 		<mat-cell *matCellDef="let row"> {{ row.averageDrawInterval }} </mat-cell>
 	</ng-container>
 
 	<!-- Maximum Draw Interval -->
 	<ng-container matColumnDef="maxDrawInterval">
-		<mat-header-cell *matHeaderCellDef> Maximum Draw Interval </mat-header-cell>
+		<mat-header-cell
+			*matHeaderCellDef
+			mat-sort-header
+			sortActionDescription="Sort by maximum draw interval"
+		>
+			Maximum Draw Interval
+		</mat-header-cell>
 		<mat-cell *matCellDef="let row"> {{ row.maxDrawInterval }} </mat-cell>
 	</ng-container>
 
 	<!-- Minimum Draw Interval -->
 	<ng-container matColumnDef="minDrawInterval">
-		<mat-header-cell *matHeaderCellDef> Minimum Draw Interval </mat-header-cell>
+		<mat-header-cell
+			*matHeaderCellDef
+			mat-sort-header
+			sortActionDescription="Sort by minimum draw interval"
+		>
+			Minimum Draw Interval
+		</mat-header-cell>
 		<mat-cell *matCellDef="let row"> {{ row.minDrawInterval }} </mat-cell>
 	</ng-container>
 
 	<!-- Drawn Positions -->
 	<!-- <ng-container matColumnDef="drawnPositions">
-		<mat-header-cell *matHeaderCellDef> Draws Positions </mat-header-cell>
+		<mat-header-cell *matHeaderCellDef mat-sort-header> Draws Positions </mat-header-cell>
 		<mat-cell *matCellDef="let row"> {{ row.drawnPositions.toArray() }} </mat-cell>
 	</ng-container> -->
 

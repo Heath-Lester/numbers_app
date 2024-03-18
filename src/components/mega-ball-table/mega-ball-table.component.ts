@@ -7,11 +7,12 @@ import { buildMegaBallData } from '../../utils/ball-synthesizer';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MegaBallData } from '../../types/mega-ball-data';
 import { HttpClientModule } from '@angular/common/http';
+import { MatSortModule } from '@angular/material/sort';
 
 @Component({
 	selector: 'app-mega-ball-table',
 	standalone: true,
-	imports: [MatTableModule, HttpClientModule],
+	imports: [MatTableModule, HttpClientModule, MatSortModule],
 	templateUrl: './mega-ball-table.component.html',
 	styleUrl: './mega-ball-table.component.scss',
 	providers: [MegaMillionsService],

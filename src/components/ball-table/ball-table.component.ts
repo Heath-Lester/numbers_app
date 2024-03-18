@@ -7,11 +7,12 @@ import { Subscription, combineLatest, map } from 'rxjs';
 import { Ball } from '../../types/ball';
 import { buildBallData } from '../../utils/ball-synthesizer';
 import { HttpClientModule } from '@angular/common/http';
+import { MatSortModule } from '@angular/material/sort';
 
 @Component({
 	selector: 'app-ball-table',
 	standalone: true,
-	imports: [MatTableModule, HttpClientModule],
+	imports: [MatTableModule, HttpClientModule, MatSortModule],
 	templateUrl: './ball-table.component.html',
 	styleUrl: './ball-table.component.scss',
 	providers: [MegaMillionsService],
