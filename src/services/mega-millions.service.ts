@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from './../environments/environment';
 import { HttpClient } from '@angular/common/http';
-import { Observable, map } from 'rxjs';
+import { Observable, first, map } from 'rxjs';
 import { Ball } from '../types/ball';
 import { MegaBall } from '../types/mega-ball';
 import { WinningSet } from '../types/winning-set';
@@ -35,9 +35,11 @@ export class MegaMillionsService {
 	 * @returns a ball matching the specified number
 	 */
 	public getBall(number: string): Observable<Ball> {
-		return this.client.get<Ball>(`${this.megaAPI}/balls/${number}`, {
-			headers: this.headers,
-		});
+		return this.client
+			.get<Ball>(`${this.megaAPI}/balls/${number}`, {
+				headers: this.headers,
+			})
+			.pipe(first());
 	}
 	/**
 	 * @returns all mega balls
