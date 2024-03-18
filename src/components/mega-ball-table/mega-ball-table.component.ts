@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewChild, inject } from '@angular/core';
 import { MegaMillionsService } from '../../services/mega-millions.service';
 import { Subscription, combineLatest, map } from 'rxjs';
 import { MegaBall } from '../../types/mega-ball';
@@ -7,7 +7,7 @@ import { buildMegaBallData } from '../../utils/ball-synthesizer';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MegaBallData } from '../../types/mega-ball-data';
 import { HttpClientModule } from '@angular/common/http';
-import { MatSortModule } from '@angular/material/sort';
+import { MatSort, MatSortModule } from '@angular/material/sort';
 
 @Component({
 	selector: 'app-mega-ball-table',
@@ -33,6 +33,12 @@ export class MegaBallTableComponent {
 		.subscribe((megaBallData: MegaBallData[]) => (this.dataSource.data = megaBallData));
 
 	protected dataSource = new MatTableDataSource<MegaBallData>();
+
+	@ViewChild(MatSort) sort!: MatSort;
+
+	ngAfterViewInit(): void {
+		this.dataSource.sort = this.sort;
+	}
 
 	ngOnDestroy(): void {
 		this.megaBallData.unsubscribe();

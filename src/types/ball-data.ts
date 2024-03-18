@@ -4,7 +4,7 @@ import { DrawnPositions } from './drawn-positions';
 
 export type BallData = {
 	/** The ball for this data set */
-	ball: Ball;
+	ball: number;
 	/** Total number of times the ball has been drawn */
 	totalDraws: number;
 	/** Percentage of when a ball was drawn to total number of winning sets */

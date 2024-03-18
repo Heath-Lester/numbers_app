@@ -1,7 +1,7 @@
 import { MegaBall } from './mega-ball';
 
 export type MegaBallData = {
-	megaBall: MegaBall;
+	megaBall: number;
 	totalDraws: number;
 	drawPercentage: number;
 	mostRecentDraw: Date | null;

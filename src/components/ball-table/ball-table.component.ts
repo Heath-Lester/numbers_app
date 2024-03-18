@@ -1,5 +1,5 @@
 import { WinningSet } from './../../types/winning-set';
-import { ChangeDetectionStrategy, Component, OnDestroy, inject } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, OnDestroy, ViewChild, inject } from '@angular/core';
 import { BallData } from '../../types/ball-data';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MegaMillionsService } from '../../services/mega-millions.service';
@@ -7,7 +7,7 @@ import { Subscription, combineLatest, map } from 'rxjs';
 import { Ball } from '../../types/ball';
 import { buildBallData } from '../../utils/ball-synthesizer';
 import { HttpClientModule } from '@angular/common/http';
-import { MatSortModule } from '@angular/material/sort';
+import { MatSort, MatSortModule } from '@angular/material/sort';
 
 @Component({
 	selector: 'app-ball-table',
@@ -18,7 +18,7 @@ import { MatSortModule } from '@angular/material/sort';
 	providers: [MegaMillionsService],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BallTableComponent implements OnDestroy {
+export class BallTableComponent implements AfterViewInit, OnDestroy {
 	private megaService = inject(MegaMillionsService, { self: true });
 
 	private ballData: Subscription = combineLatest([
@@ -29,6 +29,12 @@ export class BallTableComponent implements OnDestroy {
 		.subscribe((ballData: BallData[]) => (this.dataSource.data = ballData));
 
 	protected dataSource = new MatTableDataSource<BallData>();
+
+	@ViewChild(MatSort) sort!: MatSort;
+
+	ngAfterViewInit(): void {
+		this.dataSource.sort = this.sort;
+	}
 
 	ngOnDestroy(): void {
 		this.ballData.unsubscribe();

@@ -8,7 +8,7 @@ export function buildBallData(ball: Ball, sets: WinningSet[]): BallData {
 	sets.sort((a: WinningSet, b: WinningSet) => a.date.getTime() - b.date.getTime());
 
 	const data: BallData = {
-		ball: ball,
+		ball: ball.number,
 		totalDraws: 0,
 		drawPercentage: 0,
 		intervalSinceLastDrawing: 0,
@@ -124,7 +124,7 @@ export function buildMegaBallData(megaBall: MegaBall, sets: WinningSet[]): MegaB
 	sets.sort((a: WinningSet, b: WinningSet) => a.date.getTime() - b.date.getTime());
 
 	const data: MegaBallData = {
-		megaBall: megaBall,
+		megaBall: megaBall.number,
 		totalDraws: 0,
 		drawPercentage: 0,
 		intervalSinceLastDrawing: 0,
