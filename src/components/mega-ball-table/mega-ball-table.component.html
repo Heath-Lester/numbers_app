@@ -1,1 +1,84 @@
-<p>mega-ball-table works!</p>
+<mat-table
+	class="mega-ball-table"
+	[dataSource]="dataSource"
+>
+	<!-- Mega Ball Definition -->
+	<ng-container matColumnDef="megaBall">
+		<mat-header-cell *matHeaderCellDef> Mega Ball </mat-header-cell>
+		<mat-cell *matCellDef="let row"> {{ row.megaBall.number }} </mat-cell>
+	</ng-container>
+
+	<!-- Total Draws Definition -->
+	<ng-container matColumnDef="totalDraws">
+		<mat-header-cell *matHeaderCellDef> Total Draws </mat-header-cell>
+		<mat-cell *matCellDef="let row"> {{ row.totalDraws }} </mat-cell>
+	</ng-container>
+
+	<!-- Draw Percentage Definition -->
+	<ng-container matColumnDef="drawPercentage">
+		<mat-header-cell *matHeaderCellDef> Draw Percentage </mat-header-cell>
+		<mat-cell *matCellDef="let row"> {{ row.drawPercentage.toFixed(2) }}% </mat-cell>
+	</ng-container>
+
+	<!-- Recent Draw -->
+	<ng-container matColumnDef="mostRecentDraw">
+		<mat-header-cell *matHeaderCellDef> Most Recent Draw </mat-header-cell>
+		<mat-cell *matCellDef="let row"> {{ row.mostRecentDraw?.toDateString() ?? "-" }} </mat-cell>
+	</ng-container>
+
+	<!-- Current Draw Interval -->
+	<ng-container matColumnDef="intervalSinceLastDrawing">
+		<mat-header-cell *matHeaderCellDef> Current Draw Interval </mat-header-cell>
+		<mat-cell *matCellDef="let row"> {{ row.intervalSinceLastDrawing }} </mat-cell>
+	</ng-container>
+
+	<!-- Average Draw Interval -->
+	<ng-container matColumnDef="averageDrawInterval">
+		<mat-header-cell *matHeaderCellDef> Average Draw Interval </mat-header-cell>
+		<mat-cell *matCellDef="let row"> {{ row.averageDrawInterval }} </mat-cell>
+	</ng-container>
+
+	<!-- Maximum Draw Interval -->
+	<ng-container matColumnDef="maxDrawInterval">
+		<mat-header-cell *matHeaderCellDef> Maximum Draw Interval </mat-header-cell>
+		<mat-cell *matCellDef="let row"> {{ row.maxDrawInterval }} </mat-cell>
+	</ng-container>
+
+	<!-- Minimum Draw Interval -->
+	<ng-container matColumnDef="minDrawInterval">
+		<mat-header-cell *matHeaderCellDef> Minimum Draw Interval </mat-header-cell>
+		<mat-cell *matCellDef="let row"> {{ row.minDrawInterval }} </mat-cell>
+	</ng-container>
+
+	<!-- Header and Row Declarations -->
+	<mat-header-row
+		*matHeaderRowDef="
+			[
+				'megaBall',
+				'totalDraws',
+				'drawPercentage',
+				'mostRecentDraw',
+				'intervalSinceLastDrawing',
+				'averageDrawInterval',
+				'maxDrawInterval',
+				'minDrawInterval'
+			];
+			sticky: true
+		"
+	></mat-header-row>
+	<mat-row
+		*matRowDef="
+			let row;
+			columns: [
+				'megaBall',
+				'totalDraws',
+				'drawPercentage',
+				'mostRecentDraw',
+				'intervalSinceLastDrawing',
+				'averageDrawInterval',
+				'maxDrawInterval',
+				'minDrawInterval'
+			]
+		"
+	></mat-row>
+</mat-table>

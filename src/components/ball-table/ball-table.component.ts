@@ -2,7 +2,6 @@ import { WinningSet } from './../../types/winning-set';
 import { ChangeDetectionStrategy, Component, OnDestroy, inject } from '@angular/core';
 import { BallData } from '../../types/ball-data';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MegaMillionsService } from '../../services/mega-millions.service';
 import { Subscription, combineLatest, map } from 'rxjs';
 import { Ball } from '../../types/ball';
@@ -12,7 +11,7 @@ import { HttpClientModule } from '@angular/common/http';
 @Component({
 	selector: 'app-ball-table',
 	standalone: true,
-	imports: [MatTableModule, MatCheckboxModule, HttpClientModule],
+	imports: [MatTableModule, HttpClientModule],
 	templateUrl: './ball-table.component.html',
 	styleUrl: './ball-table.component.scss',
 	providers: [MegaMillionsService],

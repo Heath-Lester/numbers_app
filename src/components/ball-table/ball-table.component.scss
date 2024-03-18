@@ -1,0 +1,17 @@
+.ball-table {
+	height: 50vh;
+	overflow: auto;
+	margin-top: 16px;
+	margin-right: 8px;
+	margin-left: 8px;
+}
+
+@media screen and (min-width: 1600px) {
+	.ball-table {
+		height: 90vh;
+		overflow: auto;
+		margin-top: 16px;
+		margin-right: 8px;
+		margin-left: 8px;
+	}
+}
