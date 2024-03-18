@@ -1,0 +1,21 @@
+.set-filter {
+	display: flex;
+	flex-direction: row;
+	padding: 20px 20px 0 20px;
+}
+
+.set-filter-form {
+	display: flex;
+	flex-direction: row;
+	width: 100%;
+	justify-content: space-around;
+	align-items: center;
+	column-gap: 24px;
+}
+
+.index-range-container {
+	display: flex;
+	flex-direction: row;
+	column-gap: 12px;
+	align-items: center;
+}

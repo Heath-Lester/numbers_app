@@ -1,14 +1,14 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Input, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { BehaviorSubject } from 'rxjs';
-import { MatListModule, MatNavList } from '@angular/material/list';
-import { Route, Router, RouterModule, Routes, RouterLinkActive } from '@angular/router';
+import { MatListModule } from '@angular/material/list';
+import { RouterModule, Routes } from '@angular/router';
 
 @Component({
 	selector: 'app-side-bar',
 	standalone: true,
-	imports: [MatSidenavModule, CommonModule, MatListModule, CommonModule, RouterModule],
+	imports: [MatSidenavModule, CommonModule, MatListModule, RouterModule],
 	templateUrl: './side-bar.component.html',
 	styleUrl: './side-bar.component.scss',
 	changeDetection: ChangeDetectionStrategy.OnPush,

@@ -1,18 +1,19 @@
 import { ChangeDetectionStrategy, Component, ViewChild, inject } from '@angular/core';
 import { MegaMillionsService } from '../../services/mega-millions.service';
-import { Subscription, combineLatest, map } from 'rxjs';
+import { Subscription, combineLatest, first, map } from 'rxjs';
 import { MegaBall } from '../../types/mega-ball';
 import { WinningSet } from '../../types/winning-set';
-import { buildMegaBallData } from '../../utils/ball-synthesizer';
+import { buildMegaBallData } from '../../utils/synthesizers';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MegaBallData } from '../../types/mega-ball-data';
 import { HttpClientModule } from '@angular/common/http';
 import { MatSort, MatSortModule } from '@angular/material/sort';
+import { MatProgressBar } from '@angular/material/progress-bar';
 
 @Component({
 	selector: 'app-mega-ball-table',
 	standalone: true,
-	imports: [MatTableModule, HttpClientModule, MatSortModule],
+	imports: [MatTableModule, HttpClientModule, MatSortModule, MatProgressBar],
 	templateUrl: './mega-ball-table.component.html',
 	styleUrl: './mega-ball-table.component.scss',
 	providers: [MegaMillionsService],
@@ -28,7 +29,8 @@ export class MegaBallTableComponent {
 		.pipe(
 			map(([megaBalls, sets]: [MegaBall[], WinningSet[]]) =>
 				megaBalls.map((ball: MegaBall) => buildMegaBallData(ball, sets))
-			)
+			),
+			first()
 		)
 		.subscribe((megaBallData: MegaBallData[]) => (this.dataSource.data = megaBallData));
 

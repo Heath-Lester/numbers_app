@@ -1,8 +1,9 @@
-import { BallData } from './../types/ball-data';
+import { BallData } from '../types/ball-data';
 import { Ball } from '../types/ball';
 import { WinningSet } from '../types/winning-set';
 import { MegaBall } from '../types/mega-ball';
 import { MegaBallData } from '../types/mega-ball-data';
+import { SetData } from '../types/set-data';
 
 export function buildBallData(ball: Ball, sets: WinningSet[]): BallData {
 	sets.sort((a: WinningSet, b: WinningSet) => a.date.getTime() - b.date.getTime());
@@ -164,6 +165,22 @@ export function buildMegaBallData(megaBall: MegaBall, sets: WinningSet[]): MegaB
 	data.intervalSinceLastDrawing = drawInterval;
 	data.averageDrawInterval = (data.maxDrawInterval + data.minDrawInterval) / 2;
 	data.drawPercentage = (data.totalDraws / sets.length) * 100;
+
+	return data;
+}
+
+export function buildSetData(set: WinningSet, index: number): SetData {
+	const data: SetData = {
+		index,
+		date: set.date,
+		firstBall: set.firstBall.number,
+		secondBall: set.secondBall.number,
+		thirdBall: set.thirdBall.number,
+		fourthBall: set.fourthBall.number,
+		fifthBall: set.fifthBall.number,
+		megaBall: set.megaBall.number,
+		megaplier: set.megaplier,
+	};
 
 	return data;
 }

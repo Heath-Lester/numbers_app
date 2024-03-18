@@ -1,1 +1,150 @@
-<p>set-table works!</p>
+<mat-table
+	matSort
+	class="set-table mat-elevation-z2"
+	[dataSource]="dataSource"
+>
+	<!-- Index Definition -->
+	<ng-container matColumnDef="index">
+		<mat-header-cell
+			*matHeaderCellDef
+			mat-sort-header
+			sortActionDescription="Sort by index"
+		>
+			Index
+		</mat-header-cell>
+		<mat-cell *matCellDef="let row"> {{ row.index }} </mat-cell>
+	</ng-container>
+
+	<!-- Draw Date Definition -->
+	<ng-container matColumnDef="date">
+		<mat-header-cell
+			*matHeaderCellDef
+			mat-sort-header
+			sortActionDescription="Sort by date"
+		>
+			Draw Date
+		</mat-header-cell>
+		<mat-cell *matCellDef="let row"> {{ row.date?.toLocaleDateString() ?? "-" }} </mat-cell>
+	</ng-container>
+
+	<!-- First Ball Definition -->
+	<ng-container matColumnDef="firstBall">
+		<mat-header-cell
+			*matHeaderCellDef
+			mat-sort-header
+			sortActionDescription="Sort by first ball"
+		>
+			First Ball
+		</mat-header-cell>
+		<mat-cell *matCellDef="let row"> {{ row.firstBall }} </mat-cell>
+	</ng-container>
+
+	<!-- Second Ball Definition -->
+	<ng-container matColumnDef="secondBall">
+		<mat-header-cell
+			*matHeaderCellDef
+			mat-sort-header
+			sortActionDescription="Sort by second ball"
+		>
+			Second Ball
+		</mat-header-cell>
+		<mat-cell *matCellDef="let row"> {{ row.secondBall }} </mat-cell>
+	</ng-container>
+
+	<!-- Third Ball Definition -->
+	<ng-container matColumnDef="thirdBall">
+		<mat-header-cell
+			*matHeaderCellDef
+			mat-sort-header
+			sortActionDescription="Sort by third ball"
+		>
+			Third Ball
+		</mat-header-cell>
+		<mat-cell *matCellDef="let row"> {{ row.thirdBall }} </mat-cell>
+	</ng-container>
+
+	<!-- Fourth Ball Definition -->
+	<ng-container matColumnDef="fourthBall">
+		<mat-header-cell
+			*matHeaderCellDef
+			mat-sort-header
+			sortActionDescription="Sort by fourth ball"
+		>
+			Fourth Ball
+		</mat-header-cell>
+		<mat-cell *matCellDef="let row"> {{ row.fourthBall }} </mat-cell>
+	</ng-container>
+
+	<!-- First Ball Definition -->
+	<ng-container matColumnDef="fifthBall">
+		<mat-header-cell
+			*matHeaderCellDef
+			mat-sort-header
+			sortActionDescription="Sort by fifth ball"
+		>
+			Fifth Ball
+		</mat-header-cell>
+		<mat-cell *matCellDef="let row"> {{ row.fifthBall }} </mat-cell>
+	</ng-container>
+
+	<!-- Mega Ball Definition -->
+	<ng-container matColumnDef="megaBall">
+		<mat-header-cell
+			*matHeaderCellDef
+			mat-sort-header
+			sortActionDescription="Sort by first ball"
+		>
+			Mega Ball
+		</mat-header-cell>
+		<mat-cell *matCellDef="let row"> {{ row.megaBall }} </mat-cell>
+	</ng-container>
+
+	<!-- Megaplier Definition -->
+	<ng-container matColumnDef="megaplier">
+		<mat-header-cell
+			*matHeaderCellDef
+			mat-sort-header
+			sortActionDescription="Sort by megaplier"
+		>
+			Megaplier
+		</mat-header-cell>
+		<mat-cell *matCellDef="let row"> {{ row.megaplier }}x </mat-cell>
+	</ng-container>
+
+	<!-- Header and Row Declarations -->
+	<mat-header-row
+		*matHeaderRowDef="
+			[
+				'index',
+				'date',
+				'firstBall',
+				'secondBall',
+				'thirdBall',
+				'fourthBall',
+				'fifthBall',
+				'megaBall',
+				'megaplier'
+			];
+			sticky: true
+		"
+	></mat-header-row>
+	<mat-row
+		*matRowDef="
+			let row;
+			columns: [
+				'index',
+				'date',
+				'firstBall',
+				'secondBall',
+				'thirdBall',
+				'fourthBall',
+				'fifthBall',
+				'megaBall',
+				'megaplier'
+			]
+		"
+	></mat-row>
+	<mat-row *matNoDataRow>
+		<mat-cell> No Matching Results. </mat-cell>
+	</mat-row>
+</mat-table>

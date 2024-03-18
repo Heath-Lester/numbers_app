@@ -6,11 +6,13 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideStore } from '@ngrx/store';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideHttpClient, withFetch } from '@angular/common/http';
+import { provideNativeDateAdapter } from '@angular/material/core';
 
 export const appConfig: ApplicationConfig = {
 	providers: [
 		provideRouter(routes),
 		provideClientHydration(),
+		provideNativeDateAdapter(),
 		provideHttpClient(withFetch()),
 		provideAnimations(),
 		provideStore(),

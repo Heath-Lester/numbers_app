@@ -1,0 +1,158 @@
+<mat-card class="set-filter">
+	<form class="set-filter-form">
+		<!-- <div class="index-range-container"> -->
+		<mat-form-field [appearance]="'outline'">
+			<mat-label>Index Start</mat-label>
+			<input
+				[ngModel]="indexStart"
+				(ngModelChange)="indexStart.next($event)"
+				name="indexStart"
+				type="number"
+				[min]="0"
+				[max]="(indexEnd | async) ?? 1999"
+				matInput
+				placeholder="1-1999"
+			/>
+		</mat-form-field>
+		<span>to</span>
+		<mat-form-field [appearance]="'outline'">
+			<mat-label>Index End</mat-label>
+			<input
+				[ngModel]="indexEnd"
+				(ngModelChange)="indexEnd.next($event)"
+				name="indexEnd"
+				type="number"
+				[min]="(indexStart | async) ?? 2"
+				[max]="2000"
+				matInput
+				placeholder="2-2000"
+			/>
+		</mat-form-field>
+		<!-- </div> -->
+		<mat-form-field [appearance]="'outline'">
+			<mat-label>Date Range</mat-label>
+			<mat-date-range-input
+				[rangePicker]="picker"
+				[min]="earliestDate"
+				[max]="latestDate"
+			>
+				<input
+					matStartDate
+					startView="multi-year"
+					name="startDate"
+					[min]="earliestDate"
+					[max]="latestDate"
+					[ngModel]="startDate"
+					(ngModelChange)="startDate.next($event)"
+					placeholder="Start date"
+				/>
+				<input
+					matEndDate
+					startView="multi-year"
+					name="endDate"
+					[min]="earliestDate"
+					[max]="latestDate"
+					[ngModel]="endDate"
+					(ngModelChange)="endDate.next($event)"
+					placeholder="End date"
+				/>
+			</mat-date-range-input>
+			<mat-datepicker-toggle
+				matIconSuffix
+				[for]="picker"
+			></mat-datepicker-toggle>
+			<mat-date-range-picker #picker></mat-date-range-picker>
+		</mat-form-field>
+		<mat-form-field [appearance]="'outline'">
+			<mat-label>First Ball</mat-label>
+			<input
+				[ngModel]="firstBall"
+				(ngModelChange)="firstBall.next($event)"
+				name="firstBall"
+				type="number"
+				[min]="1"
+				[max]="71"
+				matInput
+				placeholder="1-71"
+			/>
+		</mat-form-field>
+		<mat-form-field [appearance]="'outline'">
+			<mat-label>Second Ball</mat-label>
+			<input
+				[ngModel]="secondBall"
+				(ngModelChange)="secondBall.next($event)"
+				name="secondBall"
+				type="number"
+				[min]="2"
+				[max]="72"
+				matInput
+				placeholder="2-72"
+			/>
+		</mat-form-field>
+		<mat-form-field [appearance]="'outline'">
+			<mat-label>Third Ball</mat-label>
+			<input
+				[ngModel]="thirdBall"
+				(ngModelChange)="thirdBall.next($event)"
+				name="thirdBall"
+				type="number"
+				[min]="3"
+				[max]="73"
+				matInput
+				placeholder="3-73"
+			/>
+		</mat-form-field>
+		<mat-form-field [appearance]="'outline'">
+			<mat-label>Fourth Ball</mat-label>
+			<input
+				[ngModel]="fourthBall"
+				(ngModelChange)="fourthBall.next($event)"
+				name="fourthBall"
+				type="number"
+				min="4"
+				max="74"
+				matInput
+				placeholder="4-74"
+			/>
+		</mat-form-field>
+		<mat-form-field [appearance]="'outline'">
+			<mat-label>Fifth Ball</mat-label>
+			<input
+				[ngModel]="fifthBall"
+				(ngModelChange)="fifthBall.next($event)"
+				name="fifthBall"
+				type="number"
+				min="5"
+				max="75"
+				matInput
+				placeholder="5-75"
+			/>
+		</mat-form-field>
+		<mat-form-field [appearance]="'outline'">
+			<mat-label>Mega Ball</mat-label>
+			<input
+				[ngModel]="megaBall"
+				(ngModelChange)="megaBall.next($event)"
+				name="megaBall"
+				type="number"
+				min="1"
+				max="50"
+				matInput
+				placeholder="1-50"
+			/>
+		</mat-form-field>
+		<mat-form-field [appearance]="'outline'">
+			<mat-label>Megaplier</mat-label>
+			<input
+				[ngModel]="megaplier"
+				(ngModelChange)="megaplier.next($event)"
+				name="megaplier"
+				type="number"
+				min="1"
+				max="5"
+				matInput
+				placeholder="1-5"
+			/>
+		</mat-form-field>
+	</form>
+</mat-card>

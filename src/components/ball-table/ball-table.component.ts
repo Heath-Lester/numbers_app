@@ -3,16 +3,17 @@ import { AfterViewInit, ChangeDetectionStrategy, Component, OnDestroy, ViewChild
 import { BallData } from '../../types/ball-data';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MegaMillionsService } from '../../services/mega-millions.service';
-import { Subscription, combineLatest, map } from 'rxjs';
+import { Subscription, combineLatest, first, map } from 'rxjs';
 import { Ball } from '../../types/ball';
-import { buildBallData } from '../../utils/ball-synthesizer';
+import { buildBallData } from '../../utils/synthesizers';
 import { HttpClientModule } from '@angular/common/http';
 import { MatSort, MatSortModule } from '@angular/material/sort';
+import { MatProgressBar } from '@angular/material/progress-bar';
 
 @Component({
 	selector: 'app-ball-table',
 	standalone: true,
-	imports: [MatTableModule, HttpClientModule, MatSortModule],
+	imports: [MatTableModule, HttpClientModule, MatSortModule, MatProgressBar],
 	templateUrl: './ball-table.component.html',
 	styleUrl: './ball-table.component.scss',
 	providers: [MegaMillionsService],
@@ -25,7 +26,10 @@ export class BallTableComponent implements AfterViewInit, OnDestroy {
 		this.megaService.getAllBalls(),
 		this.megaService.getAllWinningSets(),
 	])
-		.pipe(map(([balls, sets]: [Ball[], WinningSet[]]) => balls.map((ball: Ball) => buildBallData(ball, sets))))
+		.pipe(
+			map(([balls, sets]: [Ball[], WinningSet[]]) => balls.map((ball: Ball) => buildBallData(ball, sets))),
+			first()
+		)
 		.subscribe((ballData: BallData[]) => (this.dataSource.data = ballData));
 
 	protected dataSource = new MatTableDataSource<BallData>();
