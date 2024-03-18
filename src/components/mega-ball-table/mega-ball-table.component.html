@@ -48,7 +48,7 @@
 		>
 			Most Recent Draw
 		</mat-header-cell>
-		<mat-cell *matCellDef="let row"> {{ row.mostRecentDraw?.toDateString() ?? "-" }} </mat-cell>
+		<mat-cell *matCellDef="let row"> {{ row.mostRecentDraw?.toLocaleDateString() ?? "-" }} </mat-cell>
 	</ng-container>
 
 	<!-- Current Draw Interval -->
