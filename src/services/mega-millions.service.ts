@@ -45,18 +45,22 @@ export class MegaMillionsService {
 	 * @returns all mega balls
 	 */
 	public getAllMegaBalls(): Observable<Array<MegaBall>> {
-		return this.client.get<Array<Ball>>(`${this.megaAPI}/mega_balls`, {
-			headers: this.headers,
-		});
+		return this.client
+			.get<Array<Ball>>(`${this.megaAPI}/mega_balls`, {
+				headers: this.headers,
+			})
+			.pipe(first());
 	}
 	/**
 	 * @param number
 	 * @returns a mega ball matching the specified number
 	 */
 	public getMegaBall(number: string): Observable<MegaBall> {
-		return this.client.get<Ball>(`${this.megaAPI}/mega_balls/${number}`, {
-			headers: this.headers,
-		});
+		return this.client
+			.get<Ball>(`${this.megaAPI}/mega_balls/${number}`, {
+				headers: this.headers,
+			})
+			.pipe(first());
 	}
 	/**
 	 * @returns all winning sets
@@ -66,7 +70,10 @@ export class MegaMillionsService {
 			.get<Array<WinningSetPython>>(`${this.megaAPI}/winning_sets`, {
 				headers: this.headers,
 			})
-			.pipe(map((sets: Array<WinningSetPython>) => convertWinningSets(sets)));
+			.pipe(
+				map((sets: Array<WinningSetPython>) => convertWinningSets(sets)),
+				first()
+			);
 	}
 	/**
 	 * @param number
@@ -77,7 +84,10 @@ export class MegaMillionsService {
 			.get<WinningSetPython>(`${this.megaAPI}/winning_sets/${setID}`, {
 				headers: this.headers,
 			})
-			.pipe(map((set: WinningSetPython) => convertWinningSet(set)));
+			.pipe(
+				map((set: WinningSetPython) => convertWinningSet(set)),
+				first()
+			);
 	}
 	/**
 	 * @param ball
@@ -88,7 +98,10 @@ export class MegaMillionsService {
 			.post<Array<WinningSetPython>>(`${this.megaAPI}/winning_sets/first_ball`, ball, {
 				headers: this.headers,
 			})
-			.pipe(map((sets: Array<WinningSetPython>) => convertWinningSets(sets)));
+			.pipe(
+				map((sets: Array<WinningSetPython>) => convertWinningSets(sets)),
+				first()
+			);
 	}
 	/**
 	 * @param ball
@@ -99,7 +112,10 @@ export class MegaMillionsService {
 			.post<Array<WinningSetPython>>(`${this.megaAPI}/winning_sets/second_ball`, ball, {
 				headers: this.headers,
 			})
-			.pipe(map((sets: Array<WinningSetPython>) => convertWinningSets(sets)));
+			.pipe(
+				map((sets: Array<WinningSetPython>) => convertWinningSets(sets)),
+				first()
+			);
 	}
 	/**
 	 * @param ball
@@ -110,7 +126,10 @@ export class MegaMillionsService {
 			.post<Array<WinningSetPython>>(`${this.megaAPI}/winning_sets/third_ball`, ball, {
 				headers: this.headers,
 			})
-			.pipe(map((sets: Array<WinningSetPython>) => convertWinningSets(sets)));
+			.pipe(
+				map((sets: Array<WinningSetPython>) => convertWinningSets(sets)),
+				first()
+			);
 	}
 	/**
 	 * @param ball
@@ -121,7 +140,10 @@ export class MegaMillionsService {
 			.post<Array<WinningSetPython>>(`${this.megaAPI}/winning_sets/fourth_ball`, ball, {
 				headers: this.headers,
 			})
-			.pipe(map((sets: Array<WinningSetPython>) => convertWinningSets(sets)));
+			.pipe(
+				map((sets: Array<WinningSetPython>) => convertWinningSets(sets)),
+				first()
+			);
 	}
 	/**
 	 * @param ball
@@ -132,7 +154,10 @@ export class MegaMillionsService {
 			.post<Array<WinningSetPython>>(`${this.megaAPI}/winning_sets/fifth_ball`, ball, {
 				headers: this.headers,
 			})
-			.pipe(map((sets: Array<WinningSetPython>) => convertWinningSets(sets)));
+			.pipe(
+				map((sets: Array<WinningSetPython>) => convertWinningSets(sets)),
+				first()
+			);
 	}
 	/**
 	 * @param megaBall
@@ -143,7 +168,10 @@ export class MegaMillionsService {
 			.post<Array<WinningSetPython>>(`${this.megaAPI}/winning_sets/mega_ball`, megaBall, {
 				headers: this.headers,
 			})
-			.pipe(map((sets: Array<WinningSetPython>) => convertWinningSets(sets)));
+			.pipe(
+				map((sets: Array<WinningSetPython>) => convertWinningSets(sets)),
+				first()
+			);
 	}
 	/**
 	 * @param ball
@@ -154,7 +182,10 @@ export class MegaMillionsService {
 			.post<Array<WinningSetPython>>(`${this.megaAPI}/winning_sets/ball`, ball, {
 				headers: this.headers,
 			})
-			.pipe(map((sets: Array<WinningSetPython>) => convertWinningSets(sets)));
+			.pipe(
+				map((sets: Array<WinningSetPython>) => convertWinningSets(sets)),
+				first()
+			);
 	}
 	/**
 	 * @param ball
@@ -165,6 +196,9 @@ export class MegaMillionsService {
 			.post<Array<WinningSetPython>>(`${this.megaAPI}/winning_sets/any_ball`, ball, {
 				headers: this.headers,
 			})
-			.pipe(map((sets: Array<WinningSetPython>) => convertWinningSets(sets)));
+			.pipe(
+				map((sets: Array<WinningSetPython>) => convertWinningSets(sets)),
+				first()
+			);
 	}
 }
