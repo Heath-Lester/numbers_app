@@ -8,10 +8,10 @@
 				(ngModelChange)="indexStart.next($event)"
 				name="indexStart"
 				type="number"
-				[min]="0"
-				[max]="(indexEnd | async) ?? 1999"
+				[min]="1"
+				[max]="(indexEnd | async) ?? 2000"
 				matInput
-				placeholder="1-1999"
+				[placeholder]="'1-' + getStartIndexMax().toString()"
 			/>
 		</mat-form-field>
 		<span>to</span>
@@ -22,10 +22,10 @@
 				(ngModelChange)="indexEnd.next($event)"
 				name="indexEnd"
 				type="number"
-				[min]="(indexStart | async) ?? 2"
+				[min]="(indexStart | async) ?? 1"
 				[max]="2000"
 				matInput
-				placeholder="2-2000"
+				[placeholder]="getEndIndexMin().toString() + '-2000'"
 			/>
 		</mat-form-field>
 		<!-- </div> -->

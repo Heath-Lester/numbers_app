@@ -94,6 +94,22 @@ export class SetTableFilterComponent implements OnDestroy {
 		this.filterSubscription.unsubscribe();
 	}
 
+	protected getStartIndexMax(): number {
+		if (this.indexEnd.value !== null) {
+			return this.indexEnd.value;
+		} else {
+			return 2000;
+		}
+	}
+
+	protected getEndIndexMin(): number {
+		if (this.indexStart.value !== null) {
+			return this.indexStart.value;
+		} else {
+			return 1;
+		}
+	}
+
 	protected firstBallMax(): number {
 		if (this.secondBall.value !== null) {
 			return this.secondBall.value - 1;

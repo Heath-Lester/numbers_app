@@ -8,6 +8,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { SetData } from '../../types/set-data';
 import { SetFilter } from '../../types/set-filter';
+import { CdkColumnDef } from '@angular/cdk/table';
 
 @Component({
 	selector: 'app-set-table',
@@ -15,7 +16,7 @@ import { SetFilter } from '../../types/set-filter';
 	imports: [MatTableModule, HttpClientModule, MatSortModule],
 	templateUrl: './set-table.component.html',
 	styleUrl: './set-table.component.scss',
-	providers: [MegaMillionsService],
+	providers: [MegaMillionsService, CdkColumnDef],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SetTableComponent implements AfterViewInit, OnDestroy {
@@ -55,7 +56,7 @@ export class SetTableComponent implements AfterViewInit, OnDestroy {
 		)
 		.subscribe((ballData: SetData[]) => (this.dataSource.data = ballData));
 
-	protected dataSource = new MatTableDataSource<SetData>([]);
+	protected dataSource = new MatTableDataSource<SetData>();
 
 	@ViewChild(MatSort) sort!: MatSort;
 
