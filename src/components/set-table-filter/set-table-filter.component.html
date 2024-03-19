@@ -135,8 +135,8 @@
 				(ngModelChange)="megaBall.next($event)"
 				name="megaBall"
 				type="number"
-				min="1"
-				max="50"
+				[min]="1"
+				[max]="50"
 				matInput
 				placeholder="1-50"
 			/>
@@ -148,10 +148,10 @@
 				(ngModelChange)="megaplier.next($event)"
 				name="megaplier"
 				type="number"
-				[min]="1"
+				[min]="2"
 				[max]="5"
 				matInput
-				placeholder="1-5"
+				placeholder="2-5"
 			/>
 		</mat-form-field>
 	</form>
