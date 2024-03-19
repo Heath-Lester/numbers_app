@@ -2,7 +2,7 @@ import { AfterViewInit, ChangeDetectionStrategy, Component, Input, OnDestroy, Vi
 import { WinningSet } from './../../types/winning-set';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MegaMillionsService } from '../../services/mega-millions.service';
-import { BehaviorSubject, Subscription, first, map, skip, debounceTime } from 'rxjs';
+import { BehaviorSubject, Subscription, first, map, skip, debounceTime, filter } from 'rxjs';
 import { buildSetData } from '../../utils/synthesizers';
 import { HttpClientModule } from '@angular/common/http';
 import { MatSort, MatSortModule } from '@angular/material/sort';
@@ -23,7 +23,21 @@ export class SetTableComponent implements AfterViewInit, OnDestroy {
 		if (setFilter) {
 			this.filterSubscription = setFilter
 				.asObservable()
-				.pipe(skip(1), debounceTime(1000))
+				.pipe(
+					skip(1),
+					filter((filter: SetFilter) => {
+						const isStartIndexLargerThanEndIndex: boolean =
+							filter.indexStart !== null &&
+							filter.indexEnd !== null &&
+							filter.indexStart > filter.indexEnd;
+						const isStartDateLargerThanEndDate: boolean =
+							filter.startDate !== null &&
+							filter.endDate !== null &&
+							new Date(filter.startDate).getTime() > new Date(filter.endDate).getTime();
+						return !isStartIndexLargerThanEndIndex && !isStartDateLargerThanEndDate;
+					}),
+					debounceTime(1000)
+				)
 				.subscribe((filter: SetFilter) => (this.dataSource.filter = JSON.stringify(filter)));
 		}
 	}
