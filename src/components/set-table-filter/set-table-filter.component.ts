@@ -93,4 +93,85 @@ export class SetTableFilterComponent implements OnDestroy {
 	ngOnDestroy(): void {
 		this.filterSubscription.unsubscribe();
 	}
+
+	protected firstBallMax(): number {
+		if (this.secondBall.value !== null) {
+			return this.secondBall.value - 1;
+		} else if (this.thirdBall.value !== null) {
+			return this.thirdBall.value - 2;
+		} else if (this.fourthBall.value !== null) {
+			return this.fourthBall.value - 3;
+		} else if (this.fifthBall.value !== null) {
+			return this.fifthBall.value - 4;
+		} else {
+			return 71;
+		}
+	}
+	protected secondBallMax(): number {
+		if (this.thirdBall.value !== null) {
+			return this.thirdBall.value - 1;
+		} else if (this.fourthBall.value !== null) {
+			return this.fourthBall.value - 2;
+		} else if (this.fifthBall.value !== null) {
+			return this.fifthBall.value - 3;
+		} else {
+			return 72;
+		}
+	}
+	protected thirdBallMax(): number {
+		if (this.fourthBall.value !== null) {
+			return this.fourthBall.value - 1;
+		} else if (this.fifthBall.value !== null) {
+			return this.fifthBall.value - 2;
+		} else {
+			return 73;
+		}
+	}
+	protected fourthBallMax(): number {
+		if (this.fifthBall.value !== null) {
+			return this.fifthBall.value - 1;
+		} else {
+			return 74;
+		}
+	}
+	protected fifthBallMin(): number {
+		if (this.fourthBall.value !== null) {
+			return this.fourthBall.value + 1;
+		} else if (this.thirdBall.value !== null) {
+			return this.thirdBall.value + 2;
+		} else if (this.secondBall.value !== null) {
+			return this.secondBall.value + 3;
+		} else if (this.firstBall.value !== null) {
+			return this.firstBall.value + 4;
+		} else {
+			return 5;
+		}
+	}
+	protected fourthBallMin(): number {
+		if (this.thirdBall.value !== null) {
+			return this.thirdBall.value + 1;
+		} else if (this.secondBall.value !== null) {
+			return this.secondBall.value + 2;
+		} else if (this.firstBall.value !== null) {
+			return this.firstBall.value + 3;
+		} else {
+			return 4;
+		}
+	}
+	protected thirdBallMin(): number {
+		if (this.secondBall.value !== null) {
+			return this.secondBall.value + 1;
+		} else if (this.firstBall.value !== null) {
+			return this.firstBall.value + 2;
+		} else {
+			return 3;
+		}
+	}
+	protected secondBallMin(): number {
+		if (this.firstBall.value !== null) {
+			return this.firstBall.value + 1;
+		} else {
+			return 2;
+		}
+	}
 }

@@ -71,9 +71,9 @@
 				name="firstBall"
 				type="number"
 				[min]="1"
-				[max]="71"
+				[max]="firstBallMax()"
 				matInput
-				placeholder="1-71"
+				[placeholder]="'1-' + firstBallMax().toString()"
 			/>
 		</mat-form-field>
 		<mat-form-field [appearance]="'outline'">
@@ -83,10 +83,10 @@
 				(ngModelChange)="secondBall.next($event)"
 				name="secondBall"
 				type="number"
-				[min]="2"
-				[max]="72"
+				[min]="(firstBall | async) ?? 2"
+				[max]="secondBallMax()"
 				matInput
-				placeholder="2-72"
+				[placeholder]="secondBallMin().toString() + '-' + secondBallMax().toString()"
 			/>
 		</mat-form-field>
 		<mat-form-field [appearance]="'outline'">
@@ -96,10 +96,10 @@
 				(ngModelChange)="thirdBall.next($event)"
 				name="thirdBall"
 				type="number"
-				[min]="3"
-				[max]="73"
+				[min]="thirdBallMin()"
+				[max]="thirdBallMax()"
 				matInput
-				placeholder="3-73"
+				[placeholder]="thirdBallMin().toString() + '-' + thirdBallMax().toString()"
 			/>
 		</mat-form-field>
 		<mat-form-field [appearance]="'outline'">
@@ -109,10 +109,10 @@
 				(ngModelChange)="fourthBall.next($event)"
 				name="fourthBall"
 				type="number"
-				min="4"
-				max="74"
+				[min]="fourthBallMin()"
+				[max]="(fifthBall | async) ?? 74"
 				matInput
-				placeholder="4-74"
+				[placeholder]="fourthBallMin().toString() + '-' + fourthBallMax().toString()"
 			/>
 		</mat-form-field>
 		<mat-form-field [appearance]="'outline'">
@@ -122,10 +122,10 @@
 				(ngModelChange)="fifthBall.next($event)"
 				name="fifthBall"
 				type="number"
-				min="5"
-				max="75"
+				[min]="fifthBallMin()"
+				[max]="75"
 				matInput
-				placeholder="5-75"
+				[placeholder]="fifthBallMin().toString() + '-75'"
 			/>
 		</mat-form-field>
 		<mat-form-field [appearance]="'outline'">
@@ -148,8 +148,8 @@
 				(ngModelChange)="megaplier.next($event)"
 				name="megaplier"
 				type="number"
-				min="1"
-				max="5"
+				[min]="1"
+				[max]="5"
 				matInput
 				placeholder="1-5"
 			/>
