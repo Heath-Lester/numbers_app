@@ -1,10 +1,10 @@
 <mat-card class="set-filter">
 	<form class="set-filter-form">
 		<!-- <div class="index-range-container"> -->
-		<mat-form-field [appearance]="'outline'">
+		<mat-form-field appearance="outline">
 			<mat-label>Index Start</mat-label>
 			<input
-				[ngModel]="indexStart"
+				[ngModel]="indexStart | async"
 				(ngModelChange)="indexStart.next($event)"
 				name="indexStart"
 				type="number"
@@ -15,10 +15,10 @@
 			/>
 		</mat-form-field>
 		<span>to</span>
-		<mat-form-field [appearance]="'outline'">
+		<mat-form-field appearance="outline">
 			<mat-label>Index End</mat-label>
 			<input
-				[ngModel]="indexEnd"
+				[ngModel]="indexEnd | async"
 				(ngModelChange)="indexEnd.next($event)"
 				name="indexEnd"
 				type="number"
@@ -29,7 +29,7 @@
 			/>
 		</mat-form-field>
 		<!-- </div> -->
-		<mat-form-field [appearance]="'outline'">
+		<mat-form-field appearance="outline">
 			<mat-label>Date Range</mat-label>
 			<mat-date-range-input
 				[rangePicker]="picker"
@@ -42,7 +42,7 @@
 					name="startDate"
 					[min]="earliestDate"
 					[max]="latestDate"
-					[ngModel]="startDate"
+					[ngModel]="startDate | async"
 					(ngModelChange)="startDate.next($event)"
 					placeholder="Start date"
 				/>
@@ -52,7 +52,7 @@
 					name="endDate"
 					[min]="earliestDate"
 					[max]="latestDate"
-					[ngModel]="endDate"
+					[ngModel]="endDate | async"
 					(ngModelChange)="endDate.next($event)"
 					placeholder="End date"
 				/>
@@ -63,10 +63,10 @@
 			></mat-datepicker-toggle>
 			<mat-date-range-picker #picker></mat-date-range-picker>
 		</mat-form-field>
-		<mat-form-field [appearance]="'outline'">
+		<mat-form-field appearance="outline">
 			<mat-label>First Ball</mat-label>
 			<input
-				[ngModel]="firstBall"
+				[ngModel]="firstBall | async"
 				(ngModelChange)="firstBall.next($event)"
 				name="firstBall"
 				type="number"
@@ -76,10 +76,10 @@
 				[placeholder]="'1-' + firstBallMax().toString()"
 			/>
 		</mat-form-field>
-		<mat-form-field [appearance]="'outline'">
+		<mat-form-field appearance="outline">
 			<mat-label>Second Ball</mat-label>
 			<input
-				[ngModel]="secondBall"
+				[ngModel]="secondBall | async"
 				(ngModelChange)="secondBall.next($event)"
 				name="secondBall"
 				type="number"
@@ -89,10 +89,10 @@
 				[placeholder]="secondBallMin().toString() + '-' + secondBallMax().toString()"
 			/>
 		</mat-form-field>
-		<mat-form-field [appearance]="'outline'">
+		<mat-form-field appearance="outline">
 			<mat-label>Third Ball</mat-label>
 			<input
-				[ngModel]="thirdBall"
+				[ngModel]="thirdBall | async"
 				(ngModelChange)="thirdBall.next($event)"
 				name="thirdBall"
 				type="number"
@@ -102,10 +102,10 @@
 				[placeholder]="thirdBallMin().toString() + '-' + thirdBallMax().toString()"
 			/>
 		</mat-form-field>
-		<mat-form-field [appearance]="'outline'">
+		<mat-form-field appearance="outline">
 			<mat-label>Fourth Ball</mat-label>
 			<input
-				[ngModel]="fourthBall"
+				[ngModel]="fourthBall | async"
 				(ngModelChange)="fourthBall.next($event)"
 				name="fourthBall"
 				type="number"
@@ -115,10 +115,10 @@
 				[placeholder]="fourthBallMin().toString() + '-' + fourthBallMax().toString()"
 			/>
 		</mat-form-field>
-		<mat-form-field [appearance]="'outline'">
+		<mat-form-field appearance="outline">
 			<mat-label>Fifth Ball</mat-label>
 			<input
-				[ngModel]="fifthBall"
+				[ngModel]="fifthBall | async"
 				(ngModelChange)="fifthBall.next($event)"
 				name="fifthBall"
 				type="number"
@@ -128,10 +128,10 @@
 				[placeholder]="fifthBallMin().toString() + '-75'"
 			/>
 		</mat-form-field>
-		<mat-form-field [appearance]="'outline'">
+		<mat-form-field appearance="outline">
 			<mat-label>Mega Ball</mat-label>
 			<input
-				[ngModel]="megaBall"
+				[ngModel]="megaBall | async"
 				(ngModelChange)="megaBall.next($event)"
 				name="megaBall"
 				type="number"
@@ -141,10 +141,10 @@
 				placeholder="1-50"
 			/>
 		</mat-form-field>
-		<mat-form-field [appearance]="'outline'">
+		<mat-form-field appearance="outline">
 			<mat-label>Megaplier</mat-label>
 			<input
-				[ngModel]="megaplier"
+				[ngModel]="megaplier | async"
 				(ngModelChange)="megaplier.next($event)"
 				name="megaplier"
 				type="number"

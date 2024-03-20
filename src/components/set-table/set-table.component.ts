@@ -1,19 +1,40 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, Input, OnDestroy, ViewChild, inject } from '@angular/core';
+import {
+	AfterViewInit,
+	ChangeDetectionStrategy,
+	ChangeDetectorRef,
+	Component,
+	Input,
+	OnDestroy,
+	ViewChild,
+	inject,
+} from '@angular/core';
 import { WinningSet } from './../../types/winning-set';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MegaMillionsService } from '../../services/mega-millions.service';
-import { BehaviorSubject, Subscription, first, map, skip, debounceTime, filter } from 'rxjs';
+import { BehaviorSubject, Subscription, first, map, skip, debounceTime, filter, tap } from 'rxjs';
 import { buildSetData } from '../../utils/synthesizers';
 import { HttpClientModule } from '@angular/common/http';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { SetData } from '../../types/set-data';
 import { SetFilter } from '../../types/set-filter';
 import { CdkColumnDef } from '@angular/cdk/table';
+import { CommonModule } from '@angular/common';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatCardModule } from '@angular/material/card';
+import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
 	selector: 'app-set-table',
 	standalone: true,
-	imports: [MatTableModule, HttpClientModule, MatSortModule],
+	imports: [
+		MatTableModule,
+		HttpClientModule,
+		MatSortModule,
+		CommonModule,
+		MatProgressBarModule,
+		MatCardModule,
+		MatDividerModule,
+	],
 	templateUrl: './set-table.component.html',
 	styleUrl: './set-table.component.scss',
 	providers: [MegaMillionsService, CdkColumnDef],
@@ -43,6 +64,7 @@ export class SetTableComponent implements AfterViewInit, OnDestroy {
 		}
 	}
 	private megaService = inject(MegaMillionsService, { self: true });
+	private changeDetector = inject(ChangeDetectorRef, { self: true });
 	private filterSubscription?: Subscription;
 	private dataSubscription: Subscription = this.megaService
 		.getAllWinningSets()
@@ -54,7 +76,10 @@ export class SetTableComponent implements AfterViewInit, OnDestroy {
 			map((sets: SetData[]) => sets.sort((a: SetData, b: SetData) => b.index - a.index)),
 			first()
 		)
-		.subscribe((ballData: SetData[]) => (this.dataSource.data = ballData));
+		.subscribe((ballData: SetData[]) => {
+			this.dataSource.data = ballData;
+			this.changeDetector.markForCheck();
+		});
 
 	protected dataSource = new MatTableDataSource<SetData>();
 

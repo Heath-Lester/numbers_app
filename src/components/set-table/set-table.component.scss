@@ -1,6 +1,19 @@
 .set-table {
-	height: 85vh;
-	width: 95%;
+	height: 83vh;
 	overflow: auto;
 	border-radius: 4px;
+}
+
+.set-table-loader-header {
+	padding: 26px !important;
+}
+.set-table-loader-content {
+	display: flex;
+	flex-direction: column;
+	padding-right: 0px !important;
+	padding-left: 0px !important;
+	padding-bottom: 0px !important;
+}
+.set-table-loader-bar {
+	padding: 20px 26px;
 }
