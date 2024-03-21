@@ -1,7 +1,7 @@
 export type BallAverageData = {
 	/** Average numbers of times all balls have been drawn */
 	meanTotalDraws: number;
-	/** Average Percentage of when all balls were drawn to the total number of winning sets */
+	/** Average percentage of when all balls were drawn to the total number of winning sets */
 	meanDrawPercentage: number;
 	/** The span of time between when all balls were most recently drawn */
 	lastDrawSpan: Date;

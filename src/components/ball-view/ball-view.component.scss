@@ -1,13 +1,13 @@
 .ball-view-container {
 	display: flex;
 	flex-direction: column;
-	align-content: space-between;
+	row-gap: 12px;
 }
 
 @media screen and (min-width: 1800px) {
 	.ball-view-container {
 		display: flex;
 		flex-direction: row;
-		justify-content: space-between;
+		justify-content: space-around;
 	}
 }
