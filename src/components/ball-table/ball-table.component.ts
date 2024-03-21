@@ -28,6 +28,7 @@ export class BallTableComponent implements AfterViewInit, OnDestroy {
 	])
 		.pipe(
 			map(([balls, sets]: [Ball[], WinningSet[]]) => balls.map((ball: Ball) => buildBallData(ball, sets))),
+			map((ballData: BallData[]) => ballData.filter((ball: BallData) => !!ball.firstDraw)),
 			first()
 		)
 		.subscribe((ballData: BallData[]) => (this.dataSource.data = ballData));

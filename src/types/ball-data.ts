@@ -9,7 +9,9 @@ export type BallData = {
 	/** Percentage of when a ball was drawn to total number of winning sets */
 	drawPercentage: number;
 	/** The most recent date the ball was drawn */
-	mostRecentDraw: Date | null;
+	lastDraw: Date | null;
+	/** The date the ball was first drawn */
+	firstDraw: Date | null;
 	/** All of the dates a ball was drawn */
 	drawnDates: Date[];
 	/** How many drawings have occurred since the last time the ball was drawn */

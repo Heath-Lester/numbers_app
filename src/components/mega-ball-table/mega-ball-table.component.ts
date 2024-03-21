@@ -28,7 +28,10 @@ export class MegaBallTableComponent {
 	])
 		.pipe(
 			map(([megaBalls, sets]: [MegaBall[], WinningSet[]]) =>
-				megaBalls.map((ball: MegaBall) => buildMegaBallData(ball, sets))
+				megaBalls.map((megaBall: MegaBall) => buildMegaBallData(megaBall, sets))
+			),
+			map((megaBallData: MegaBallData[]) =>
+				megaBallData.filter((megaBall: MegaBallData) => !!megaBall.firstDraw)
 			),
 			first()
 		)

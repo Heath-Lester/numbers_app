@@ -39,16 +39,28 @@
 		<mat-cell *matCellDef="let row"> {{ row.drawPercentage.toFixed(3) }}% </mat-cell>
 	</ng-container>
 
-	<!-- Recent Draw -->
-	<ng-container matColumnDef="mostRecentDraw">
+	<!-- Last Draw -->
+	<ng-container matColumnDef="lastDraw">
+		<mat-header-cell
+			*matHeaderCellDef
+			mat-sort-header
+			sortActionDescription="Sort by last draw"
+		>
+			Last Draw
+		</mat-header-cell>
+		<mat-cell *matCellDef="let row"> {{ row.lastDraw?.toLocaleDateString() ?? "-" }} </mat-cell>
+	</ng-container>
+
+	<!-- First Draw -->
+	<ng-container matColumnDef="firstDraw">
 		<mat-header-cell
 			*matHeaderCellDef
 			mat-sort-header
 			sortActionDescription="Sort by recent draw"
 		>
-			Most Recent Draw
+			First Draw
 		</mat-header-cell>
-		<mat-cell *matCellDef="let row"> {{ row.mostRecentDraw?.toLocaleDateString() ?? "-" }} </mat-cell>
+		<mat-cell *matCellDef="let row"> {{ row.firstDraw?.toLocaleDateString() ?? "-" }} </mat-cell>
 	</ng-container>
 
 	<!-- Current Draw Interval -->
@@ -130,7 +142,8 @@
 				'megaBall',
 				'totalDraws',
 				'drawPercentage',
-				'mostRecentDraw',
+				'lastDraw',
+				'firstDraw',
 				'intervalSinceLastDrawing',
 				'meanDrawInterval',
 				'modeDrawInterval',
@@ -148,7 +161,8 @@
 				'megaBall',
 				'totalDraws',
 				'drawPercentage',
-				'mostRecentDraw',
+				'lastDraw',
+				'firstDraw',
 				'intervalSinceLastDrawing',
 				'meanDrawInterval',
 				'modeDrawInterval',

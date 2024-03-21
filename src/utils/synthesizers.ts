@@ -49,7 +49,8 @@ export function buildBallData(ball: Ball, sets: WinningSet[]): BallData {
 		meanDrawInterval: null,
 		modeDrawInterval: null,
 		modeDrawInstances: null,
-		mostRecentDraw: null,
+		lastDraw: null,
+		firstDraw: null,
 		drawnDates: new Array<Date>(),
 		drawnPositions: new Map(),
 		adjacentBalls: new Map(),
@@ -68,8 +69,11 @@ export function buildBallData(ball: Ball, sets: WinningSet[]): BallData {
 		) {
 			data.drawnDates.push(set.date);
 			data.totalDraws++;
-			if (data.mostRecentDraw === null || data.mostRecentDraw < set.date) {
-				data.mostRecentDraw = set.date;
+			if (data.firstDraw == null) {
+				data.firstDraw = set.date;
+			}
+			if (data.lastDraw === null || data.lastDraw.getTime() < set.date.getTime()) {
+				data.lastDraw = set.date;
 			}
 
 			if (ball.id === set.firstBall.id) {
@@ -173,7 +177,8 @@ export function buildMegaBallData(megaBall: MegaBall, sets: WinningSet[]): MegaB
 		meanDrawInterval: null,
 		modeDrawInterval: null,
 		modeDrawInstances: null,
-		mostRecentDraw: null,
+		lastDraw: null,
+		firstDraw: null,
 		drawnDates: new Array<Date>(),
 	};
 
@@ -185,8 +190,11 @@ export function buildMegaBallData(megaBall: MegaBall, sets: WinningSet[]): MegaB
 		if (megaBall.id === set.megaBall.id) {
 			data.drawnDates.push(set.date);
 			data.totalDraws++;
-			if (data.mostRecentDraw === null || data.mostRecentDraw < set.date) {
-				data.mostRecentDraw = set.date;
+			if (data.firstDraw == null) {
+				data.firstDraw = set.date;
+			}
+			if (data.lastDraw === null || data.lastDraw.getTime() < set.date.getTime()) {
+				data.lastDraw = set.date;
 			}
 
 			if (drawInterval > data.maxDrawInterval) {

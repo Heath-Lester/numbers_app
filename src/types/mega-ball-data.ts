@@ -8,7 +8,9 @@ export type MegaBallData = {
 	/** Percentage the mega ball was drawn to total number of winning sets */
 	drawPercentage: number;
 	/** The most recent date the mega ball was drawn */
-	mostRecentDraw: Date | null;
+	lastDraw: Date | null;
+	/** The date the ball was first drawn */
+	firstDraw: Date | null;
 	/** All of the dates the mega ball was drawn */
 	drawnDates: Date[];
 	/** How many drawings have occurred since the last time the mega ball was drawn */
