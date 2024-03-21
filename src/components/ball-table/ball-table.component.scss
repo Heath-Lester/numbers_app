@@ -14,3 +14,10 @@
 		border-radius: 4px;
 	}
 }
+
+mat-footer-cell {
+	font-weight: 500;
+	border-top-color: var(--mat-table-row-item-outline-color, rgba(0, 0, 0, 0.12));
+	border-top-width: var(--mat-table-row-item-outline-width, 1px);
+	border-top-style: solid;
+}

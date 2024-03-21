@@ -14,7 +14,7 @@ export type MegaBallData = {
 	/** All of the dates the mega ball was drawn */
 	drawnDates: Date[];
 	/** How many drawings have occurred since the last time the mega ball was drawn */
-	intervalSinceLastDrawing: number;
+	lastDrawInterval: number;
 	/** Maximum number of sets that occurred before the mega ball was drawn again */
 	maxDrawInterval: number;
 	/** Minimum number of sets that occurred before the mega ball was drawn again */

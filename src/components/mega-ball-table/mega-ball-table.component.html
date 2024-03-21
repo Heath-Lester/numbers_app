@@ -13,6 +13,7 @@
 			Mega Ball
 		</mat-header-cell>
 		<mat-cell *matCellDef="let row"> {{ row.megaBall }} </mat-cell>
+		<mat-footer-cell *matFooterCellDef>Average/Span</mat-footer-cell>
 	</ng-container>
 
 	<!-- Total Draws Definition -->
@@ -25,6 +26,7 @@
 			Total Draws
 		</mat-header-cell>
 		<mat-cell *matCellDef="let row"> {{ row.totalDraws }} </mat-cell>
+		<mat-footer-cell *matFooterCellDef>{{ footerData ? footerData.meanTotalDraws.toFixed(1) : 0 }}</mat-footer-cell>
 	</ng-container>
 
 	<!-- Draw Percentage Definition -->
@@ -37,6 +39,9 @@
 			Draw Percentage
 		</mat-header-cell>
 		<mat-cell *matCellDef="let row"> {{ row.drawPercentage.toFixed(3) }}% </mat-cell>
+		<mat-footer-cell *matFooterCellDef
+			>{{ footerData ? footerData.meanDrawPercentage.toFixed(3) : 0.0 }}%</mat-footer-cell
+		>
 	</ng-container>
 
 	<!-- Last Draw -->
@@ -49,6 +54,9 @@
 			Last Draw
 		</mat-header-cell>
 		<mat-cell *matCellDef="let row"> {{ row.lastDraw?.toLocaleDateString() ?? "-" }} </mat-cell>
+		<mat-footer-cell *matFooterCellDef>{{
+			footerData ? displayTimeSpan(footerData.lastDrawSpan) : "--yrs --mths --dys"
+		}}</mat-footer-cell>
 	</ng-container>
 
 	<!-- First Draw -->
@@ -61,10 +69,13 @@
 			First Draw
 		</mat-header-cell>
 		<mat-cell *matCellDef="let row"> {{ row.firstDraw?.toLocaleDateString() ?? "-" }} </mat-cell>
+		<mat-footer-cell *matFooterCellDef>{{
+			footerData ? displayTimeSpan(footerData.lastDrawSpan) : "--yrs --mths --dys"
+		}}</mat-footer-cell>
 	</ng-container>
 
 	<!-- Current Draw Interval -->
-	<ng-container matColumnDef="intervalSinceLastDrawing">
+	<ng-container matColumnDef="lastDrawInterval">
 		<mat-header-cell
 			*matHeaderCellDef
 			mat-sort-header
@@ -72,7 +83,10 @@
 		>
 			Current Draw Interval
 		</mat-header-cell>
-		<mat-cell *matCellDef="let row"> {{ row.intervalSinceLastDrawing }} </mat-cell>
+		<mat-cell *matCellDef="let row"> {{ row.lastDrawInterval }} </mat-cell>
+		<mat-footer-cell *matFooterCellDef>{{
+			footerData ? footerData.meanLastDrawInterval.toFixed(1) : 0
+		}}</mat-footer-cell>
 	</ng-container>
 
 	<!-- Mean Draw Interval -->
@@ -85,6 +99,9 @@
 			Mean Draw Interval
 		</mat-header-cell>
 		<mat-cell *matCellDef="let row"> {{ row.meanDrawInterval?.toFixed(1) ?? "-" }} </mat-cell>
+		<mat-footer-cell *matFooterCellDef>{{
+			footerData ? footerData.meanMeanDrawInterval.toFixed(1) : 0
+		}}</mat-footer-cell>
 	</ng-container>
 
 	<!-- Mode Draw Interval -->
@@ -97,6 +114,9 @@
 			Mode Draw Interval
 		</mat-header-cell>
 		<mat-cell *matCellDef="let row">{{ row.modeDrawInterval ?? "-" }}</mat-cell>
+		<mat-footer-cell *matFooterCellDef>{{
+			footerData ? footerData.meanModeDrawInterval.toFixed(1) : 0
+		}}</mat-footer-cell>
 	</ng-container>
 
 	<!-- Mode Draw Instances -->
@@ -109,6 +129,9 @@
 			Mode Draw Instances
 		</mat-header-cell>
 		<mat-cell *matCellDef="let row"> {{ row.modeDrawInstances ?? "-" }} </mat-cell>
+		<mat-footer-cell *matFooterCellDef>{{
+			footerData ? footerData.meanModeDrawInstances.toFixed(1) : 0
+		}}</mat-footer-cell>
 	</ng-container>
 
 	<!-- Maximum Draw Interval -->
@@ -121,6 +144,9 @@
 			Maximum Draw Interval
 		</mat-header-cell>
 		<mat-cell *matCellDef="let row"> {{ row.maxDrawInterval }} </mat-cell>
+		<mat-footer-cell *matFooterCellDef>{{
+			footerData ? footerData.meanMaxDrawInterval.toFixed(1) : 0
+		}}</mat-footer-cell>
 	</ng-container>
 
 	<!-- Minimum Draw Interval -->
@@ -133,46 +159,13 @@
 			Minimum Draw Interval
 		</mat-header-cell>
 		<mat-cell *matCellDef="let row"> {{ row.minDrawInterval }} </mat-cell>
+		<mat-footer-cell *matFooterCellDef>{{
+			footerData ? footerData.meanMinDrawInterval.toFixed(1) : 0
+		}}</mat-footer-cell>
 	</ng-container>
 
 	<!-- Header and Row Declarations -->
-	<mat-header-row
-		*matHeaderRowDef="
-			[
-				'megaBall',
-				'totalDraws',
-				'drawPercentage',
-				'lastDraw',
-				'firstDraw',
-				'intervalSinceLastDrawing',
-				'meanDrawInterval',
-				'modeDrawInterval',
-				'modeDrawInstances',
-				'maxDrawInterval',
-				'minDrawInterval'
-			];
-			sticky: true
-		"
-	></mat-header-row>
-	<mat-row
-		*matRowDef="
-			let row;
-			columns: [
-				'megaBall',
-				'totalDraws',
-				'drawPercentage',
-				'lastDraw',
-				'firstDraw',
-				'intervalSinceLastDrawing',
-				'meanDrawInterval',
-				'modeDrawInterval',
-				'modeDrawInstances',
-				'maxDrawInterval',
-				'minDrawInterval'
-			]
-		"
-	></mat-row>
-	<mat-row *matNoDataRow>
-		<mat-progress-bar mode="query"></mat-progress-bar>
-	</mat-row>
+	<mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></mat-header-row>
+	<mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+	<mat-footer-row *matFooterRowDef="displayedColumns; sticky: true"><mat-divider /></mat-footer-row>
 </mat-table>

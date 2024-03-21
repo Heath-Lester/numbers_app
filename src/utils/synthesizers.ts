@@ -4,6 +4,7 @@ import { Ball } from '../types/ball';
 import { WinningSet } from '../types/winning-set';
 import { MegaBallData } from '../types/mega-ball-data';
 import { SetData } from '../types/set-data';
+import { BallAverageData } from '../types/ball-average-data';
 
 function getModeAndInstances(numbers: number[]): [number, number] | [null, null] {
 	if (numbers.length === 0) return [null, null];
@@ -43,7 +44,7 @@ export function buildBallData(ball: Ball, sets: WinningSet[]): BallData {
 		ball: ball.number,
 		totalDraws: 0,
 		drawPercentage: 0,
-		intervalSinceLastDrawing: 0,
+		lastDrawInterval: 0,
 		maxDrawInterval: 0,
 		minDrawInterval: 0,
 		meanDrawInterval: null,
@@ -154,7 +155,7 @@ export function buildBallData(ball: Ball, sets: WinningSet[]): BallData {
 		}
 	}
 
-	data.intervalSinceLastDrawing = drawInterval;
+	data.lastDrawInterval = drawInterval;
 	data.drawPercentage = (data.totalDraws / sets.length) * 100;
 	data.meanDrawInterval = getMean(drawIntervals);
 	const [mode, modeInstances] = getModeAndInstances(drawIntervals);
@@ -171,7 +172,7 @@ export function buildMegaBallData(megaBall: MegaBall, sets: WinningSet[]): MegaB
 		megaBall: megaBall.number,
 		totalDraws: 0,
 		drawPercentage: 0,
-		intervalSinceLastDrawing: 0,
+		lastDrawInterval: 0,
 		maxDrawInterval: 0,
 		minDrawInterval: 0,
 		meanDrawInterval: null,
@@ -214,12 +215,75 @@ export function buildMegaBallData(megaBall: MegaBall, sets: WinningSet[]): MegaB
 		}
 	}
 
-	data.intervalSinceLastDrawing = drawInterval;
+	data.lastDrawInterval = drawInterval;
 	data.meanDrawInterval = getMean(drawIntervals);
 	data.drawPercentage = (data.totalDraws / sets.length) * 100;
 	const [mode, modeInstances] = getModeAndInstances(drawIntervals);
 	data.modeDrawInterval = mode;
 	data.modeDrawInstances = modeInstances;
+
+	return data;
+}
+
+export function buildBallAverageData(balls: BallData[] | MegaBallData[]): BallAverageData {
+	let totalTotalDraws: number = 0;
+	let totalDrawPercentage: number = 0;
+	let lastDrawMax: Date = new Date(0);
+	let lastDrawMin: Date = new Date(0);
+	let firstDrawMax: Date = new Date(0);
+	let firstDrawMin: Date = new Date(0);
+	let totalLastDrawInterval: number = 0;
+	let totalMaxDrawInterval: number = 0;
+	let totalMinDrawInterval: number = 0;
+	let totalMeanDrawInterval: number = 0;
+	let totalModeDrawInterval: number = 0;
+	let totalModeDrawInstances: number = 0;
+
+	for (const ball of balls) {
+		totalTotalDraws += ball.totalDraws;
+		totalDrawPercentage += ball.drawPercentage;
+		if (
+			lastDrawMax.getTime() === 0 ||
+			(ball.lastDraw && ball.lastDraw.getTime() > new Date(lastDrawMax).getTime())
+		) {
+			lastDrawMax = ball.lastDraw ?? new Date(0);
+		} else if (
+			lastDrawMin.getTime() === 0 ||
+			(ball.lastDraw && ball.lastDraw.getTime() < new Date(lastDrawMin).getTime())
+		) {
+			lastDrawMin = ball.lastDraw ?? new Date(0);
+		}
+		if (
+			firstDrawMax.getTime() === 0 ||
+			(ball.firstDraw && ball.firstDraw.getTime() > new Date(firstDrawMax).getTime())
+		) {
+			firstDrawMax = ball.firstDraw ?? new Date(0);
+		} else if (
+			firstDrawMin.getTime() === 0 ||
+			(ball.firstDraw && ball.firstDraw.getTime() < new Date(firstDrawMin).getTime())
+		) {
+			firstDrawMin = ball.firstDraw ?? new Date(0);
+		}
+		totalLastDrawInterval += ball.lastDrawInterval;
+		totalMaxDrawInterval += ball.maxDrawInterval;
+		totalMinDrawInterval += ball.minDrawInterval;
+		totalMeanDrawInterval += ball.meanDrawInterval ?? 0;
+		totalModeDrawInterval += ball.modeDrawInterval ?? 0;
+		totalModeDrawInstances += ball.modeDrawInstances ?? 0;
+	}
+
+	const data: BallAverageData = {
+		meanTotalDraws: totalTotalDraws / balls.length,
+		meanDrawPercentage: totalDrawPercentage / balls.length,
+		lastDrawSpan: new Date(lastDrawMax.getTime() - firstDrawMin.getTime()),
+		firstDrawSpan: new Date(firstDrawMax.getTime() - firstDrawMin.getTime()),
+		meanLastDrawInterval: totalMeanDrawInterval / balls.length,
+		meanMaxDrawInterval: totalMaxDrawInterval / balls.length,
+		meanMinDrawInterval: totalMinDrawInterval / balls.length,
+		meanMeanDrawInterval: totalMeanDrawInterval / balls.length,
+		meanModeDrawInterval: totalModeDrawInterval / balls.length,
+		meanModeDrawInstances: totalModeDrawInstances / balls.length,
+	};
 
 	return data;
 }

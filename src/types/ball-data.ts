@@ -15,7 +15,7 @@ export type BallData = {
 	/** All of the dates a ball was drawn */
 	drawnDates: Date[];
 	/** How many drawings have occurred since the last time the ball was drawn */
-	intervalSinceLastDrawing: number;
+	lastDrawInterval: number;
 	/** Maximum number of sets that occurred before the ball was drawn again */
 	maxDrawInterval: number;
 	/** Minimum number of sets that occurred before the ball was drawn again */
