@@ -2,7 +2,7 @@ import { SetFilter } from './../../types/set-filter';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { SetTableComponent } from '../set-table/set-table.component';
 import { SetTableFilterComponent } from '../set-table-filter/set-table-filter.component';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subject, Subscription } from 'rxjs';
 
 @Component({
 	selector: 'app-sets-view',
@@ -26,4 +26,6 @@ export class SetsViewComponent {
 		megaBall: null,
 		megaplier: null,
 	});
+
+	protected cutoffDate = new BehaviorSubject<Date>(new Date(0));
 }

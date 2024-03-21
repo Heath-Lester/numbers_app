@@ -1,6 +1,6 @@
-import { ChangeDetectionStrategy, Component, Input, OnDestroy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnDestroy, Output } from '@angular/core';
 import { SetFilter } from '../../types/set-filter';
-import { BehaviorSubject, Subscription, combineLatest, skip } from 'rxjs';
+import { BehaviorSubject, Subject, Subscription, combineLatest, skip } from 'rxjs';
 import { MatCardModule } from '@angular/material/card';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -9,6 +9,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatIconModule } from '@angular/material/icon';
+import { MatSelectModule } from '@angular/material/select';
 
 @Component({
 	selector: 'app-set-table-filter',
@@ -23,6 +24,7 @@ import { MatIconModule } from '@angular/material/icon';
 		MatIconModule,
 		MatDatepickerModule,
 		MatSliderModule,
+		MatSelectModule,
 	],
 	templateUrl: './set-table-filter.component.html',
 	styleUrl: './set-table-filter.component.scss',
@@ -33,6 +35,14 @@ export class SetTableFilterComponent implements OnDestroy {
 
 	protected earliestDate = new Date('2010-2-1');
 	protected latestDate = new Date();
+
+	protected cutoffDates: Date[] = new Array(this.latestDate.getFullYear() - this.earliestDate.getFullYear() + 1)
+		.fill(this.latestDate.getFullYear())
+		.map((value, index) => {
+			return new Date(`1-1-${value - index}`);
+		});
+
+	@Output() protected cutoffDate = new BehaviorSubject<Date>(this.cutoffDates[7]);
 
 	protected indexStart = new BehaviorSubject<number | null>(null);
 	protected indexEnd = new BehaviorSubject<number | null>(null);

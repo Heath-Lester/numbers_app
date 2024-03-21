@@ -11,7 +11,18 @@ import {
 import { WinningSet } from './../../types/winning-set';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MegaMillionsService } from '../../services/mega-millions.service';
-import { BehaviorSubject, Subscription, first, map, skip, debounceTime, filter, tap } from 'rxjs';
+import {
+	BehaviorSubject,
+	Subscription,
+	map,
+	skip,
+	debounceTime,
+	filter,
+	Subject,
+	withLatestFrom,
+	tap,
+	combineLatest,
+} from 'rxjs';
 import { buildSetData } from '../../utils/synthesizers';
 import { HttpClientModule } from '@angular/common/http';
 import { MatSort, MatSortModule } from '@angular/material/sort';
@@ -63,27 +74,48 @@ export class SetTableComponent implements AfterViewInit, OnDestroy {
 				.subscribe((filter: SetFilter) => (this.dataSource.filter = JSON.stringify(filter)));
 		}
 	}
+	@Input() set cutoffDate(cutoffDate: BehaviorSubject<Date>) {
+		if (cutoffDate) {
+			this.dataSubscription = combineLatest([this.megaService.getAllWinningSets(), cutoffDate.asObservable()])
+				.pipe(
+					map(([sets, cutoffDate]) =>
+						sets.filter((set: WinningSet) => set.date.getTime() > cutoffDate.getTime())
+					),
+					map((sets: WinningSet[]) =>
+						sets.sort((a: WinningSet, b: WinningSet) => a.date.getTime() - b.date.getTime())
+					),
+					map((sets: WinningSet[]) =>
+						sets.map((set: WinningSet, index: number) => buildSetData(set, index + 1))
+					),
+					map((sets: SetData[]) => sets.sort((a: SetData, b: SetData) => b.index - a.index))
+				)
+				.subscribe((ballData: SetData[]) => {
+					this.dataSource.data = ballData;
+					this.changeDetector.markForCheck();
+				});
+		}
+	}
+
+	@ViewChild(MatSort) set sort(sort: MatSort) {
+		if (sort) {
+			this.dataSource.sort = this.sort;
+		}
+	}
+
 	private megaService = inject(MegaMillionsService, { self: true });
 	private changeDetector = inject(ChangeDetectorRef, { self: true });
 	private filterSubscription?: Subscription;
-	private dataSubscription: Subscription = this.megaService
-		.getAllWinningSets()
-		.pipe(
-			map((sets: WinningSet[]) =>
-				sets.sort((a: WinningSet, b: WinningSet) => a.date.getTime() - b.date.getTime())
-			),
-			map((sets: WinningSet[]) => sets.map((set: WinningSet, index: number) => buildSetData(set, index + 1))),
-			map((sets: SetData[]) => sets.sort((a: SetData, b: SetData) => b.index - a.index)),
-			first()
-		)
-		.subscribe((ballData: SetData[]) => {
-			this.dataSource.data = ballData;
-			this.changeDetector.markForCheck();
-		});
-
+	private dataSubscription?: Subscription;
 	protected dataSource = new MatTableDataSource<SetData>();
 
-	@ViewChild(MatSort) sort!: MatSort;
+	ngAfterViewInit(): void {
+		this.dataSource.filterPredicate = this.filterPredicate;
+	}
+
+	ngOnDestroy(): void {
+		this.dataSubscription?.unsubscribe();
+		this.filterSubscription?.unsubscribe();
+	}
 
 	private filterPredicate = (data: SetData, filter: string): boolean => {
 		if (!filter || filter.length === 0) {
@@ -123,14 +155,4 @@ export class SetTableComponent implements AfterViewInit, OnDestroy {
 			megaplierMatch
 		);
 	};
-
-	ngAfterViewInit(): void {
-		this.dataSource.sort = this.sort;
-		this.dataSource.filterPredicate = this.filterPredicate;
-	}
-
-	ngOnDestroy(): void {
-		this.dataSubscription.unsubscribe();
-		this.filterSubscription?.unsubscribe();
-	}
 }

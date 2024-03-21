@@ -154,5 +154,17 @@
 				placeholder="2-5"
 			/>
 		</mat-form-field>
+		<mat-form-field appearance="outline">
+			<mat-label>Cutoff Year</mat-label>
+			<mat-select
+				name="cutoffDates"
+				[value]="cutoffDate | async"
+				(selectionChange)="cutoffDate.next($event.value)"
+			>
+				@for (date of cutoffDates; track date) {
+					<mat-option [value]="date">{{ date.getFullYear() }}</mat-option>
+				}
+			</mat-select>
+		</mat-form-field>
 	</form>
 </mat-card>

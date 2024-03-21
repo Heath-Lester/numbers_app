@@ -1,4 +1,10 @@
 <section class="set-view-container">
-	<app-set-table-filter [setFilter]="filter" />
-	<app-set-table [setFilter]="filter" />
+	<app-set-table-filter
+		[setFilter]="filter"
+		(cutoffDate)="cutoffDate.next($event)"
+	/>
+	<app-set-table
+		[setFilter]="filter"
+		[cutoffDate]="cutoffDate"
+	/>
 </section>
