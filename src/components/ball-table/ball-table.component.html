@@ -63,16 +63,40 @@
 		<mat-cell *matCellDef="let row"> {{ row.intervalSinceLastDrawing }} </mat-cell>
 	</ng-container>
 
-	<!-- Average Draw Interval -->
-	<ng-container matColumnDef="averageDrawInterval">
+	<!-- Mean Draw Interval -->
+	<ng-container matColumnDef="meanDrawInterval">
 		<mat-header-cell
 			*matHeaderCellDef
 			mat-sort-header
-			sortActionDescription="Sort by average draw interval"
+			sortActionDescription="Sort by mean draw interval"
 		>
-			Average Draw Interval
+			Mean Draw Interval
 		</mat-header-cell>
-		<mat-cell *matCellDef="let row"> {{ row.averageDrawInterval }} </mat-cell>
+		<mat-cell *matCellDef="let row"> {{ row.meanDrawInterval?.toFixed(1) ?? "-" }} </mat-cell>
+	</ng-container>
+
+	<!-- Mode Draw Interval -->
+	<ng-container matColumnDef="modeDrawInterval">
+		<mat-header-cell
+			*matHeaderCellDef
+			mat-sort-header
+			sortActionDescription="Sort by mode draw interval"
+		>
+			Mode Draw Interval
+		</mat-header-cell>
+		<mat-cell *matCellDef="let row">{{ row.modeDrawInterval ?? "-" }}</mat-cell>
+	</ng-container>
+
+	<!-- Mode Draw Instances -->
+	<ng-container matColumnDef="modeDrawInstances">
+		<mat-header-cell
+			*matHeaderCellDef
+			mat-sort-header
+			sortActionDescription="Sort by mode draw instances"
+		>
+			Mode Draw Instances
+		</mat-header-cell>
+		<mat-cell *matCellDef="let row"> {{ row.modeDrawInstances ?? "-" }} </mat-cell>
 	</ng-container>
 
 	<!-- Maximum Draw Interval -->
@@ -99,12 +123,6 @@
 		<mat-cell *matCellDef="let row"> {{ row.minDrawInterval }} </mat-cell>
 	</ng-container>
 
-	<!-- Drawn Positions -->
-	<!-- <ng-container matColumnDef="drawnPositions">
-		<mat-header-cell *matHeaderCellDef mat-sort-header> Draws Positions </mat-header-cell>
-		<mat-cell *matCellDef="let row"> {{ row.drawnPositions.toArray() }} </mat-cell>
-	</ng-container> -->
-
 	<!-- Header and Row Declarations -->
 	<mat-header-row
 		*matHeaderRowDef="
@@ -114,7 +132,9 @@
 				'drawPercentage',
 				'mostRecentDraw',
 				'intervalSinceLastDrawing',
-				'averageDrawInterval',
+				'meanDrawInterval',
+				'modeDrawInterval',
+				'modeDrawInstances',
 				'maxDrawInterval',
 				'minDrawInterval'
 			];
@@ -130,7 +150,9 @@
 				'drawPercentage',
 				'mostRecentDraw',
 				'intervalSinceLastDrawing',
-				'averageDrawInterval',
+				'meanDrawInterval',
+				'modeDrawInterval',
+				'modeDrawInstances',
 				'maxDrawInterval',
 				'minDrawInterval'
 			]

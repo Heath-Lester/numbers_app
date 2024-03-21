@@ -1,9 +1,40 @@
+import { MegaBall } from './../types/mega-ball';
 import { BallData } from '../types/ball-data';
 import { Ball } from '../types/ball';
 import { WinningSet } from '../types/winning-set';
-import { MegaBall } from '../types/mega-ball';
 import { MegaBallData } from '../types/mega-ball-data';
 import { SetData } from '../types/set-data';
+
+function getModeAndInstances(numbers: number[]): [number, number] | [null, null] {
+	if (numbers.length === 0) return [null, null];
+
+	const instanceMap = new Map<number, number>();
+
+	for (const number of numbers) {
+		const instances: number | undefined = instanceMap.get(number);
+		if (instances !== undefined) {
+			instanceMap.set(number, instances + 1);
+		} else {
+			instanceMap.set(number, 1);
+		}
+	}
+	let maxInstance = 0;
+	let currentMode = 0;
+
+	for (const [key, value] of instanceMap.entries()) {
+		if (value >= maxInstance) {
+			maxInstance = value;
+			currentMode = key;
+		}
+	}
+
+	return [currentMode, maxInstance];
+}
+
+function getMean(numbers: number[]): number | null {
+	if (numbers.length === 0) return null;
+	return numbers.reduce((p, c) => p + c, 0) / numbers.length;
+}
 
 export function buildBallData(ball: Ball, sets: WinningSet[]): BallData {
 	sets.sort((a: WinningSet, b: WinningSet) => a.date.getTime() - b.date.getTime());
@@ -15,7 +46,9 @@ export function buildBallData(ball: Ball, sets: WinningSet[]): BallData {
 		intervalSinceLastDrawing: 0,
 		maxDrawInterval: 0,
 		minDrawInterval: 0,
-		averageDrawInterval: 0,
+		meanDrawInterval: null,
+		modeDrawInterval: null,
+		modeDrawInstances: null,
 		mostRecentDraw: null,
 		drawnDates: new Array<Date>(),
 		drawnPositions: new Map(),
@@ -23,6 +56,7 @@ export function buildBallData(ball: Ball, sets: WinningSet[]): BallData {
 	};
 
 	let drawInterval: number = 0;
+	const drawIntervals: number[] = [];
 
 	for (const set of sets) {
 		if (
@@ -109,6 +143,7 @@ export function buildBallData(ball: Ball, sets: WinningSet[]): BallData {
 				data.minDrawInterval = drawInterval;
 			}
 
+			drawIntervals.push(drawInterval);
 			drawInterval = 0;
 		} else {
 			drawInterval++;
@@ -116,8 +151,12 @@ export function buildBallData(ball: Ball, sets: WinningSet[]): BallData {
 	}
 
 	data.intervalSinceLastDrawing = drawInterval;
-	data.averageDrawInterval = (data.maxDrawInterval + data.minDrawInterval) / 2;
 	data.drawPercentage = (data.totalDraws / sets.length) * 100;
+	data.meanDrawInterval = getMean(drawIntervals);
+	const [mode, modeInstances] = getModeAndInstances(drawIntervals);
+	data.modeDrawInterval = mode;
+	data.modeDrawInstances = modeInstances;
+
 	return data;
 }
 
@@ -131,12 +170,16 @@ export function buildMegaBallData(megaBall: MegaBall, sets: WinningSet[]): MegaB
 		intervalSinceLastDrawing: 0,
 		maxDrawInterval: 0,
 		minDrawInterval: 0,
-		averageDrawInterval: 0,
+		meanDrawInterval: null,
+		modeDrawInterval: null,
+		modeDrawInstances: null,
 		mostRecentDraw: null,
 		drawnDates: new Array<Date>(),
 	};
 
 	let drawInterval: number = 0;
+
+	const drawIntervals: number[] = [];
 
 	for (const set of sets) {
 		if (megaBall.id === set.megaBall.id) {
@@ -156,6 +199,7 @@ export function buildMegaBallData(megaBall: MegaBall, sets: WinningSet[]): MegaB
 				data.minDrawInterval = drawInterval;
 			}
 
+			drawIntervals.push(drawInterval);
 			drawInterval = 0;
 		} else {
 			drawInterval++;
@@ -163,8 +207,11 @@ export function buildMegaBallData(megaBall: MegaBall, sets: WinningSet[]): MegaB
 	}
 
 	data.intervalSinceLastDrawing = drawInterval;
-	data.averageDrawInterval = (data.maxDrawInterval + data.minDrawInterval) / 2;
+	data.meanDrawInterval = getMean(drawIntervals);
 	data.drawPercentage = (data.totalDraws / sets.length) * 100;
+	const [mode, modeInstances] = getModeAndInstances(drawIntervals);
+	data.modeDrawInterval = mode;
+	data.modeDrawInstances = modeInstances;
 
 	return data;
 }

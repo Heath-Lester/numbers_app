@@ -1,0 +1,144 @@
+<mat-card class="set-filter">
+	<form class="set-filter-form">
+		<!-- <div class="index-range-container"> -->
+		<mat-form-field appearance="outline">
+			<mat-label>Ball Start</mat-label>
+			<input
+				[ngModel]="ballStart | async"
+				(ngModelChange)="ballStart.next($event)"
+				name="indexStart"
+				type="number"
+				[min]="1"
+				[max]="(ballEnd | async) ?? 75"
+				matInput
+				[placeholder]="'1-' + getBallStartMax().toString()"
+			/>
+		</mat-form-field>
+		<span>to</span>
+		<mat-form-field appearance="outline">
+			<mat-label>Ball End</mat-label>
+			<input
+				[ngModel]="ballEnd | async"
+				(ngModelChange)="ballEnd.next($event)"
+				name="ballEnd"
+				type="number"
+				[min]="(ballStart | async) ?? 1"
+				[max]="75"
+				matInput
+				[placeholder]="getBallEndMin().toString() + '-75'"
+			/>
+		</mat-form-field>
+		<!-- </div> -->
+		<mat-form-field appearance="outline">
+			<mat-label>Recent Draw Date Range</mat-label>
+			<mat-date-range-input
+				[rangePicker]="picker"
+				[min]="earliestDate"
+				[max]="latestDate"
+			>
+				<input
+					matStartDate
+					startView="multi-year"
+					name="startDate"
+					[min]="earliestDate"
+					[max]="latestDate"
+					[ngModel]="recentDrawStart | async"
+					(ngModelChange)="recentDrawStart.next($event)"
+					placeholder="Start date"
+				/>
+				<input
+					matEndDate
+					startView="multi-year"
+					name="endDate"
+					[min]="earliestDate"
+					[max]="latestDate"
+					[ngModel]="recentDrawEnd | async"
+					(ngModelChange)="recentDrawEnd.next($event)"
+					placeholder="End date"
+				/>
+			</mat-date-range-input>
+			<mat-datepicker-toggle
+				matIconSuffix
+				[for]="picker"
+			></mat-datepicker-toggle>
+			<mat-date-range-picker #picker></mat-date-range-picker>
+		</mat-form-field>
+		<!-- <mat-form-field appearance="outline">
+			<mat-label>First Ball</mat-label>
+			<input
+				[ngModel]="firstBall | async"
+				(ngModelChange)="firstBall.next($event)"
+				name="firstBall"
+				type="number"
+				[min]="1"
+				[max]="firstBallMax()"
+				matInput
+				[placeholder]="'1-' + firstBallMax().toString()"
+			/>
+		</mat-form-field>
+		<mat-form-field appearance="outline">
+			<mat-label>Second Ball</mat-label>
+			<input
+				[ngModel]="secondBall | async"
+				(ngModelChange)="secondBall.next($event)"
+				name="secondBall"
+				type="number"
+				[min]="(firstBall | async) ?? 2"
+				[max]="secondBallMax()"
+				matInput
+				[placeholder]="secondBallMin().toString() + '-' + secondBallMax().toString()"
+			/>
+		</mat-form-field>
+		<mat-form-field appearance="outline">
+			<mat-label>Third Ball</mat-label>
+			<input
+				[ngModel]="thirdBall | async"
+				(ngModelChange)="thirdBall.next($event)"
+				name="thirdBall"
+				type="number"
+				[min]="thirdBallMin()"
+				[max]="thirdBallMax()"
+				matInput
+				[placeholder]="thirdBallMin().toString() + '-' + thirdBallMax().toString()"
+			/>
+		</mat-form-field>
+		<mat-form-field appearance="outline">
+			<mat-label>Fourth Ball</mat-label>
+			<input
+				[ngModel]="fourthBall | async"
+				(ngModelChange)="fourthBall.next($event)"
+				name="fourthBall"
+				type="number"
+				[min]="fourthBallMin()"
+				[max]="(fifthBall | async) ?? 74"
+				matInput
+				[placeholder]="fourthBallMin().toString() + '-' + fourthBallMax().toString()"
+			/>
+		</mat-form-field>
+		<mat-form-field appearance="outline">
+			<mat-label>Fifth Ball</mat-label>
+			<input
+				[ngModel]="fifthBall | async"
+				(ngModelChange)="fifthBall.next($event)"
+				name="fifthBall"
+				type="number"
+				[min]="fifthBallMin()"
+				[max]="75"
+				matInput
+				[placeholder]="fifthBallMin().toString() + '-75'"
+			/>
+		</mat-form-field> -->
+		<mat-form-field appearance="outline">
+			<mat-label>Cutoff Year</mat-label>
+			<mat-select
+				name="cutoffDates"
+				[value]="cutoffDate | async"
+				(selectionChange)="cutoffDate.next($event.value)"
+			>
+				@for (date of cutoffDates; track date) {
+					<mat-option [value]="date">{{ date.getFullYear() }}</mat-option>
+				}
+			</mat-select>
+		</mat-form-field>
+	</form>
+</mat-card>

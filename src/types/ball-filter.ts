@@ -1,0 +1,20 @@
+export type BallFilter = {
+	ballStart: number | null;
+	ballEnd: number | null;
+	totalDrawsStart: number | null;
+	totalDrawsEnd: number | null;
+	percentageStart: number | null;
+	percentageEnd: number | null;
+	recentDrawStart: Date | null;
+	recentDrawEnd: Date | null;
+	currentDrawStart: number | null;
+	currentDrawEnd: number | null;
+	meanDrawStart: number | null;
+	meanDrawEnd: number | null;
+	maximumDrawStart: number | null;
+	maximumDrawEnd: number | null;
+	minimumDrawStart: number | null;
+	minimumDrawEnd: number | null;
+	modeDrawStart: number | null;
+	modeDrawEnd: number | null;
+};

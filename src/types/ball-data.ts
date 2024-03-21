@@ -1,5 +1,4 @@
 import { AdjacentBalls } from './adjacent-balls';
-import { Ball } from './ball';
 import { DrawnPositions } from './drawn-positions';
 
 export type BallData = {
@@ -19,8 +18,12 @@ export type BallData = {
 	maxDrawInterval: number;
 	/** Minimum number of sets that occurred before the ball was drawn again */
 	minDrawInterval: number;
-	/** Average number of sets that occurred before the ball was drawn again */
-	averageDrawInterval: number;
+	/** Mean number of sets that occurred before the ball was drawn again */
+	meanDrawInterval: number | null;
+	/** Mode number of sets that occurred before the ball was drawn again */
+	modeDrawInterval: number | null;
+	/** Instances of the mode number of sets that occurred before the ball was drawn again */
+	modeDrawInstances: number | null;
 	/** The positions that a ball was drawn in and how many times it was drawn in the relevant position */
 	drawnPositions: DrawnPositions;
 	/** The next ball that was drawn and how many that same number was drawn adjacently */

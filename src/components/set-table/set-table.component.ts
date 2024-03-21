@@ -78,6 +78,7 @@ export class SetTableComponent implements AfterViewInit, OnDestroy {
 		if (cutoffDate) {
 			this.dataSubscription = combineLatest([this.megaService.getAllWinningSets(), cutoffDate.asObservable()])
 				.pipe(
+					debounceTime(500),
 					map(([sets, cutoffDate]) =>
 						sets.filter((set: WinningSet) => set.date.getTime() > cutoffDate.getTime())
 					),
