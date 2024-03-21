@@ -55,7 +55,7 @@
 		</mat-header-cell>
 		<mat-cell *matCellDef="let row"> {{ row.lastDraw?.toLocaleDateString() ?? "-" }} </mat-cell>
 		<mat-footer-cell *matFooterCellDef>{{
-			footerData ? displayTimeSpan(footerData.lastDrawSpan) : "--yrs --mths --dys"
+			footerData ? displayTimeSpan(footerData.lastDrawSpan) : "--ys --ms --ds"
 		}}</mat-footer-cell>
 	</ng-container>
 
@@ -70,7 +70,7 @@
 		</mat-header-cell>
 		<mat-cell *matCellDef="let row"> {{ row.firstDraw?.toLocaleDateString() ?? "-" }} </mat-cell>
 		<mat-footer-cell *matFooterCellDef>{{
-			footerData ? displayTimeSpan(footerData.lastDrawSpan) : "--yrs --mths --dys"
+			footerData ? displayTimeSpan(footerData.firstDrawSpan) : "--ys --ms --ds"
 		}}</mat-footer-cell>
 	</ng-container>
 

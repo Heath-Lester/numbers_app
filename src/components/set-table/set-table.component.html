@@ -113,38 +113,8 @@
 		</ng-container>
 
 		<!-- Header and Row Declarations -->
-		<mat-header-row
-			*matHeaderRowDef="
-				[
-					'index',
-					'date',
-					'firstBall',
-					'secondBall',
-					'thirdBall',
-					'fourthBall',
-					'fifthBall',
-					'megaBall',
-					'megaplier'
-				];
-				sticky: true
-			"
-		></mat-header-row>
-		<mat-row
-			*matRowDef="
-				let row;
-				columns: [
-					'index',
-					'date',
-					'firstBall',
-					'secondBall',
-					'thirdBall',
-					'fourthBall',
-					'fifthBall',
-					'megaBall',
-					'megaplier'
-				]
-			"
-		></mat-row>
+		<mat-header-row *matHeaderRowDef="displayColumns; sticky: true"></mat-header-row>
+		<mat-row *matRowDef="let row; columns: displayColumns"></mat-row>
 	</mat-table>
 </ng-container>
 

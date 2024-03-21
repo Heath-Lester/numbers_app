@@ -1,14 +1,14 @@
 .ball-table {
-	height: 55vh;
+	max-height: 55vh;
 	width: 95%;
 	overflow: auto;
 	border-radius: 4px;
 	margin-bottom: 24px;
 }
 
-@media screen and (min-width: 1800px) {
+@media screen and (min-width: 2200px) {
 	.ball-table {
-		height: 90vh;
+		max-height: 90vh;
 		width: 48vw;
 		overflow: auto;
 		border-radius: 4px;

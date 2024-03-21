@@ -99,7 +99,7 @@ export class SetTableComponent implements AfterViewInit, OnDestroy {
 
 	@ViewChild(MatSort) set sort(sort: MatSort) {
 		if (sort) {
-			this.dataSource.sort = this.sort;
+			this.dataSource.sort = sort;
 		}
 	}
 
@@ -108,6 +108,18 @@ export class SetTableComponent implements AfterViewInit, OnDestroy {
 	private filterSubscription?: Subscription;
 	private dataSubscription?: Subscription;
 	protected dataSource = new MatTableDataSource<SetData>();
+
+	protected displayColumns: string[] = [
+		'index',
+		'date',
+		'firstBall',
+		'secondBall',
+		'thirdBall',
+		'fourthBall',
+		'fifthBall',
+		'megaBall',
+		'megaplier',
+	];
 
 	ngAfterViewInit(): void {
 		this.dataSource.filterPredicate = this.filterPredicate;

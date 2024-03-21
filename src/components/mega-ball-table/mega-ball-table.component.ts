@@ -59,7 +59,7 @@ export class MegaBallTableComponent implements OnDestroy {
 
 	@ViewChild(MatSort) set sort(sort: MatSort) {
 		if (sort) {
-			this.dataSource.sort = this.sort;
+			this.dataSource.sort = sort;
 		}
 	}
 
@@ -73,6 +73,6 @@ export class MegaBallTableComponent implements OnDestroy {
 		const months = date.getMonth();
 		const days = date.getDay();
 
-		return `${years}yrs ${months}mths ${days}dys`;
+		return `${years}ys ${months}ms ${days}ds`;
 	}
 }

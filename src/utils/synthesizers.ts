@@ -275,7 +275,7 @@ export function buildBallAverageData(balls: BallData[] | MegaBallData[]): BallAv
 	const data: BallAverageData = {
 		meanTotalDraws: totalTotalDraws / balls.length,
 		meanDrawPercentage: totalDrawPercentage / balls.length,
-		lastDrawSpan: new Date(lastDrawMax.getTime() - firstDrawMin.getTime()),
+		lastDrawSpan: new Date(lastDrawMax.getTime() - lastDrawMin.getTime()),
 		firstDrawSpan: new Date(firstDrawMax.getTime() - firstDrawMin.getTime()),
 		meanLastDrawInterval: totalMeanDrawInterval / balls.length,
 		meanMaxDrawInterval: totalMaxDrawInterval / balls.length,
