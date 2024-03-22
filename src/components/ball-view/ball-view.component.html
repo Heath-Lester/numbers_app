@@ -1,4 +1,12 @@
 <section class="ball-view-container">
-	<app-ball-table />
-	<app-mega-ball-table />
+	<div class="ball-table-container">
+		<app-ball-table-filter
+			[ballFilter]="ballFilter"
+			[numberOfBalls]="75"
+			[initialBallCutoff]="70"
+			(ballCutoff)="ballBallCutoff.next($event)"
+			(dateCutoff)="ballDateCutoff.next($event)"
+		/>
+		<app-ball-table [ballFilter]="ballFilter" />
+	</div>
 </section>

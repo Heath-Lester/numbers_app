@@ -10,6 +10,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
 	selector: 'app-set-table-filter',
@@ -25,6 +26,7 @@ import { MatSelectModule } from '@angular/material/select';
 		MatDatepickerModule,
 		MatSliderModule,
 		MatSelectModule,
+		MatButtonModule,
 	],
 	templateUrl: './set-table-filter.component.html',
 	styleUrl: './set-table-filter.component.scss',
@@ -42,7 +44,7 @@ export class SetTableFilterComponent implements OnDestroy {
 			return new Date(`1-1-${value - index}`);
 		});
 
-	@Output() protected cutoffDate = new BehaviorSubject<Date>(this.cutoffDates[7]);
+	@Output() protected dateCutoff = new BehaviorSubject<Date>(this.cutoffDates[7]);
 
 	protected indexStart = new BehaviorSubject<number | null>(null);
 	protected indexEnd = new BehaviorSubject<number | null>(null);

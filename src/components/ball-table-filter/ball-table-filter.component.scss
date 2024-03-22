@@ -1,0 +1,37 @@
+.ball-filter {
+	padding: 22px 22px 4px 22px;
+}
+
+.ball-filter-form {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: space-between;
+}
+
+.ball-filter-name {
+	text-align: center;
+	font-weight: 500;
+	margin-bottom: 9px;
+}
+
+.filter-divider {
+	margin: 0 16px 16px 16px;
+}
+
+.form-container {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+.mat-mdc-form-field-type-mat-input {
+	max-width: 125px;
+}
+.mat-mdc-form-field-type-mat-select {
+	max-width: 100px;
+}
+
+.mat-mdc-form-field-type-mat-date-range-input {
+	max-width: 250px;
+}

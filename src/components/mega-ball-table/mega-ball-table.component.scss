@@ -1,17 +1,8 @@
 .mega-ball-table {
-	max-height: 35vh;
+	max-height: 75vh;
 	width: 95%;
 	overflow: auto;
 	border-radius: 4px;
-}
-
-@media screen and (min-width: 2200px) {
-	.mega-ball-table {
-		max-height: 90vh;
-		width: 48vw;
-		overflow: auto;
-		border-radius: 4px;
-	}
 }
 
 mat-footer-cell {

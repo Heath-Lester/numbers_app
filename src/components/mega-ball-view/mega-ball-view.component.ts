@@ -1,19 +1,18 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { BallTableComponent } from '../ball-table/ball-table.component';
-import { MegaBallTableComponent } from '../mega-ball-table/mega-ball-table.component';
 import { BehaviorSubject } from 'rxjs';
 import { BallFilter } from '../../types/ball-filter';
+import { MegaBallTableComponent } from '../mega-ball-table/mega-ball-table.component';
 import { BallTableFilterComponent } from '../ball-table-filter/ball-table-filter.component';
 
 @Component({
-	selector: 'app-ball-view',
+	selector: 'app-mega-ball-view',
 	standalone: true,
-	imports: [BallTableComponent, MegaBallTableComponent, BallTableFilterComponent],
-	templateUrl: './ball-view.component.html',
-	styleUrl: './ball-view.component.scss',
+	imports: [MegaBallTableComponent, BallTableFilterComponent],
+	templateUrl: './mega-ball-view.component.html',
+	styleUrl: './mega-ball-view.component.scss',
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BallViewComponent {
+export class MegaBallViewComponent {
 	private newBallFilter: BallFilter = {
 		ballStart: null,
 		ballEnd: null,
@@ -39,11 +38,7 @@ export class BallViewComponent {
 		modeInstanceEnd: null,
 	};
 
-	protected ballFilter = new BehaviorSubject<BallFilter>(this.newBallFilter);
 	protected megaBallFilter = new BehaviorSubject<BallFilter>(this.newBallFilter);
-
-	protected ballBallCutoff = new BehaviorSubject<number>(0);
-	protected megaBallBallCutoff = new BehaviorSubject<number>(0);
-	protected ballDateCutoff = new BehaviorSubject<Date>(new Date(0));
-	protected megaBallDateCutoff = new BehaviorSubject<Date>(new Date(0));
+	protected ballCutoff = new BehaviorSubject<number>(0);
+	protected dateCutoff = new BehaviorSubject<Date>(new Date(0));
 }

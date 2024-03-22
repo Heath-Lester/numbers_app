@@ -27,5 +27,5 @@ export class SetsViewComponent {
 		megaplier: null,
 	});
 
-	protected cutoffDate = new BehaviorSubject<Date>(new Date(0));
+	protected dateCutoff = new BehaviorSubject<Date>(new Date(0));
 }

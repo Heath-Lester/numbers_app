@@ -10,6 +10,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { BehaviorSubject, Subscription, combineLatest, skip } from 'rxjs';
 import { BallFilter } from '../../types/ball-filter';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
 	selector: 'app-ball-table-filter',
@@ -25,6 +27,8 @@ import { BallFilter } from '../../types/ball-filter';
 		MatDatepickerModule,
 		MatSliderModule,
 		MatSelectModule,
+		MatButtonModule,
+		MatDividerModule,
 	],
 	templateUrl: './ball-table-filter.component.html',
 	styleUrl: './ball-table-filter.component.scss',
@@ -32,8 +36,22 @@ import { BallFilter } from '../../types/ball-filter';
 })
 export class BallTableFilterComponent {
 	@Input() ballFilter?: BehaviorSubject<BallFilter>;
+	@Input() set numberOfBalls(numberOfBalls: number | undefined) {
+		if (numberOfBalls !== undefined) {
+			this.cutoffBalls = new Array(75).fill(75).map((value, index) => {
+				return value - index;
+			});
+		}
+	}
+	@Input() set initialBallCutoff(ball: number | undefined) {
+		if (ball !== undefined && this.cutoffBalls) {
+			this.ballCutoff.next(this.cutoffBalls.find((a) => a === ball) ?? 0);
+		}
+	}
 	protected earliestDate = new Date('2010-2-1');
 	protected latestDate = new Date();
+
+	protected cutoffBalls: number[] = [];
 
 	protected cutoffDates: Date[] = new Array(this.latestDate.getFullYear() - this.earliestDate.getFullYear() + 1)
 		.fill(this.latestDate.getFullYear())
@@ -41,7 +59,8 @@ export class BallTableFilterComponent {
 			return new Date(`1-1-${value - index}`);
 		});
 
-	@Output() protected cutoffDate = new BehaviorSubject<Date>(this.cutoffDates[7]);
+	@Output() protected ballCutoff = new BehaviorSubject<number>(0);
+	@Output() protected dateCutoff = new BehaviorSubject<Date>(this.cutoffDates[7]);
 
 	protected ballStart = new BehaviorSubject<number | null>(null);
 	protected ballEnd = new BehaviorSubject<number | null>(null);
@@ -49,8 +68,10 @@ export class BallTableFilterComponent {
 	protected totalDrawsEnd = new BehaviorSubject<number | null>(null);
 	protected percentageStart = new BehaviorSubject<number | null>(null);
 	protected percentageEnd = new BehaviorSubject<number | null>(null);
-	protected recentDrawStart = new BehaviorSubject<Date | null>(null);
-	protected recentDrawEnd = new BehaviorSubject<Date | null>(null);
+	protected lastDrawStart = new BehaviorSubject<Date | null>(null);
+	protected lastDrawEnd = new BehaviorSubject<Date | null>(null);
+	protected firstDrawStart = new BehaviorSubject<Date | null>(null);
+	protected firstDrawEnd = new BehaviorSubject<Date | null>(null);
 	protected currentDrawStart = new BehaviorSubject<number | null>(null);
 	protected currentDrawEnd = new BehaviorSubject<number | null>(null);
 	protected meanDrawStart = new BehaviorSubject<number | null>(null);
@@ -61,6 +82,8 @@ export class BallTableFilterComponent {
 	protected minimumDrawEnd = new BehaviorSubject<number | null>(null);
 	protected modeDrawStart = new BehaviorSubject<number | null>(null);
 	protected modeDrawEnd = new BehaviorSubject<number | null>(null);
+	protected modeInstanceStart = new BehaviorSubject<number | null>(null);
+	protected modeInstanceEnd = new BehaviorSubject<number | null>(null);
 
 	private filterSubscription: Subscription = combineLatest([
 		this.ballStart,
@@ -69,8 +92,10 @@ export class BallTableFilterComponent {
 		this.totalDrawsEnd,
 		this.percentageStart,
 		this.percentageEnd,
-		this.recentDrawStart,
-		this.recentDrawEnd,
+		this.lastDrawStart,
+		this.lastDrawEnd,
+		this.firstDrawStart,
+		this.firstDrawEnd,
 		this.currentDrawStart,
 		this.currentDrawEnd,
 		this.meanDrawStart,
@@ -81,6 +106,8 @@ export class BallTableFilterComponent {
 		this.minimumDrawEnd,
 		this.modeDrawStart,
 		this.modeDrawEnd,
+		this.modeInstanceStart,
+		this.modeInstanceEnd,
 	])
 		.pipe(skip(1))
 		.subscribe(
@@ -91,8 +118,10 @@ export class BallTableFilterComponent {
 				totalDrawsEnd,
 				percentageStart,
 				percentageEnd,
-				recentDrawStart,
-				recentDrawEnd,
+				lastDrawStart,
+				lastDrawEnd,
+				firstDrawStart,
+				firstDrawEnd,
 				currentDrawStart,
 				currentDrawEnd,
 				meanDrawStart,
@@ -103,6 +132,8 @@ export class BallTableFilterComponent {
 				minimumDrawEnd,
 				modeDrawStart,
 				modeDrawEnd,
+				modeInstanceStart,
+				modeInstanceEnd,
 			]) => {
 				this.ballFilter?.next({
 					ballStart,
@@ -111,8 +142,10 @@ export class BallTableFilterComponent {
 					totalDrawsEnd,
 					percentageStart,
 					percentageEnd,
-					recentDrawStart,
-					recentDrawEnd,
+					lastDrawStart,
+					lastDrawEnd,
+					firstDrawStart,
+					firstDrawEnd,
 					currentDrawStart,
 					currentDrawEnd,
 					meanDrawStart,
@@ -123,6 +156,8 @@ export class BallTableFilterComponent {
 					minimumDrawEnd,
 					modeDrawStart,
 					modeDrawEnd,
+					modeInstanceStart,
+					modeInstanceEnd,
 				});
 			}
 		);

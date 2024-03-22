@@ -38,7 +38,6 @@
 			>
 				<input
 					matStartDate
-					startView="multi-year"
 					name="startDate"
 					[min]="earliestDate"
 					[max]="latestDate"
@@ -48,7 +47,6 @@
 				/>
 				<input
 					matEndDate
-					startView="multi-year"
 					name="endDate"
 					[min]="earliestDate"
 					[max]="latestDate"
@@ -61,7 +59,28 @@
 				matIconSuffix
 				[for]="picker"
 			></mat-datepicker-toggle>
-			<mat-date-range-picker #picker></mat-date-range-picker>
+			<mat-date-range-picker
+				#picker
+				startView="multi-year"
+				[startAt]="earliestDate"
+			>
+				<mat-date-range-picker-actions>
+					<button
+						matDateRangePickerCancel
+						mat-stroked-button
+						(click)="startDate.next(null); endDate.next(null)"
+					>
+						Clear
+					</button>
+					<button
+						mat-raised-button
+						color="primary"
+						matDateRangePickerApply
+					>
+						Apply
+					</button>
+				</mat-date-range-picker-actions>
+			</mat-date-range-picker>
 		</mat-form-field>
 		<mat-form-field appearance="outline">
 			<mat-label>First Ball</mat-label>
@@ -157,9 +176,9 @@
 		<mat-form-field appearance="outline">
 			<mat-label>Cutoff Year</mat-label>
 			<mat-select
-				name="cutoffDates"
-				[value]="cutoffDate | async"
-				(selectionChange)="cutoffDate.next($event.value)"
+				name="dateCutoff"
+				[value]="dateCutoff | async"
+				(selectionChange)="dateCutoff.next($event.value)"
 			>
 				@for (date of cutoffDates; track date) {
 					<mat-option [value]="date">{{ date.getFullYear() }}</mat-option>

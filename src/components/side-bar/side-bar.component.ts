@@ -19,7 +19,8 @@ export class SideBarComponent {
 	protected readonly routes: Routes = [
 		{ title: 'Picker', path: '/picker' },
 		{ title: 'Predictions', path: '/predictions' },
-		{ title: 'Sets', path: '/sets' },
-		{ title: 'Numbers', path: '/numbers' },
+		{ title: 'Winning Sets', path: '/sets' },
+		{ title: 'Balls', path: '/balls' },
+		{ title: 'Mega Balls', path: '/mega-balls' },
 	];
 }

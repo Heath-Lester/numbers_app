@@ -1,18 +1,9 @@
 .ball-table {
-	max-height: 55vh;
+	max-height: 75vh;
 	width: 95%;
 	overflow: auto;
 	border-radius: 4px;
 	margin-bottom: 24px;
-}
-
-@media screen and (min-width: 2200px) {
-	.ball-table {
-		max-height: 90vh;
-		width: 48vw;
-		overflow: auto;
-		border-radius: 4px;
-	}
 }
 
 mat-footer-cell {

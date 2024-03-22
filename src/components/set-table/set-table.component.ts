@@ -74,13 +74,13 @@ export class SetTableComponent implements AfterViewInit, OnDestroy {
 				.subscribe((filter: SetFilter) => (this.dataSource.filter = JSON.stringify(filter)));
 		}
 	}
-	@Input() set cutoffDate(cutoffDate: BehaviorSubject<Date>) {
-		if (cutoffDate) {
-			this.dataSubscription = combineLatest([this.megaService.getAllWinningSets(), cutoffDate.asObservable()])
+	@Input() set dateCutoff(dateCutoff: BehaviorSubject<Date>) {
+		if (dateCutoff) {
+			this.dataSubscription = combineLatest([this.megaService.getAllWinningSets(), dateCutoff.asObservable()])
 				.pipe(
 					debounceTime(500),
-					map(([sets, cutoffDate]) =>
-						sets.filter((set: WinningSet) => set.date.getTime() > cutoffDate.getTime())
+					map(([sets, dateCutoff]) =>
+						sets.filter((set: WinningSet) => set.date.getTime() > dateCutoff.getTime())
 					),
 					map((sets: WinningSet[]) =>
 						sets.sort((a: WinningSet, b: WinningSet) => a.date.getTime() - b.date.getTime())

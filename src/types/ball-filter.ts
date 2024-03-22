@@ -5,8 +5,10 @@ export type BallFilter = {
 	totalDrawsEnd: number | null;
 	percentageStart: number | null;
 	percentageEnd: number | null;
-	recentDrawStart: Date | null;
-	recentDrawEnd: Date | null;
+	lastDrawStart: Date | null;
+	lastDrawEnd: Date | null;
+	firstDrawStart: Date | null;
+	firstDrawEnd: Date | null;
 	currentDrawStart: number | null;
 	currentDrawEnd: number | null;
 	meanDrawStart: number | null;
@@ -17,4 +19,6 @@ export type BallFilter = {
 	minimumDrawEnd: number | null;
 	modeDrawStart: number | null;
 	modeDrawEnd: number | null;
+	modeInstanceStart: number | null;
+	modeInstanceEnd: number | null;
 };
