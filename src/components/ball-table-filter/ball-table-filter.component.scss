@@ -2,7 +2,24 @@
 	padding: 22px 8px 4px 8px;
 }
 
+.expansion-header {
+	border-bottom-color: var(--mat-table-row-item-outline-color, rgba(0, 0, 0, 0.12));
+	border-bottom-width: var(--mat-table-row-item-outline-width, 1px);
+	border-bottom-style: solid;
+}
+
+.expansion-title {
+	display: flex;
+	column-gap: 32px;
+	align-content: center;
+	> h3 {
+		font-weight: 500;
+		margin-bottom: 0;
+	}
+}
+
 .ball-filter-form {
+	margin-top: 16px;
 	display: flex;
 	flex-wrap: nowrap;
 	overflow-x: auto;

@@ -12,6 +12,7 @@ import { BehaviorSubject, Subscription, combineLatest, skip } from 'rxjs';
 import { BallFilter } from '../../types/ball-filter';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 @Component({
 	selector: 'app-ball-table-filter',
@@ -29,6 +30,7 @@ import { MatDividerModule } from '@angular/material/divider';
 		MatSelectModule,
 		MatButtonModule,
 		MatDividerModule,
+		MatExpansionModule,
 	],
 	templateUrl: './ball-table-filter.component.html',
 	styleUrl: './ball-table-filter.component.scss',
@@ -50,9 +52,7 @@ export class BallTableFilterComponent {
 	}
 	protected earliestDate = new Date('2010-2-1');
 	protected latestDate = new Date();
-
 	protected cutoffBalls: number[] = [];
-
 	protected cutoffDates: Date[] = new Array(this.latestDate.getFullYear() - this.earliestDate.getFullYear() + 1)
 		.fill(this.latestDate.getFullYear())
 		.map((value, index) => {

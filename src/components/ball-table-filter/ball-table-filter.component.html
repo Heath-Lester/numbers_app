@@ -1,635 +1,643 @@
-<mat-card class="ball-filter">
-	<form class="ball-filter-form">
-		<!-- Number Range -->
-		<div class="form-container">
-			<span class="ball-filter-name">Ball</span>
-			<mat-form-field appearance="outline">
-				<mat-label>From</mat-label>
-				<input
-					[ngModel]="ballStart | async"
-					(ngModelChange)="ballStart.next($event)"
-					name="indexStart"
-					type="number"
-					[min]="1"
-					[max]="(ballStart | async) ?? 75"
-					matInput
-					[placeholder]="'1-' + getBallStartMax().toString()"
-				/>
-				@if (ballStart | async) {
-					<button
-						matSuffix
-						mat-icon-button
-						aria-label="Clear"
-						(click)="ballStart.next(null)"
-					>
-						<mat-icon>close</mat-icon>
-					</button>
-				}
-			</mat-form-field>
-			<mat-form-field appearance="outline">
-				<mat-label>To</mat-label>
-				<input
-					[ngModel]="ballEnd | async"
-					(ngModelChange)="ballEnd.next($event)"
-					name="ballEnd"
-					type="number"
-					[min]="(ballStart | async) ?? 1"
-					[max]="75"
-					matInput
-					[placeholder]="getBallEndMin().toString() + '-75'"
-				/>
-				@if (ballEnd | async) {
-					<button
-						matSuffix
-						mat-icon-button
-						aria-label="Clear"
-						(click)="ballEnd.next(null)"
-					>
-						<mat-icon>close</mat-icon>
-					</button>
-				}
-			</mat-form-field>
-		</div>
-		<mat-divider
-			class="filter-divider"
-			[vertical]="true"
-		/>
-		<!-- Total Draw Range -->
-		<div class="form-container">
-			<span class="ball-filter-name">Total Draws</span>
-			<mat-form-field appearance="outline">
-				<mat-label>From</mat-label>
-				<input
-					[ngModel]="totalDrawsStart | async"
-					(ngModelChange)="totalDrawsStart.next($event)"
-					name="totalDrawsStart"
-					type="number"
-					[min]="1"
-					[max]="(totalDrawsEnd | async) ?? 200"
-					matInput
-					placeholder="1-200"
-				/>
-				@if (totalDrawsStart | async) {
-					<button
-						matSuffix
-						mat-icon-button
-						aria-label="Clear"
-						(click)="totalDrawsStart.next(null)"
-					>
-						<mat-icon>close</mat-icon>
-					</button>
-				}
-			</mat-form-field>
-			<mat-form-field appearance="outline">
-				<mat-label>To</mat-label>
-				<input
-					[ngModel]="totalDrawsEnd | async"
-					(ngModelChange)="totalDrawsEnd.next($event)"
-					name="totalDrawsEnd"
-					type="number"
-					[min]="(totalDrawsStart | async) ?? 1"
-					[max]="200"
-					matInput
-					placeholder="1-200"
-				/>
-				@if (totalDrawsEnd | async) {
-					<button
-						matSuffix
-						mat-icon-button
-						aria-label="Clear"
-						(click)="totalDrawsEnd.next(null)"
-					>
-						<mat-icon>close</mat-icon>
-					</button>
-				}
-			</mat-form-field>
-		</div>
-		<mat-divider
-			class="filter-divider"
-			[vertical]="true"
-		/>
-		<!-- Percentage Range -->
-		<div class="form-container">
-			<span class="ball-filter-name">Draw Percentage</span>
-			<mat-form-field appearance="outline">
-				<mat-label>From</mat-label>
-				<input
-					[ngModel]="percentageStart | async"
-					(ngModelChange)="percentageStart.next($event)"
-					name="percentageStart"
-					type="number"
-					[min]="0"
-					[max]="(percentageEnd | async) ?? 100"
-					matInput
-					placeholder="1-100"
-				/>
-				@if (percentageStart | async) {
-					<button
-						matSuffix
-						mat-icon-button
-						aria-label="Clear"
-						(click)="percentageStart.next(null)"
-					>
-						<mat-icon>close</mat-icon>
-					</button>
-				}
-			</mat-form-field>
-			<mat-form-field appearance="outline">
-				<mat-label>To</mat-label>
-				<input
-					[ngModel]="percentageEnd | async"
-					(ngModelChange)="percentageEnd.next($event)"
-					name="percentageEnd"
-					type="number"
-					[min]="(percentageStart | async) ?? 0"
-					[max]="100"
-					matInput
-					placeholder="1-100"
-				/>
-				@if (percentageEnd | async) {
-					<button
-						matSuffix
-						mat-icon-button
-						aria-label="Clear"
-						(click)="percentageEnd.next(null)"
-					>
-						<mat-icon>close</mat-icon>
-					</button>
-				}
-			</mat-form-field>
-		</div>
-		<mat-divider
-			class="filter-divider"
-			[vertical]="true"
-		/>
-		<div class="form-container">
-			<span class="ball-filter-name">Draw Dates</span>
-			<!-- Last Draw Date Range -->
-			<mat-form-field appearance="outline">
-				<mat-label>Last Draw</mat-label>
-				<mat-date-range-input
-					[rangePicker]="lastPicker"
-					[min]="earliestDate"
-					[max]="latestDate"
-				>
+<mat-accordion>
+	<mat-expansion-panel>
+		<mat-expansion-panel-header class="expansion-header">
+			<mat-panel-title class="expansion-title"
+				><mat-icon>filter_alt</mat-icon>
+				<h3>Filters</h3></mat-panel-title
+			>
+		</mat-expansion-panel-header>
+		<form class="ball-filter-form">
+			<!-- Number Range -->
+			<div class="form-container">
+				<span class="ball-filter-name">Ball</span>
+				<mat-form-field appearance="outline">
+					<mat-label>From</mat-label>
 					<input
-						matStartDate
-						startView="multi-year"
-						name="lastDrawStart"
-						[min]="earliestDate"
-						[max]="latestDate"
-						[ngModel]="lastDrawStart | async"
-						(ngModelChange)="lastDrawStart.next($event)"
-						placeholder="Start date"
+						[ngModel]="ballStart | async"
+						(ngModelChange)="ballStart.next($event)"
+						name="indexStart"
+						type="number"
+						[min]="1"
+						[max]="(ballStart | async) ?? 75"
+						matInput
+						[placeholder]="'1-' + getBallStartMax().toString()"
 					/>
-					<input
-						matEndDate
-						startView="multi-year"
-						name="lastDrawEnd"
-						[min]="earliestDate"
-						[max]="latestDate"
-						[ngModel]="lastDrawEnd | async"
-						(ngModelChange)="lastDrawEnd.next($event)"
-						placeholder="End date"
-					/>
-				</mat-date-range-input>
-				<mat-datepicker-toggle
-					matIconSuffix
-					[for]="lastPicker"
-				></mat-datepicker-toggle>
-				<mat-date-range-picker
-					#lastPicker
-					startView="multi-year"
-				>
-					<mat-date-range-picker-actions>
+					@if (ballStart | async) {
 						<button
-							mat-stroked-button
-							matDateRangePickerCancel
-							(click)="lastDrawStart.next(null); lastDrawEnd.next(null)"
+							matSuffix
+							mat-icon-button
+							aria-label="Clear"
+							(click)="ballStart.next(null)"
 						>
-							Clear
+							<mat-icon>close</mat-icon>
 						</button>
-						<button
-							mat-raised-button
-							color="primary"
-							matDateRangePickerApply
-						>
-							Apply
-						</button>
-					</mat-date-range-picker-actions>
-				</mat-date-range-picker>
-			</mat-form-field>
-			<!-- First Draw Date Range -->
-			<mat-form-field appearance="outline">
-				<mat-label>First Draw</mat-label>
-				<mat-date-range-input
-					[rangePicker]="firstPicker"
-					[min]="earliestDate"
-					[max]="latestDate"
-				>
-					<input
-						matStartDate
-						name="firstDrawStart"
-						[min]="earliestDate"
-						[max]="latestDate"
-						[ngModel]="firstDrawStart | async"
-						(ngModelChange)="firstDrawStart.next($event)"
-						placeholder="Start date"
-					/>
-					<input
-						matEndDate
-						name="firstDrawEnd"
-						[min]="earliestDate"
-						[max]="latestDate"
-						[ngModel]="firstDrawEnd | async"
-						(ngModelChange)="firstDrawEnd.next($event)"
-						placeholder="End date"
-					/>
-				</mat-date-range-input>
-				<mat-datepicker-toggle
-					matIconSuffix
-					[for]="firstPicker"
-				></mat-datepicker-toggle>
-				<mat-date-range-picker
-					#firstPicker
-					startView="multi-year"
-					[startAt]="earliestDate"
-				>
-					<mat-date-range-picker-actions>
-						<button
-							mat-stroked-button
-							matDateRangePickerCancel
-							(click)="firstDrawStart.next(null); firstDrawEnd.next(null)"
-						>
-							Clear
-						</button>
-						<button
-							mat-raised-button
-							color="primary"
-							matDateRangePickerApply
-						>
-							Apply
-						</button>
-					</mat-date-range-picker-actions>
-				</mat-date-range-picker>
-			</mat-form-field>
-		</div>
-		<mat-divider
-			class="filter-divider"
-			[vertical]="true"
-		/>
-		<!-- Current Draw Range -->
-		<div class="form-container">
-			<span class="ball-filter-name">Current Interval</span>
-			<mat-form-field appearance="outline">
-				<mat-label>From</mat-label>
-				<input
-					[ngModel]="currentDrawStart | async"
-					(ngModelChange)="currentDrawStart.next($event)"
-					name="currentDrawStart"
-					type="number"
-					[min]="0"
-					[max]="(currentDrawEnd | async) ?? 1000"
-					matInput
-					placeholder="1-2000"
-				/>
-				@if (currentDrawStart | async) {
-					<button
-						matSuffix
-						mat-icon-button
-						aria-label="Clear"
-						(click)="currentDrawStart.next(null)"
-					>
-						<mat-icon>close</mat-icon>
-					</button>
-				}
-			</mat-form-field>
-			<mat-form-field appearance="outline">
-				<mat-label>To</mat-label>
-				<input
-					[ngModel]="currentDrawEnd | async"
-					(ngModelChange)="currentDrawEnd.next($event)"
-					name="currentDrawEnd"
-					type="number"
-					[min]="(currentDrawStart | async) ?? 0"
-					[max]="1000"
-					matInput
-					placeholder="1-2000"
-				/>
-				@if (currentDrawEnd | async) {
-					<button
-						matSuffix
-						mat-icon-button
-						aria-label="Clear"
-						(click)="currentDrawEnd.next(null)"
-					>
-						<mat-icon>close</mat-icon>
-					</button>
-				}
-			</mat-form-field>
-		</div>
-		<mat-divider
-			class="filter-divider"
-			[vertical]="true"
-		/>
-		<!-- Mean Draw Range -->
-		<div class="form-container">
-			<span class="ball-filter-name">Mean Draw</span>
-			<mat-form-field appearance="outline">
-				<mat-label>From</mat-label>
-				<input
-					[ngModel]="meanDrawStart | async"
-					(ngModelChange)="meanDrawStart.next($event)"
-					name="meanDrawStart"
-					type="number"
-					[min]="0"
-					[max]="(meanDrawEnd | async) ?? 100"
-					matInput
-					placeholder="1-100"
-				/>
-				@if (meanDrawStart | async) {
-					<button
-						matSuffix
-						mat-icon-button
-						aria-label="Clear"
-						(click)="meanDrawStart.next(null)"
-					>
-						<mat-icon>close</mat-icon>
-					</button>
-				}
-			</mat-form-field>
-			<mat-form-field appearance="outline">
-				<mat-label>To</mat-label>
-				<input
-					[ngModel]="meanDrawEnd | async"
-					(ngModelChange)="meanDrawEnd.next($event)"
-					name="meanDrawEnd"
-					type="number"
-					[min]="(meanDrawStart | async) ?? 0"
-					[max]="100"
-					matInput
-					placeholder="1-100"
-				/>
-				@if (meanDrawEnd | async) {
-					<button
-						matSuffix
-						mat-icon-button
-						aria-label="Clear"
-						(click)="meanDrawEnd.next(null)"
-					>
-						<mat-icon>close</mat-icon>
-					</button>
-				}
-			</mat-form-field>
-		</div>
-		<mat-divider
-			class="filter-divider"
-			[vertical]="true"
-		/>
-		<!-- Mode Draw Range -->
-		<div class="form-container">
-			<span class="ball-filter-name">Mode Draw</span>
-			<mat-form-field appearance="outline">
-				<mat-label>From</mat-label>
-				<input
-					[ngModel]="modeDrawStart | async"
-					(ngModelChange)="modeDrawStart.next($event)"
-					name="modeDrawStart"
-					type="number"
-					[min]="0"
-					[max]="(modeDrawEnd | async) ?? 100"
-					matInput
-					placeholder="1-100"
-				/>
-				@if (modeDrawStart | async) {
-					<button
-						matSuffix
-						mat-icon-button
-						aria-label="Clear"
-						(click)="modeDrawStart.next(null)"
-					>
-						<mat-icon>close</mat-icon>
-					</button>
-				}
-			</mat-form-field>
-			<mat-form-field appearance="outline">
-				<mat-label>To</mat-label>
-				<input
-					[ngModel]="modeDrawEnd | async"
-					(ngModelChange)="modeDrawEnd.next($event)"
-					name="modeDrawEnd"
-					type="number"
-					[min]="(modeDrawStart | async) ?? 0"
-					[max]="100"
-					matInput
-					placeholder="1-100"
-				/>
-				@if (modeDrawEnd | async) {
-					<button
-						matSuffix
-						mat-icon-button
-						aria-label="Clear"
-						(click)="modeDrawEnd.next(null)"
-					>
-						<mat-icon>close</mat-icon>
-					</button>
-				}
-			</mat-form-field>
-		</div>
-		<mat-divider
-			class="filter-divider"
-			[vertical]="true"
-		/>
-		<!-- Mode Instance Range -->
-		<div class="form-container">
-			<span class="ball-filter-name">Mode Instances</span>
-			<mat-form-field appearance="outline">
-				<mat-label>From</mat-label>
-				<input
-					[ngModel]="modeInstanceStart | async"
-					(ngModelChange)="modeInstanceStart.next($event)"
-					name="modeInstanceStart"
-					type="number"
-					[min]="0"
-					[max]="(modeInstanceEnd | async) ?? 100"
-					matInput
-					placeholder="1-100"
-				/>
-				@if (modeInstanceStart | async) {
-					<button
-						matSuffix
-						mat-icon-button
-						aria-label="Clear"
-						(click)="modeInstanceStart.next(null)"
-					>
-						<mat-icon>close</mat-icon>
-					</button>
-				}
-			</mat-form-field>
-			<mat-form-field appearance="outline">
-				<mat-label>To</mat-label>
-				<input
-					[ngModel]="modeInstanceEnd | async"
-					(ngModelChange)="modeInstanceEnd.next($event)"
-					name="modeInstanceEnd"
-					type="number"
-					[min]="(modeInstanceStart | async) ?? 0"
-					[max]="100"
-					matInput
-					placeholder="1-100"
-				/>
-				@if (modeInstanceEnd | async) {
-					<button
-						matSuffix
-						mat-icon-button
-						aria-label="Clear"
-						(click)="modeInstanceEnd.next(null)"
-					>
-						<mat-icon>close</mat-icon>
-					</button>
-				}
-			</mat-form-field>
-		</div>
-		<mat-divider
-			class="filter-divider"
-			[vertical]="true"
-		/>
-		<!-- Maximum Draw Range -->
-		<div class="form-container">
-			<span class="ball-filter-name">Max Draw</span>
-			<mat-form-field appearance="outline">
-				<mat-label>From</mat-label>
-				<input
-					[ngModel]="maximumDrawStart | async"
-					(ngModelChange)="maximumDrawStart.next($event)"
-					name="maximumDrawStart"
-					type="number"
-					[min]="0"
-					[max]="(maximumDrawEnd | async) ?? 100"
-					matInput
-					placeholder="1-100"
-				/>
-				@if (maximumDrawStart | async) {
-					<button
-						matSuffix
-						mat-icon-button
-						aria-label="Clear"
-						(click)="maximumDrawStart.next(null)"
-					>
-						<mat-icon>close</mat-icon>
-					</button>
-				}
-			</mat-form-field>
-			<mat-form-field appearance="outline">
-				<mat-label>To</mat-label>
-				<input
-					[ngModel]="maximumDrawEnd | async"
-					(ngModelChange)="maximumDrawEnd.next($event)"
-					name="maximumDrawEnd"
-					type="number"
-					[min]="(maximumDrawStart | async) ?? 0"
-					[max]="100"
-					matInput
-					placeholder="1-100"
-				/>
-				@if (maximumDrawEnd | async) {
-					<button
-						matSuffix
-						mat-icon-button
-						aria-label="Clear"
-						(click)="maximumDrawEnd.next(null)"
-					>
-						<mat-icon>close</mat-icon>
-					</button>
-				}
-			</mat-form-field>
-		</div>
-		<mat-divider
-			class="filter-divider"
-			[vertical]="true"
-		/>
-		<!-- Minimum Draw Range -->
-		<div class="form-container">
-			<span class="ball-filter-name">Min Draw</span>
-			<mat-form-field appearance="outline">
-				<mat-label>From</mat-label>
-				<input
-					[ngModel]="minimumDrawStart | async"
-					(ngModelChange)="minimumDrawStart.next($event)"
-					name="minimumDrawStart"
-					type="number"
-					[min]="0"
-					[max]="(minimumDrawEnd | async) ?? 100"
-					matInput
-					placeholder="1-100"
-				/>
-				@if (minimumDrawStart | async) {
-					<button
-						matSuffix
-						mat-icon-button
-						aria-label="Clear"
-						(click)="minimumDrawStart.next(null)"
-					>
-						<mat-icon>close</mat-icon>
-					</button>
-				}
-			</mat-form-field>
-			<mat-form-field appearance="outline">
-				<mat-label>To</mat-label>
-				<input
-					[ngModel]="minimumDrawEnd | async"
-					(ngModelChange)="minimumDrawEnd.next($event)"
-					name="minimumDrawEnd"
-					type="number"
-					[min]="(minimumDrawStart | async) ?? 0"
-					[max]="100"
-					matInput
-					placeholder="1-100"
-				/>
-				@if (minimumDrawEnd | async) {
-					<button
-						matSuffix
-						mat-icon-button
-						aria-label="Clear"
-						(click)="minimumDrawEnd.next(null)"
-					>
-						<mat-icon>close</mat-icon>
-					</button>
-				}
-			</mat-form-field>
-		</div>
-		<mat-divider
-			class="filter-divider"
-			[vertical]="true"
-		/>
-		<div class="form-container">
-			<span class="ball-filter-name">Cutoffs</span>
-			<!-- Ball Cutoff -->
-			<mat-form-field appearance="outline">
-				<mat-label>Ball</mat-label>
-				<mat-select
-					name="ballCutoff"
-					[value]="ballCutoff | async"
-					(selectionChange)="ballCutoff.next($event.value)"
-				>
-					@for (ball of cutoffBalls; track ball) {
-						<mat-option [value]="ball">{{ ball }}</mat-option>
 					}
-				</mat-select>
-			</mat-form-field>
-			<!-- Date Cutoff -->
-			<mat-form-field appearance="outline">
-				<mat-label>Year</mat-label>
-				<mat-select
-					name="dateCutoff"
-					[value]="dateCutoff | async"
-					(selectionChange)="dateCutoff.next($event.value)"
-				>
-					@for (date of cutoffDates; track date) {
-						<mat-option [value]="date">{{ date.getFullYear() }}</mat-option>
+				</mat-form-field>
+				<mat-form-field appearance="outline">
+					<mat-label>To</mat-label>
+					<input
+						[ngModel]="ballEnd | async"
+						(ngModelChange)="ballEnd.next($event)"
+						name="ballEnd"
+						type="number"
+						[min]="(ballStart | async) ?? 1"
+						[max]="75"
+						matInput
+						[placeholder]="getBallEndMin().toString() + '-75'"
+					/>
+					@if (ballEnd | async) {
+						<button
+							matSuffix
+							mat-icon-button
+							aria-label="Clear"
+							(click)="ballEnd.next(null)"
+						>
+							<mat-icon>close</mat-icon>
+						</button>
 					}
-				</mat-select>
-			</mat-form-field>
-		</div>
-	</form>
-</mat-card>
+				</mat-form-field>
+			</div>
+			<mat-divider
+				class="filter-divider"
+				[vertical]="true"
+			/>
+			<!-- Total Draw Range -->
+			<div class="form-container">
+				<span class="ball-filter-name">Total Draws</span>
+				<mat-form-field appearance="outline">
+					<mat-label>From</mat-label>
+					<input
+						[ngModel]="totalDrawsStart | async"
+						(ngModelChange)="totalDrawsStart.next($event)"
+						name="totalDrawsStart"
+						type="number"
+						[min]="1"
+						[max]="(totalDrawsEnd | async) ?? 200"
+						matInput
+						placeholder="1-200"
+					/>
+					@if (totalDrawsStart | async) {
+						<button
+							matSuffix
+							mat-icon-button
+							aria-label="Clear"
+							(click)="totalDrawsStart.next(null)"
+						>
+							<mat-icon>close</mat-icon>
+						</button>
+					}
+				</mat-form-field>
+				<mat-form-field appearance="outline">
+					<mat-label>To</mat-label>
+					<input
+						[ngModel]="totalDrawsEnd | async"
+						(ngModelChange)="totalDrawsEnd.next($event)"
+						name="totalDrawsEnd"
+						type="number"
+						[min]="(totalDrawsStart | async) ?? 1"
+						[max]="200"
+						matInput
+						placeholder="1-200"
+					/>
+					@if (totalDrawsEnd | async) {
+						<button
+							matSuffix
+							mat-icon-button
+							aria-label="Clear"
+							(click)="totalDrawsEnd.next(null)"
+						>
+							<mat-icon>close</mat-icon>
+						</button>
+					}
+				</mat-form-field>
+			</div>
+			<mat-divider
+				class="filter-divider"
+				[vertical]="true"
+			/>
+			<!-- Percentage Range -->
+			<div class="form-container">
+				<span class="ball-filter-name">Draw Percentage</span>
+				<mat-form-field appearance="outline">
+					<mat-label>From</mat-label>
+					<input
+						[ngModel]="percentageStart | async"
+						(ngModelChange)="percentageStart.next($event)"
+						name="percentageStart"
+						type="number"
+						[min]="0"
+						[max]="(percentageEnd | async) ?? 100"
+						matInput
+						placeholder="1-100"
+					/>
+					@if (percentageStart | async) {
+						<button
+							matSuffix
+							mat-icon-button
+							aria-label="Clear"
+							(click)="percentageStart.next(null)"
+						>
+							<mat-icon>close</mat-icon>
+						</button>
+					}
+				</mat-form-field>
+				<mat-form-field appearance="outline">
+					<mat-label>To</mat-label>
+					<input
+						[ngModel]="percentageEnd | async"
+						(ngModelChange)="percentageEnd.next($event)"
+						name="percentageEnd"
+						type="number"
+						[min]="(percentageStart | async) ?? 0"
+						[max]="100"
+						matInput
+						placeholder="1-100"
+					/>
+					@if (percentageEnd | async) {
+						<button
+							matSuffix
+							mat-icon-button
+							aria-label="Clear"
+							(click)="percentageEnd.next(null)"
+						>
+							<mat-icon>close</mat-icon>
+						</button>
+					}
+				</mat-form-field>
+			</div>
+			<mat-divider
+				class="filter-divider"
+				[vertical]="true"
+			/>
+			<div class="form-container">
+				<span class="ball-filter-name">Draw Dates</span>
+				<!-- Last Draw Date Range -->
+				<mat-form-field appearance="outline">
+					<mat-label>Last Draw</mat-label>
+					<mat-date-range-input
+						[rangePicker]="lastPicker"
+						[min]="earliestDate"
+						[max]="latestDate"
+					>
+						<input
+							matStartDate
+							startView="multi-year"
+							name="lastDrawStart"
+							[min]="earliestDate"
+							[max]="latestDate"
+							[ngModel]="lastDrawStart | async"
+							(ngModelChange)="lastDrawStart.next($event)"
+							placeholder="Start date"
+						/>
+						<input
+							matEndDate
+							startView="multi-year"
+							name="lastDrawEnd"
+							[min]="earliestDate"
+							[max]="latestDate"
+							[ngModel]="lastDrawEnd | async"
+							(ngModelChange)="lastDrawEnd.next($event)"
+							placeholder="End date"
+						/>
+					</mat-date-range-input>
+					<mat-datepicker-toggle
+						matIconSuffix
+						[for]="lastPicker"
+					></mat-datepicker-toggle>
+					<mat-date-range-picker
+						#lastPicker
+						startView="multi-year"
+					>
+						<mat-date-range-picker-actions>
+							<button
+								mat-stroked-button
+								matDateRangePickerCancel
+								(click)="lastDrawStart.next(null); lastDrawEnd.next(null)"
+							>
+								Clear
+							</button>
+							<button
+								mat-raised-button
+								color="primary"
+								matDateRangePickerApply
+							>
+								Apply
+							</button>
+						</mat-date-range-picker-actions>
+					</mat-date-range-picker>
+				</mat-form-field>
+				<!-- First Draw Date Range -->
+				<mat-form-field appearance="outline">
+					<mat-label>First Draw</mat-label>
+					<mat-date-range-input
+						[rangePicker]="firstPicker"
+						[min]="earliestDate"
+						[max]="latestDate"
+					>
+						<input
+							matStartDate
+							name="firstDrawStart"
+							[min]="earliestDate"
+							[max]="latestDate"
+							[ngModel]="firstDrawStart | async"
+							(ngModelChange)="firstDrawStart.next($event)"
+							placeholder="Start date"
+						/>
+						<input
+							matEndDate
+							name="firstDrawEnd"
+							[min]="earliestDate"
+							[max]="latestDate"
+							[ngModel]="firstDrawEnd | async"
+							(ngModelChange)="firstDrawEnd.next($event)"
+							placeholder="End date"
+						/>
+					</mat-date-range-input>
+					<mat-datepicker-toggle
+						matIconSuffix
+						[for]="firstPicker"
+					></mat-datepicker-toggle>
+					<mat-date-range-picker
+						#firstPicker
+						startView="multi-year"
+						[startAt]="earliestDate"
+					>
+						<mat-date-range-picker-actions>
+							<button
+								mat-stroked-button
+								matDateRangePickerCancel
+								(click)="firstDrawStart.next(null); firstDrawEnd.next(null)"
+							>
+								Clear
+							</button>
+							<button
+								mat-raised-button
+								color="primary"
+								matDateRangePickerApply
+							>
+								Apply
+							</button>
+						</mat-date-range-picker-actions>
+					</mat-date-range-picker>
+				</mat-form-field>
+			</div>
+			<mat-divider
+				class="filter-divider"
+				[vertical]="true"
+			/>
+			<!-- Current Draw Range -->
+			<div class="form-container">
+				<span class="ball-filter-name">Current Interval</span>
+				<mat-form-field appearance="outline">
+					<mat-label>From</mat-label>
+					<input
+						[ngModel]="currentDrawStart | async"
+						(ngModelChange)="currentDrawStart.next($event)"
+						name="currentDrawStart"
+						type="number"
+						[min]="0"
+						[max]="(currentDrawEnd | async) ?? 1000"
+						matInput
+						placeholder="1-2000"
+					/>
+					@if (currentDrawStart | async) {
+						<button
+							matSuffix
+							mat-icon-button
+							aria-label="Clear"
+							(click)="currentDrawStart.next(null)"
+						>
+							<mat-icon>close</mat-icon>
+						</button>
+					}
+				</mat-form-field>
+				<mat-form-field appearance="outline">
+					<mat-label>To</mat-label>
+					<input
+						[ngModel]="currentDrawEnd | async"
+						(ngModelChange)="currentDrawEnd.next($event)"
+						name="currentDrawEnd"
+						type="number"
+						[min]="(currentDrawStart | async) ?? 0"
+						[max]="1000"
+						matInput
+						placeholder="1-2000"
+					/>
+					@if (currentDrawEnd | async) {
+						<button
+							matSuffix
+							mat-icon-button
+							aria-label="Clear"
+							(click)="currentDrawEnd.next(null)"
+						>
+							<mat-icon>close</mat-icon>
+						</button>
+					}
+				</mat-form-field>
+			</div>
+			<mat-divider
+				class="filter-divider"
+				[vertical]="true"
+			/>
+			<!-- Mean Draw Range -->
+			<div class="form-container">
+				<span class="ball-filter-name">Mean Draw</span>
+				<mat-form-field appearance="outline">
+					<mat-label>From</mat-label>
+					<input
+						[ngModel]="meanDrawStart | async"
+						(ngModelChange)="meanDrawStart.next($event)"
+						name="meanDrawStart"
+						type="number"
+						[min]="0"
+						[max]="(meanDrawEnd | async) ?? 100"
+						matInput
+						placeholder="1-100"
+					/>
+					@if (meanDrawStart | async) {
+						<button
+							matSuffix
+							mat-icon-button
+							aria-label="Clear"
+							(click)="meanDrawStart.next(null)"
+						>
+							<mat-icon>close</mat-icon>
+						</button>
+					}
+				</mat-form-field>
+				<mat-form-field appearance="outline">
+					<mat-label>To</mat-label>
+					<input
+						[ngModel]="meanDrawEnd | async"
+						(ngModelChange)="meanDrawEnd.next($event)"
+						name="meanDrawEnd"
+						type="number"
+						[min]="(meanDrawStart | async) ?? 0"
+						[max]="100"
+						matInput
+						placeholder="1-100"
+					/>
+					@if (meanDrawEnd | async) {
+						<button
+							matSuffix
+							mat-icon-button
+							aria-label="Clear"
+							(click)="meanDrawEnd.next(null)"
+						>
+							<mat-icon>close</mat-icon>
+						</button>
+					}
+				</mat-form-field>
+			</div>
+			<mat-divider
+				class="filter-divider"
+				[vertical]="true"
+			/>
+			<!-- Mode Draw Range -->
+			<div class="form-container">
+				<span class="ball-filter-name">Mode Draw</span>
+				<mat-form-field appearance="outline">
+					<mat-label>From</mat-label>
+					<input
+						[ngModel]="modeDrawStart | async"
+						(ngModelChange)="modeDrawStart.next($event)"
+						name="modeDrawStart"
+						type="number"
+						[min]="0"
+						[max]="(modeDrawEnd | async) ?? 100"
+						matInput
+						placeholder="1-100"
+					/>
+					@if (modeDrawStart | async) {
+						<button
+							matSuffix
+							mat-icon-button
+							aria-label="Clear"
+							(click)="modeDrawStart.next(null)"
+						>
+							<mat-icon>close</mat-icon>
+						</button>
+					}
+				</mat-form-field>
+				<mat-form-field appearance="outline">
+					<mat-label>To</mat-label>
+					<input
+						[ngModel]="modeDrawEnd | async"
+						(ngModelChange)="modeDrawEnd.next($event)"
+						name="modeDrawEnd"
+						type="number"
+						[min]="(modeDrawStart | async) ?? 0"
+						[max]="100"
+						matInput
+						placeholder="1-100"
+					/>
+					@if (modeDrawEnd | async) {
+						<button
+							matSuffix
+							mat-icon-button
+							aria-label="Clear"
+							(click)="modeDrawEnd.next(null)"
+						>
+							<mat-icon>close</mat-icon>
+						</button>
+					}
+				</mat-form-field>
+			</div>
+			<mat-divider
+				class="filter-divider"
+				[vertical]="true"
+			/>
+			<!-- Mode Instance Range -->
+			<div class="form-container">
+				<span class="ball-filter-name">Mode Instances</span>
+				<mat-form-field appearance="outline">
+					<mat-label>From</mat-label>
+					<input
+						[ngModel]="modeInstanceStart | async"
+						(ngModelChange)="modeInstanceStart.next($event)"
+						name="modeInstanceStart"
+						type="number"
+						[min]="0"
+						[max]="(modeInstanceEnd | async) ?? 100"
+						matInput
+						placeholder="1-100"
+					/>
+					@if (modeInstanceStart | async) {
+						<button
+							matSuffix
+							mat-icon-button
+							aria-label="Clear"
+							(click)="modeInstanceStart.next(null)"
+						>
+							<mat-icon>close</mat-icon>
+						</button>
+					}
+				</mat-form-field>
+				<mat-form-field appearance="outline">
+					<mat-label>To</mat-label>
+					<input
+						[ngModel]="modeInstanceEnd | async"
+						(ngModelChange)="modeInstanceEnd.next($event)"
+						name="modeInstanceEnd"
+						type="number"
+						[min]="(modeInstanceStart | async) ?? 0"
+						[max]="100"
+						matInput
+						placeholder="1-100"
+					/>
+					@if (modeInstanceEnd | async) {
+						<button
+							matSuffix
+							mat-icon-button
+							aria-label="Clear"
+							(click)="modeInstanceEnd.next(null)"
+						>
+							<mat-icon>close</mat-icon>
+						</button>
+					}
+				</mat-form-field>
+			</div>
+			<mat-divider
+				class="filter-divider"
+				[vertical]="true"
+			/>
+			<!-- Maximum Draw Range -->
+			<div class="form-container">
+				<span class="ball-filter-name">Max Draw</span>
+				<mat-form-field appearance="outline">
+					<mat-label>From</mat-label>
+					<input
+						[ngModel]="maximumDrawStart | async"
+						(ngModelChange)="maximumDrawStart.next($event)"
+						name="maximumDrawStart"
+						type="number"
+						[min]="0"
+						[max]="(maximumDrawEnd | async) ?? 100"
+						matInput
+						placeholder="1-100"
+					/>
+					@if (maximumDrawStart | async) {
+						<button
+							matSuffix
+							mat-icon-button
+							aria-label="Clear"
+							(click)="maximumDrawStart.next(null)"
+						>
+							<mat-icon>close</mat-icon>
+						</button>
+					}
+				</mat-form-field>
+				<mat-form-field appearance="outline">
+					<mat-label>To</mat-label>
+					<input
+						[ngModel]="maximumDrawEnd | async"
+						(ngModelChange)="maximumDrawEnd.next($event)"
+						name="maximumDrawEnd"
+						type="number"
+						[min]="(maximumDrawStart | async) ?? 0"
+						[max]="100"
+						matInput
+						placeholder="1-100"
+					/>
+					@if (maximumDrawEnd | async) {
+						<button
+							matSuffix
+							mat-icon-button
+							aria-label="Clear"
+							(click)="maximumDrawEnd.next(null)"
+						>
+							<mat-icon>close</mat-icon>
+						</button>
+					}
+				</mat-form-field>
+			</div>
+			<mat-divider
+				class="filter-divider"
+				[vertical]="true"
+			/>
+			<!-- Minimum Draw Range -->
+			<div class="form-container">
+				<span class="ball-filter-name">Min Draw</span>
+				<mat-form-field appearance="outline">
+					<mat-label>From</mat-label>
+					<input
+						[ngModel]="minimumDrawStart | async"
+						(ngModelChange)="minimumDrawStart.next($event)"
+						name="minimumDrawStart"
+						type="number"
+						[min]="0"
+						[max]="(minimumDrawEnd | async) ?? 100"
+						matInput
+						placeholder="1-100"
+					/>
+					@if (minimumDrawStart | async) {
+						<button
+							matSuffix
+							mat-icon-button
+							aria-label="Clear"
+							(click)="minimumDrawStart.next(null)"
+						>
+							<mat-icon>close</mat-icon>
+						</button>
+					}
+				</mat-form-field>
+				<mat-form-field appearance="outline">
+					<mat-label>To</mat-label>
+					<input
+						[ngModel]="minimumDrawEnd | async"
+						(ngModelChange)="minimumDrawEnd.next($event)"
+						name="minimumDrawEnd"
+						type="number"
+						[min]="(minimumDrawStart | async) ?? 0"
+						[max]="100"
+						matInput
+						placeholder="1-100"
+					/>
+					@if (minimumDrawEnd | async) {
+						<button
+							matSuffix
+							mat-icon-button
+							aria-label="Clear"
+							(click)="minimumDrawEnd.next(null)"
+						>
+							<mat-icon>close</mat-icon>
+						</button>
+					}
+				</mat-form-field>
+			</div>
+			<mat-divider
+				class="filter-divider"
+				[vertical]="true"
+			/>
+			<div class="form-container">
+				<span class="ball-filter-name">Cutoffs</span>
+				<!-- Ball Cutoff -->
+				<mat-form-field appearance="outline">
+					<mat-label>Ball</mat-label>
+					<mat-select
+						name="ballCutoff"
+						[value]="ballCutoff | async"
+						(selectionChange)="ballCutoff.next($event.value)"
+					>
+						@for (ball of cutoffBalls; track ball) {
+							<mat-option [value]="ball">{{ ball }}</mat-option>
+						}
+					</mat-select>
+				</mat-form-field>
+				<!-- Date Cutoff -->
+				<mat-form-field appearance="outline">
+					<mat-label>Year</mat-label>
+					<mat-select
+						name="dateCutoff"
+						[value]="dateCutoff | async"
+						(selectionChange)="dateCutoff.next($event.value)"
+					>
+						@for (date of cutoffDates; track date) {
+							<mat-option [value]="date">{{ date.getFullYear() }}</mat-option>
+						}
+					</mat-select>
+				</mat-form-field>
+			</div>
+		</form>
+	</mat-expansion-panel>
+</mat-accordion>
