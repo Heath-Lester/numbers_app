@@ -1,12 +1,11 @@
 .ball-filter {
-	padding: 22px 22px 4px 22px;
+	padding: 22px 8px 4px 8px;
 }
 
 .ball-filter-form {
 	display: flex;
-	flex-direction: row;
-	flex-wrap: wrap;
-	justify-content: space-between;
+	flex-wrap: nowrap;
+	overflow-x: auto;
 }
 
 .ball-filter-name {
@@ -16,13 +15,14 @@
 }
 
 .filter-divider {
-	margin: 0 16px 16px 16px;
+	margin: 0 auto 16px auto;
 }
 
 .form-container {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
+	margin: 0 20px;
 }
 
 .mat-mdc-form-field-type-mat-input {
