@@ -1,11 +1,14 @@
 .ball-view-container {
 	display: flex;
 	flex-direction: column;
-	row-gap: 12px;
+	row-gap: 16px;
+	height: calc(100% - 35px);
+	justify-content: space-between;
 }
 
-.ball-table-container {
+.table {
 	display: flex;
 	flex-direction: column;
 	row-gap: 16px;
+	height: 68vh;
 }

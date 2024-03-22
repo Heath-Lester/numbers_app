@@ -20,7 +20,7 @@
 						[min]="1"
 						[max]="(ballStart | async) ?? 75"
 						matInput
-						[placeholder]="'1-' + getBallStartMax().toString()"
+						[placeholder]="'1-' + displayString(ballEnd, 75)"
 					/>
 					@if (ballStart | async) {
 						<button
@@ -43,7 +43,7 @@
 						[min]="(ballStart | async) ?? 1"
 						[max]="75"
 						matInput
-						[placeholder]="getBallEndMin().toString() + '-75'"
+						[placeholder]="displayString(ballStart, 1) + '-75'"
 					/>
 					@if (ballEnd | async) {
 						<button
@@ -74,7 +74,7 @@
 						[min]="1"
 						[max]="(totalDrawsEnd | async) ?? 200"
 						matInput
-						placeholder="1-200"
+						[placeholder]="'1-' + displayString(totalDrawsEnd, 200)"
 					/>
 					@if (totalDrawsStart | async) {
 						<button
@@ -97,7 +97,7 @@
 						[min]="(totalDrawsStart | async) ?? 1"
 						[max]="200"
 						matInput
-						placeholder="1-200"
+						[placeholder]="displayString(totalDrawsStart, 1) + '-200'"
 					/>
 					@if (totalDrawsEnd | async) {
 						<button
@@ -128,7 +128,7 @@
 						[min]="0"
 						[max]="(percentageEnd | async) ?? 100"
 						matInput
-						placeholder="1-100"
+						[placeholder]="'0-' + displayString(percentageEnd, 100)"
 					/>
 					@if (percentageStart | async) {
 						<button
@@ -151,7 +151,7 @@
 						[min]="(percentageStart | async) ?? 0"
 						[max]="100"
 						matInput
-						placeholder="1-100"
+						[placeholder]="displayString(percentageStart, 0) + '-100'"
 					/>
 					@if (percentageEnd | async) {
 						<button
@@ -298,7 +298,7 @@
 						[min]="0"
 						[max]="(currentDrawEnd | async) ?? 1000"
 						matInput
-						placeholder="1-2000"
+						[placeholder]="'0-' + displayString(currentDrawEnd, 1000)"
 					/>
 					@if (currentDrawStart | async) {
 						<button
@@ -321,7 +321,7 @@
 						[min]="(currentDrawStart | async) ?? 0"
 						[max]="1000"
 						matInput
-						placeholder="1-2000"
+						[placeholder]="displayString(currentDrawStart, 0) + '-1000'"
 					/>
 					@if (currentDrawEnd | async) {
 						<button
@@ -352,7 +352,7 @@
 						[min]="0"
 						[max]="(meanDrawEnd | async) ?? 100"
 						matInput
-						placeholder="1-100"
+						[placeholder]="'0-' + displayString(totalDrawsEnd, 100)"
 					/>
 					@if (meanDrawStart | async) {
 						<button
@@ -375,7 +375,7 @@
 						[min]="(meanDrawStart | async) ?? 0"
 						[max]="100"
 						matInput
-						placeholder="1-100"
+						[placeholder]="displayString(totalDrawsStart, 0) + '-100'"
 					/>
 					@if (meanDrawEnd | async) {
 						<button
@@ -406,7 +406,7 @@
 						[min]="0"
 						[max]="(modeDrawEnd | async) ?? 100"
 						matInput
-						placeholder="1-100"
+						[placeholder]="'0-' + displayString(totalDrawsEnd, 100)"
 					/>
 					@if (modeDrawStart | async) {
 						<button
@@ -429,7 +429,7 @@
 						[min]="(modeDrawStart | async) ?? 0"
 						[max]="100"
 						matInput
-						placeholder="1-100"
+						[placeholder]="displayString(totalDrawsStart, 0) + '-100'"
 					/>
 					@if (modeDrawEnd | async) {
 						<button
@@ -460,7 +460,7 @@
 						[min]="0"
 						[max]="(modeInstanceEnd | async) ?? 100"
 						matInput
-						placeholder="1-100"
+						[placeholder]="'0-' + displayString(totalDrawsEnd, 100)"
 					/>
 					@if (modeInstanceStart | async) {
 						<button
@@ -483,7 +483,7 @@
 						[min]="(modeInstanceStart | async) ?? 0"
 						[max]="100"
 						matInput
-						placeholder="1-100"
+						[placeholder]="displayString(totalDrawsStart, 0) + '-100'"
 					/>
 					@if (modeInstanceEnd | async) {
 						<button
@@ -514,7 +514,7 @@
 						[min]="0"
 						[max]="(maximumDrawEnd | async) ?? 100"
 						matInput
-						placeholder="1-100"
+						[placeholder]="'0-' + displayString(totalDrawsEnd, 100)"
 					/>
 					@if (maximumDrawStart | async) {
 						<button
@@ -537,7 +537,7 @@
 						[min]="(maximumDrawStart | async) ?? 0"
 						[max]="100"
 						matInput
-						placeholder="1-100"
+						[placeholder]="displayString(totalDrawsStart, 0) + '-100'"
 					/>
 					@if (maximumDrawEnd | async) {
 						<button
@@ -568,7 +568,7 @@
 						[min]="0"
 						[max]="(minimumDrawEnd | async) ?? 100"
 						matInput
-						placeholder="1-100"
+						[placeholder]="'0-' + displayString(totalDrawsEnd, 100)"
 					/>
 					@if (minimumDrawStart | async) {
 						<button
@@ -591,7 +591,7 @@
 						[min]="(minimumDrawStart | async) ?? 0"
 						[max]="100"
 						matInput
-						placeholder="1-100"
+						[placeholder]="displayString(totalDrawsStart, 0) + '-100'"
 					/>
 					@if (minimumDrawEnd | async) {
 						<button

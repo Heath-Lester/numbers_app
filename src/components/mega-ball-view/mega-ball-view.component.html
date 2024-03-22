@@ -7,6 +7,10 @@
 			(ballCutoff)="ballCutoff.next($event)"
 			(dateCutoff)="dateCutoff.next($event)"
 		/>
-		<app-mega-ball-table [ballFilter]="megaBallFilter" />
+		<app-mega-ball-table
+			[ballFilter]="megaBallFilter"
+			[ballCutoff]="ballCutoff"
+			[dateCutoff]="dateCutoff"
+		/>
 	</div>
 </section>

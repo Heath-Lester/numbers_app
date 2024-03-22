@@ -3,7 +3,7 @@ import { AfterViewInit, ChangeDetectionStrategy, Component, Input, OnDestroy, Vi
 import { BallData } from '../../types/ball-data';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MegaMillionsService } from '../../services/mega-millions.service';
-import { BehaviorSubject, Subscription, combineLatest, debounceTime, filter, first, map, skip, tap } from 'rxjs';
+import { BehaviorSubject, Subscription, combineLatest, debounceTime, filter, map, skip, tap } from 'rxjs';
 import { Ball } from '../../types/ball';
 import { buildBallData, buildBallAverageData } from '../../utils/synthesizers';
 import { HttpClientModule } from '@angular/common/http';
@@ -23,7 +23,7 @@ import { BallFilter } from '../../types/ball-filter';
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BallTableComponent implements OnDestroy, AfterViewInit {
-	@Input() set ballFilter(setFilter: BehaviorSubject<BallFilter> | undefined) {
+	@Input({ required: false }) set ballFilter(setFilter: BehaviorSubject<BallFilter> | undefined) {
 		if (setFilter) {
 			this.filterSubscription = setFilter
 				.asObservable()
@@ -51,25 +51,15 @@ export class BallTableComponent implements OnDestroy, AfterViewInit {
 				.subscribe((filter: BallFilter) => (this.dataSource.filter = JSON.stringify(filter)));
 		}
 	}
+	@Input({ required: true }) ballCutoff!: BehaviorSubject<number>;
+	@Input({ required: true }) dateCutoff!: BehaviorSubject<Date>;
+
 	private filterSubscription?: Subscription;
 	private megaService = inject(MegaMillionsService, { self: true });
-
-	private ballData: Subscription = combineLatest([
-		this.megaService.getAllBalls(),
-		this.megaService.getAllWinningSets(),
-	])
-		.pipe(
-			map(([balls, sets]: [Ball[], WinningSet[]]) => balls.map((ball: Ball) => buildBallData(ball, sets))),
-			map((ballData: BallData[]) => ballData.filter((ball: BallData) => !!ball.firstDraw)),
-			tap((ballData: BallData[]) => (this.footerData = buildBallAverageData(ballData))),
-			first()
-		)
-		.subscribe((ballData: BallData[]) => (this.dataSource.data = ballData));
+	private ballData?: Subscription;
 
 	protected dataSource = new MatTableDataSource<BallData>();
-
 	protected footerData?: BallAverageData;
-
 	protected displayedColumns: string[] = [
 		'ball',
 		'totalDraws',
@@ -92,10 +82,31 @@ export class BallTableComponent implements OnDestroy, AfterViewInit {
 
 	ngAfterViewInit(): void {
 		this.dataSource.filterPredicate = this.filterPredicate;
+		this.ballData = combineLatest([
+			this.megaService.getAllBalls(),
+			this.megaService.getAllWinningSets(),
+			this.ballCutoff?.asObservable(),
+			this.dateCutoff?.asObservable(),
+		])
+			.pipe(
+				map(
+					([balls, sets, ballCutoff, dateCutoff]: [Ball[], WinningSet[], number, Date]): [
+						Ball[],
+						WinningSet[],
+					] => [
+						balls.filter((ball: Ball) => ball.number <= ballCutoff),
+						sets.filter((set: WinningSet) => set.date.getTime() >= dateCutoff.getTime()),
+					]
+				),
+				map(([balls, sets]: [Ball[], WinningSet[]]) => balls.map((ball: Ball) => buildBallData(ball, sets))),
+				map((ballData: BallData[]) => ballData.filter((ball: BallData) => !!ball.firstDraw)),
+				tap((ballData: BallData[]) => (this.footerData = buildBallAverageData(ballData)))
+			)
+			.subscribe((ballData: BallData[]) => (this.dataSource.data = ballData));
 	}
 
 	ngOnDestroy(): void {
-		this.ballData.unsubscribe();
+		this.ballData?.unsubscribe();
 		this.filterSubscription?.unsubscribe();
 	}
 

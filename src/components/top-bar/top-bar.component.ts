@@ -15,5 +15,5 @@ import { RouterModule } from '@angular/router';
 })
 export class TopBarComponent {
 	@Input({ required: true }) title?: string;
-	@Input() menuToggle!: BehaviorSubject<boolean>;
+	@Input({ required: true }) menuToggle!: BehaviorSubject<boolean>;
 }

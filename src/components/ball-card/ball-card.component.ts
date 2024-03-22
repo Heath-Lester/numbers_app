@@ -12,6 +12,6 @@ import { MatCardModule } from '@angular/material/card';
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NumberCardComponent {
-	@Input() protected title!: string;
-	@Input() protected ball?: Ball | MegaBall;
+	@Input({ required: false }) protected title!: string;
+	@Input({ required: true }) protected ball!: Ball | MegaBall;
 }

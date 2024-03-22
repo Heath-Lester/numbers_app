@@ -14,7 +14,7 @@ import { RouterModule, Routes } from '@angular/router';
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SideBarComponent {
-	@Input() toggle!: BehaviorSubject<boolean>;
+	@Input({ required: true }) toggle!: BehaviorSubject<boolean>;
 
 	protected readonly routes: Routes = [
 		{ title: 'Picker', path: '/picker' },

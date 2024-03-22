@@ -14,10 +14,10 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BallSelectionTableComponent {
-	@Input() set balls(balls: BallData[]) {
+	@Input({ required: true }) set balls(balls: BallData[]) {
 		this.dataSource.data = balls;
 	}
-	@Input() protected disabledBalls?: Ball[];
+	@Input({ required: false }) protected disabledBalls?: Ball[];
 
 	get selection(): SelectionModel<BallData> {
 		return this.tableSelection;

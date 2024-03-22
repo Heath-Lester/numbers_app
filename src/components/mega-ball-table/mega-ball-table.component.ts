@@ -23,7 +23,7 @@ import { BallFilter } from '../../types/ball-filter';
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MegaBallTableComponent implements OnDestroy, AfterViewInit {
-	@Input() set ballFilter(setFilter: BehaviorSubject<BallFilter> | undefined) {
+	@Input({ required: false }) set ballFilter(setFilter: BehaviorSubject<BallFilter> | undefined) {
 		if (setFilter) {
 			this.filterSubscription = setFilter
 				.asObservable()
@@ -51,24 +51,12 @@ export class MegaBallTableComponent implements OnDestroy, AfterViewInit {
 				.subscribe((filter: BallFilter) => (this.dataSource.filter = JSON.stringify(filter)));
 		}
 	}
+	@Input({ required: true }) ballCutoff!: BehaviorSubject<number>;
+	@Input({ required: true }) dateCutoff!: BehaviorSubject<Date>;
 	private filterSubscription?: Subscription;
 	private megaService = inject(MegaMillionsService, { self: true });
 
-	private megaBallData: Subscription = combineLatest([
-		this.megaService.getAllMegaBalls(),
-		this.megaService.getAllWinningSets(),
-	])
-		.pipe(
-			map(([megaBalls, sets]: [MegaBall[], WinningSet[]]) =>
-				megaBalls.map((megaBall: MegaBall) => buildMegaBallData(megaBall, sets))
-			),
-			map((megaBallData: MegaBallData[]) =>
-				megaBallData.filter((megaBall: MegaBallData) => !!megaBall.firstDraw)
-			),
-			tap((MegaBallData: MegaBallData[]) => (this.footerData = buildBallAverageData(MegaBallData))),
-			first()
-		)
-		.subscribe((megaBallData: MegaBallData[]) => (this.dataSource.data = megaBallData));
+	private megaBallData?: Subscription;
 
 	protected dataSource = new MatTableDataSource<MegaBallData>();
 	protected footerData?: BallAverageData;
@@ -95,10 +83,33 @@ export class MegaBallTableComponent implements OnDestroy, AfterViewInit {
 
 	ngAfterViewInit(): void {
 		this.dataSource.filterPredicate = this.filterPredicate;
+		this.megaBallData = combineLatest([
+			this.megaService.getAllMegaBalls(),
+			this.megaService.getAllWinningSets(),
+			this.ballCutoff?.asObservable(),
+			this.dateCutoff?.asObservable(),
+		])
+			.pipe(
+				map(
+					([balls, sets, ballCutoff, dateCutoff]: [MegaBall[], WinningSet[], number, Date]): [
+						MegaBall[],
+						WinningSet[],
+					] => [
+						balls.filter((ball: MegaBall) => ball.number <= ballCutoff),
+						sets.filter((set: WinningSet) => set.date.getTime() >= dateCutoff.getTime()),
+					]
+				),
+				map(([balls, sets]: [MegaBall[], WinningSet[]]) =>
+					balls.map((ball: MegaBall) => buildMegaBallData(ball, sets))
+				),
+				map((ballData: MegaBallData[]) => ballData.filter((ball: MegaBallData) => !!ball.firstDraw)),
+				tap((ballData: MegaBallData[]) => (this.footerData = buildBallAverageData(ballData)))
+			)
+			.subscribe((ballData: MegaBallData[]) => (this.dataSource.data = ballData));
 	}
 
 	ngOnDestroy(): void {
-		this.megaBallData.unsubscribe();
+		this.megaBallData?.unsubscribe();
 		this.filterSubscription?.unsubscribe();
 	}
 

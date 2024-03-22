@@ -37,15 +37,15 @@ import { MatExpansionModule } from '@angular/material/expansion';
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BallTableFilterComponent {
-	@Input() ballFilter?: BehaviorSubject<BallFilter>;
-	@Input() set numberOfBalls(numberOfBalls: number | undefined) {
+	@Input({ required: true }) ballFilter!: BehaviorSubject<BallFilter>;
+	@Input({ required: true }) set numberOfBalls(numberOfBalls: number | undefined) {
 		if (numberOfBalls !== undefined) {
-			this.cutoffBalls = new Array(75).fill(75).map((value, index) => {
+			this.cutoffBalls = new Array(numberOfBalls).fill(numberOfBalls).map((value, index) => {
 				return value - index;
 			});
 		}
 	}
-	@Input() set initialBallCutoff(ball: number | undefined) {
+	@Input({ required: true }) set initialBallCutoff(ball: number | undefined) {
 		if (ball !== undefined && this.cutoffBalls) {
 			this.ballCutoff.next(this.cutoffBalls.find((a) => a === ball) ?? 0);
 		}
@@ -166,19 +166,11 @@ export class BallTableFilterComponent {
 		this.filterSubscription.unsubscribe();
 	}
 
-	protected getBallStartMax(): number {
-		if (this.ballEnd.value !== null) {
-			return this.ballEnd.value;
+	protected displayString(subject: BehaviorSubject<number | null>, defaultNumber: number): string {
+		if (subject.value !== null) {
+			return subject.value.toString();
 		} else {
-			return 75;
-		}
-	}
-
-	protected getBallEndMin(): number {
-		if (this.ballStart.value !== null) {
-			return this.ballStart.value;
-		} else {
-			return 1;
+			return defaultNumber.toString();
 		}
 	}
 }

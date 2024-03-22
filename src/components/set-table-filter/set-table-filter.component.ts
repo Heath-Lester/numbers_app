@@ -33,7 +33,7 @@ import { MatButtonModule } from '@angular/material/button';
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SetTableFilterComponent implements OnDestroy {
-	@Input() setFilter?: BehaviorSubject<SetFilter>;
+	@Input({ required: true }) setFilter!: BehaviorSubject<SetFilter>;
 
 	protected earliestDate = new Date('2010-2-1');
 	protected latestDate = new Date();

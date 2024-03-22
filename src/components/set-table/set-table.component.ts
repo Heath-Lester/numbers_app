@@ -52,7 +52,7 @@ import { MatDividerModule } from '@angular/material/divider';
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SetTableComponent implements AfterViewInit, OnDestroy {
-	@Input() set setFilter(setFilter: BehaviorSubject<SetFilter> | undefined) {
+	@Input({ required: false }) set setFilter(setFilter: BehaviorSubject<SetFilter> | undefined) {
 		if (setFilter) {
 			this.filterSubscription = setFilter
 				.asObservable()
@@ -74,7 +74,7 @@ export class SetTableComponent implements AfterViewInit, OnDestroy {
 				.subscribe((filter: SetFilter) => (this.dataSource.filter = JSON.stringify(filter)));
 		}
 	}
-	@Input() set dateCutoff(dateCutoff: BehaviorSubject<Date>) {
+	@Input({ required: true }) set dateCutoff(dateCutoff: BehaviorSubject<Date>) {
 		if (dateCutoff) {
 			this.dataSubscription = combineLatest([this.megaService.getAllWinningSets(), dateCutoff.asObservable()])
 				.pipe(

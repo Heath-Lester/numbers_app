@@ -40,10 +40,7 @@ export class BallViewComponent {
 	};
 
 	protected ballFilter = new BehaviorSubject<BallFilter>(this.newBallFilter);
-	protected megaBallFilter = new BehaviorSubject<BallFilter>(this.newBallFilter);
 
-	protected ballBallCutoff = new BehaviorSubject<number>(0);
-	protected megaBallBallCutoff = new BehaviorSubject<number>(0);
-	protected ballDateCutoff = new BehaviorSubject<Date>(new Date(0));
-	protected megaBallDateCutoff = new BehaviorSubject<Date>(new Date(0));
+	protected ballCutoff = new BehaviorSubject<number>(0);
+	protected dateCutoff = new BehaviorSubject<Date>(new Date(0));
 }
