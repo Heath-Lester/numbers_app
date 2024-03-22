@@ -1,6 +1,6 @@
 <main class="main">
 	<app-top-bar
-		[title]="title"
+		[title]="(title | async) ?? 'Numbers'"
 		[menuToggle]="sidebarToggle"
 	></app-top-bar>
 	<app-side-bar [toggle]="sidebarToggle">

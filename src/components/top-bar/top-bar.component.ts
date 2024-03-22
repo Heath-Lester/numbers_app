@@ -14,6 +14,6 @@ import { RouterModule } from '@angular/router';
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TopBarComponent {
-	@Input({ required: false }) title?: string;
+	@Input({ required: true }) title?: string;
 	@Input() menuToggle!: BehaviorSubject<boolean>;
 }
