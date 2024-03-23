@@ -1,6 +1,6 @@
 import { SideBarComponent } from '../components/side-bar/side-bar.component';
 import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
-import { ActivatedRoute, ActivationEnd, NavigationEnd, Router, RouterOutlet, Event } from '@angular/router';
+import { ActivationEnd, Router, RouterOutlet, Event } from '@angular/router';
 import { TopBarComponent } from '../components/top-bar/top-bar.component';
 import { BehaviorSubject, Observable, filter, map } from 'rxjs';
 import { CommonModule } from '@angular/common';

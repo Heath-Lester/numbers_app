@@ -1,17 +1,23 @@
 <mat-toolbar>
 	<button
 		mat-icon-button
+		[matTooltip]="(menuToggle | async) ? 'Close Navigation' : 'Open Navigation'"
 		(click)="menuToggle.value ? menuToggle.next(false) : menuToggle.next(true)"
 	>
 		<mat-icon>menu</mat-icon>
 	</button>
 	<a
 		class="title-link"
+		[matTooltip]="title === 'Home' ? '' : 'Go Home'"
 		routerLink="/"
 	>
 		{{ title }}
 	</a>
-	<button mat-icon-button>
+	<button
+		mat-icon-button
+		matTooltip="Go to Mega Millions"
+		(click)="goToMega()"
+	>
 		<mat-icon>share</mat-icon>
 	</button>
 </mat-toolbar>
