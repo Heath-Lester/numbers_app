@@ -1,5 +1,14 @@
 import { WinningSet } from './../../types/winning-set';
-import { AfterViewInit, ChangeDetectionStrategy, Component, Input, OnDestroy, ViewChild, inject } from '@angular/core';
+import {
+	AfterViewInit,
+	ChangeDetectionStrategy,
+	ChangeDetectorRef,
+	Component,
+	Input,
+	OnDestroy,
+	ViewChild,
+	inject,
+} from '@angular/core';
 import { BallData } from '../../types/ball-data';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MegaMillionsService } from '../../services/mega-millions.service';
@@ -12,11 +21,13 @@ import { MatProgressBar } from '@angular/material/progress-bar';
 import { CdkColumnDef } from '@angular/cdk/table';
 import { BallAverageData } from '../../types/ball-average-data';
 import { BallFilter } from '../../types/ball-filter';
+import { CommonModule } from '@angular/common';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
 	selector: 'app-ball-table',
 	standalone: true,
-	imports: [MatTableModule, HttpClientModule, MatSortModule, MatProgressBar],
+	imports: [MatTableModule, HttpClientModule, MatSortModule, MatProgressBar, CommonModule, MatCardModule],
 	templateUrl: './ball-table.component.html',
 	styleUrl: './ball-table.component.scss',
 	providers: [MegaMillionsService, CdkColumnDef],
@@ -57,7 +68,7 @@ export class BallTableComponent implements OnDestroy, AfterViewInit {
 	private filterSubscription?: Subscription;
 	private megaService = inject(MegaMillionsService, { self: true });
 	private ballData?: Subscription;
-
+	private changeDetector = inject(ChangeDetectorRef, { self: true });
 	protected dataSource = new MatTableDataSource<BallData>();
 	protected footerData?: BallAverageData;
 	protected displayedColumns: string[] = [
@@ -102,7 +113,10 @@ export class BallTableComponent implements OnDestroy, AfterViewInit {
 				map((ballData: BallData[]) => ballData.filter((ball: BallData) => !!ball.firstDraw)),
 				tap((ballData: BallData[]) => (this.footerData = buildBallAverageData(ballData)))
 			)
-			.subscribe((ballData: BallData[]) => (this.dataSource.data = ballData));
+			.subscribe((ballData: BallData[]) => {
+				this.dataSource.data = ballData;
+				this.changeDetector.markForCheck();
+			});
 	}
 
 	ngOnDestroy(): void {

@@ -1,4 +1,13 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, Input, OnDestroy, ViewChild, inject } from '@angular/core';
+import {
+	AfterViewInit,
+	ChangeDetectionStrategy,
+	ChangeDetectorRef,
+	Component,
+	Input,
+	OnDestroy,
+	ViewChild,
+	inject,
+} from '@angular/core';
 import { MegaMillionsService } from '../../services/mega-millions.service';
 import { BehaviorSubject, Subscription, combineLatest, debounceTime, filter, first, map, skip, tap } from 'rxjs';
 import { MegaBall } from '../../types/mega-ball';
@@ -12,11 +21,21 @@ import { MatProgressBar } from '@angular/material/progress-bar';
 import { BallAverageData } from '../../types/ball-average-data';
 import { MatDividerModule } from '@angular/material/divider';
 import { BallFilter } from '../../types/ball-filter';
+import { CommonModule } from '@angular/common';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
 	selector: 'app-mega-ball-table',
 	standalone: true,
-	imports: [MatTableModule, HttpClientModule, MatSortModule, MatProgressBar, MatDividerModule],
+	imports: [
+		MatTableModule,
+		HttpClientModule,
+		MatSortModule,
+		MatProgressBar,
+		MatDividerModule,
+		CommonModule,
+		MatCardModule,
+	],
 	templateUrl: './mega-ball-table.component.html',
 	styleUrl: './mega-ball-table.component.scss',
 	providers: [MegaMillionsService],
@@ -48,16 +67,17 @@ export class MegaBallTableComponent implements OnDestroy, AfterViewInit {
 					}),
 					debounceTime(1000)
 				)
-				.subscribe((filter: BallFilter) => (this.dataSource.filter = JSON.stringify(filter)));
+				.subscribe((filter: BallFilter) => {
+					this.dataSource.filter = JSON.stringify(filter);
+				});
 		}
 	}
 	@Input({ required: true }) ballCutoff!: BehaviorSubject<number>;
 	@Input({ required: true }) dateCutoff!: BehaviorSubject<Date>;
 	private filterSubscription?: Subscription;
 	private megaService = inject(MegaMillionsService, { self: true });
-
 	private megaBallData?: Subscription;
-
+	private changeDetector = inject(ChangeDetectorRef, { self: true });
 	protected dataSource = new MatTableDataSource<MegaBallData>();
 	protected footerData?: BallAverageData;
 
@@ -105,7 +125,10 @@ export class MegaBallTableComponent implements OnDestroy, AfterViewInit {
 				map((ballData: MegaBallData[]) => ballData.filter((ball: MegaBallData) => !!ball.firstDraw)),
 				tap((ballData: MegaBallData[]) => (this.footerData = buildBallAverageData(ballData)))
 			)
-			.subscribe((ballData: MegaBallData[]) => (this.dataSource.data = ballData));
+			.subscribe((ballData: MegaBallData[]) => {
+				this.dataSource.data = ballData;
+				this.changeDetector.markForCheck();
+			});
 	}
 
 	ngOnDestroy(): void {

@@ -1,171 +1,183 @@
-<mat-table
-	matSort
-	class="mega-ball-table mat-elevation-z2"
-	[dataSource]="dataSource"
->
-	<!-- Mega Ball Definition -->
-	<ng-container matColumnDef="megaBall">
-		<mat-header-cell
-			*matHeaderCellDef
-			mat-sort-header
-			sortActionDescription="Sort by ball"
-		>
-			Mega Ball
-		</mat-header-cell>
-		<mat-cell *matCellDef="let row"> {{ row.megaBall }} </mat-cell>
-		<mat-footer-cell *matFooterCellDef>Average/Span</mat-footer-cell>
-	</ng-container>
+<ng-container *ngIf="dataSource.data.length > 0; else loading">
+	<mat-table
+		matSort
+		class="mega-ball-table mat-elevation-z2"
+		[dataSource]="dataSource"
+	>
+		<!-- Mega Ball Definition -->
+		<ng-container matColumnDef="megaBall">
+			<mat-header-cell
+				*matHeaderCellDef
+				mat-sort-header
+				sortActionDescription="Sort by ball"
+			>
+				Mega Ball
+			</mat-header-cell>
+			<mat-cell *matCellDef="let row"> {{ row.megaBall }} </mat-cell>
+			<mat-footer-cell *matFooterCellDef>Average/Span</mat-footer-cell>
+		</ng-container>
 
-	<!-- Total Draws Definition -->
-	<ng-container matColumnDef="totalDraws">
-		<mat-header-cell
-			*matHeaderCellDef
-			mat-sort-header
-			sortActionDescription="Sort by total draws"
-		>
-			Total Draws
-		</mat-header-cell>
-		<mat-cell *matCellDef="let row"> {{ row.totalDraws }} </mat-cell>
-		<mat-footer-cell *matFooterCellDef>{{ footerData ? footerData.meanTotalDraws.toFixed(1) : 0 }}</mat-footer-cell>
-	</ng-container>
+		<!-- Total Draws Definition -->
+		<ng-container matColumnDef="totalDraws">
+			<mat-header-cell
+				*matHeaderCellDef
+				mat-sort-header
+				sortActionDescription="Sort by total draws"
+			>
+				Total Draws
+			</mat-header-cell>
+			<mat-cell *matCellDef="let row"> {{ row.totalDraws }} </mat-cell>
+			<mat-footer-cell *matFooterCellDef>{{
+				footerData ? footerData.meanTotalDraws.toFixed(1) : 0
+			}}</mat-footer-cell>
+		</ng-container>
 
-	<!-- Draw Percentage Definition -->
-	<ng-container matColumnDef="drawPercentage">
-		<mat-header-cell
-			*matHeaderCellDef
-			mat-sort-header
-			sortActionDescription="Sort by draw percentage"
-		>
-			Draw Percentage
-		</mat-header-cell>
-		<mat-cell *matCellDef="let row"> {{ row.drawPercentage.toFixed(3) }}% </mat-cell>
-		<mat-footer-cell *matFooterCellDef
-			>{{ footerData ? footerData.meanDrawPercentage.toFixed(3) : 0.0 }}%</mat-footer-cell
-		>
-	</ng-container>
+		<!-- Draw Percentage Definition -->
+		<ng-container matColumnDef="drawPercentage">
+			<mat-header-cell
+				*matHeaderCellDef
+				mat-sort-header
+				sortActionDescription="Sort by draw percentage"
+			>
+				Draw Percentage
+			</mat-header-cell>
+			<mat-cell *matCellDef="let row"> {{ row.drawPercentage.toFixed(3) }}% </mat-cell>
+			<mat-footer-cell *matFooterCellDef
+				>{{ footerData ? footerData.meanDrawPercentage.toFixed(3) : 0.0 }}%</mat-footer-cell
+			>
+		</ng-container>
 
-	<!-- Last Draw -->
-	<ng-container matColumnDef="lastDraw">
-		<mat-header-cell
-			*matHeaderCellDef
-			mat-sort-header
-			sortActionDescription="Sort by last draw"
-		>
-			Last Draw
-		</mat-header-cell>
-		<mat-cell *matCellDef="let row"> {{ row.lastDraw?.toLocaleDateString() ?? "-" }} </mat-cell>
-		<mat-footer-cell *matFooterCellDef>{{
-			footerData ? displayTimeSpan(footerData.lastDrawSpan) : "--ys --ms --ds"
-		}}</mat-footer-cell>
-	</ng-container>
+		<!-- Last Draw -->
+		<ng-container matColumnDef="lastDraw">
+			<mat-header-cell
+				*matHeaderCellDef
+				mat-sort-header
+				sortActionDescription="Sort by last draw"
+			>
+				Last Draw
+			</mat-header-cell>
+			<mat-cell *matCellDef="let row"> {{ row.lastDraw?.toLocaleDateString() ?? "-" }} </mat-cell>
+			<mat-footer-cell *matFooterCellDef>{{
+				footerData ? displayTimeSpan(footerData.lastDrawSpan) : "--ys --ms --ds"
+			}}</mat-footer-cell>
+		</ng-container>
 
-	<!-- First Draw -->
-	<ng-container matColumnDef="firstDraw">
-		<mat-header-cell
-			*matHeaderCellDef
-			mat-sort-header
-			sortActionDescription="Sort by recent draw"
-		>
-			First Draw
-		</mat-header-cell>
-		<mat-cell *matCellDef="let row"> {{ row.firstDraw?.toLocaleDateString() ?? "-" }} </mat-cell>
-		<mat-footer-cell *matFooterCellDef>{{
-			footerData ? displayTimeSpan(footerData.firstDrawSpan) : "--ys --ms --ds"
-		}}</mat-footer-cell>
-	</ng-container>
+		<!-- First Draw -->
+		<ng-container matColumnDef="firstDraw">
+			<mat-header-cell
+				*matHeaderCellDef
+				mat-sort-header
+				sortActionDescription="Sort by recent draw"
+			>
+				First Draw
+			</mat-header-cell>
+			<mat-cell *matCellDef="let row"> {{ row.firstDraw?.toLocaleDateString() ?? "-" }} </mat-cell>
+			<mat-footer-cell *matFooterCellDef>{{
+				footerData ? displayTimeSpan(footerData.firstDrawSpan) : "--ys --ms --ds"
+			}}</mat-footer-cell>
+		</ng-container>
 
-	<!-- Current Draw Interval -->
-	<ng-container matColumnDef="lastDrawInterval">
-		<mat-header-cell
-			*matHeaderCellDef
-			mat-sort-header
-			sortActionDescription="Sort by current draw interval"
-		>
-			Current Draw Interval
-		</mat-header-cell>
-		<mat-cell *matCellDef="let row"> {{ row.lastDrawInterval }} </mat-cell>
-		<mat-footer-cell *matFooterCellDef>{{
-			footerData ? footerData.meanLastDrawInterval.toFixed(1) : 0
-		}}</mat-footer-cell>
-	</ng-container>
+		<!-- Current Draw Interval -->
+		<ng-container matColumnDef="lastDrawInterval">
+			<mat-header-cell
+				*matHeaderCellDef
+				mat-sort-header
+				sortActionDescription="Sort by current draw interval"
+			>
+				Current Draw Interval
+			</mat-header-cell>
+			<mat-cell *matCellDef="let row"> {{ row.lastDrawInterval }} </mat-cell>
+			<mat-footer-cell *matFooterCellDef>{{
+				footerData ? footerData.meanLastDrawInterval.toFixed(1) : 0
+			}}</mat-footer-cell>
+		</ng-container>
 
-	<!-- Mean Draw Interval -->
-	<ng-container matColumnDef="meanDrawInterval">
-		<mat-header-cell
-			*matHeaderCellDef
-			mat-sort-header
-			sortActionDescription="Sort by mean draw interval"
-		>
-			Mean Draw Interval
-		</mat-header-cell>
-		<mat-cell *matCellDef="let row"> {{ row.meanDrawInterval?.toFixed(1) ?? "-" }} </mat-cell>
-		<mat-footer-cell *matFooterCellDef>{{
-			footerData ? footerData.meanMeanDrawInterval.toFixed(1) : 0
-		}}</mat-footer-cell>
-	</ng-container>
+		<!-- Mean Draw Interval -->
+		<ng-container matColumnDef="meanDrawInterval">
+			<mat-header-cell
+				*matHeaderCellDef
+				mat-sort-header
+				sortActionDescription="Sort by mean draw interval"
+			>
+				Mean Draw Interval
+			</mat-header-cell>
+			<mat-cell *matCellDef="let row"> {{ row.meanDrawInterval?.toFixed(1) ?? "-" }} </mat-cell>
+			<mat-footer-cell *matFooterCellDef>{{
+				footerData ? footerData.meanMeanDrawInterval.toFixed(1) : 0
+			}}</mat-footer-cell>
+		</ng-container>
 
-	<!-- Mode Draw Interval -->
-	<ng-container matColumnDef="modeDrawInterval">
-		<mat-header-cell
-			*matHeaderCellDef
-			mat-sort-header
-			sortActionDescription="Sort by mode draw interval"
-		>
-			Mode Draw Interval
-		</mat-header-cell>
-		<mat-cell *matCellDef="let row">{{ row.modeDrawInterval ?? "-" }}</mat-cell>
-		<mat-footer-cell *matFooterCellDef>{{
-			footerData ? footerData.meanModeDrawInterval.toFixed(1) : 0
-		}}</mat-footer-cell>
-	</ng-container>
+		<!-- Mode Draw Interval -->
+		<ng-container matColumnDef="modeDrawInterval">
+			<mat-header-cell
+				*matHeaderCellDef
+				mat-sort-header
+				sortActionDescription="Sort by mode draw interval"
+			>
+				Mode Draw Interval
+			</mat-header-cell>
+			<mat-cell *matCellDef="let row">{{ row.modeDrawInterval ?? "-" }}</mat-cell>
+			<mat-footer-cell *matFooterCellDef>{{
+				footerData ? footerData.meanModeDrawInterval.toFixed(1) : 0
+			}}</mat-footer-cell>
+		</ng-container>
 
-	<!-- Mode Draw Instances -->
-	<ng-container matColumnDef="modeDrawInstances">
-		<mat-header-cell
-			*matHeaderCellDef
-			mat-sort-header
-			sortActionDescription="Sort by mode draw instances"
-		>
-			Mode Draw Instances
-		</mat-header-cell>
-		<mat-cell *matCellDef="let row"> {{ row.modeDrawInstances ?? "-" }} </mat-cell>
-		<mat-footer-cell *matFooterCellDef>{{
-			footerData ? footerData.meanModeDrawInstances.toFixed(1) : 0
-		}}</mat-footer-cell>
-	</ng-container>
+		<!-- Mode Draw Instances -->
+		<ng-container matColumnDef="modeDrawInstances">
+			<mat-header-cell
+				*matHeaderCellDef
+				mat-sort-header
+				sortActionDescription="Sort by mode draw instances"
+			>
+				Mode Draw Instances
+			</mat-header-cell>
+			<mat-cell *matCellDef="let row"> {{ row.modeDrawInstances ?? "-" }} </mat-cell>
+			<mat-footer-cell *matFooterCellDef>{{
+				footerData ? footerData.meanModeDrawInstances.toFixed(1) : 0
+			}}</mat-footer-cell>
+		</ng-container>
 
-	<!-- Maximum Draw Interval -->
-	<ng-container matColumnDef="maxDrawInterval">
-		<mat-header-cell
-			*matHeaderCellDef
-			mat-sort-header
-			sortActionDescription="Sort by maximum draw interval"
-		>
-			Maximum Draw Interval
-		</mat-header-cell>
-		<mat-cell *matCellDef="let row"> {{ row.maxDrawInterval }} </mat-cell>
-		<mat-footer-cell *matFooterCellDef>{{
-			footerData ? footerData.meanMaxDrawInterval.toFixed(1) : 0
-		}}</mat-footer-cell>
-	</ng-container>
+		<!-- Maximum Draw Interval -->
+		<ng-container matColumnDef="maxDrawInterval">
+			<mat-header-cell
+				*matHeaderCellDef
+				mat-sort-header
+				sortActionDescription="Sort by maximum draw interval"
+			>
+				Maximum Draw Interval
+			</mat-header-cell>
+			<mat-cell *matCellDef="let row"> {{ row.maxDrawInterval }} </mat-cell>
+			<mat-footer-cell *matFooterCellDef>{{
+				footerData ? footerData.meanMaxDrawInterval.toFixed(1) : 0
+			}}</mat-footer-cell>
+		</ng-container>
 
-	<!-- Minimum Draw Interval -->
-	<ng-container matColumnDef="minDrawInterval">
-		<mat-header-cell
-			*matHeaderCellDef
-			mat-sort-header
-			sortActionDescription="Sort by minimum draw interval"
-		>
-			Minimum Draw Interval
-		</mat-header-cell>
-		<mat-cell *matCellDef="let row"> {{ row.minDrawInterval }} </mat-cell>
-		<mat-footer-cell *matFooterCellDef>{{
-			footerData ? footerData.meanMinDrawInterval.toFixed(1) : 0
-		}}</mat-footer-cell>
-	</ng-container>
+		<!-- Minimum Draw Interval -->
+		<ng-container matColumnDef="minDrawInterval">
+			<mat-header-cell
+				*matHeaderCellDef
+				mat-sort-header
+				sortActionDescription="Sort by minimum draw interval"
+			>
+				Minimum Draw Interval
+			</mat-header-cell>
+			<mat-cell *matCellDef="let row"> {{ row.minDrawInterval }} </mat-cell>
+			<mat-footer-cell *matFooterCellDef>{{
+				footerData ? footerData.meanMinDrawInterval.toFixed(1) : 0
+			}}</mat-footer-cell>
+		</ng-container>
 
-	<!-- Header and Row Declarations -->
-	<mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></mat-header-row>
-	<mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
-	<mat-footer-row *matFooterRowDef="displayedColumns; sticky: true"><mat-divider /></mat-footer-row>
-</mat-table>
+		<!-- Header and Row Declarations -->
+		<mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></mat-header-row>
+		<mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+		<mat-footer-row *matFooterRowDef="displayedColumns; sticky: true"><mat-divider /></mat-footer-row>
+	</mat-table>
+</ng-container>
+
+<ng-template #loading>
+	<mat-card>
+		<mat-card-header class="mega-ball-table-loader-header">
+			<mat-progress-bar mode="query"></mat-progress-bar>
+		</mat-card-header>
+	</mat-card>
+</ng-template>
