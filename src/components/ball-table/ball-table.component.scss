@@ -3,7 +3,7 @@
 	flex-direction: column;
 	overflow: auto;
 	border-radius: 8px;
-	height: inherit;
+	height: 100%;
 }
 
 .ball-table-loader-header {
@@ -15,4 +15,8 @@ mat-footer-cell {
 	border-top-color: var(--mat-table-row-item-outline-color, rgba(0, 0, 0, 0.12));
 	border-top-width: var(--mat-table-row-item-outline-width, 1px);
 	border-top-style: solid;
+}
+
+mat-footer-row {
+	margin-top: auto;
 }

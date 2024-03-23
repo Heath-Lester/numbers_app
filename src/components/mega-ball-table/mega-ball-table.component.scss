@@ -16,3 +16,7 @@ mat-footer-cell {
 	border-top-width: var(--mat-table-row-item-outline-width, 1px);
 	border-top-style: solid;
 }
+
+mat-footer-row {
+	margin-top: auto;
+}
