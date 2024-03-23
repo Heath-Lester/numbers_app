@@ -9,7 +9,7 @@ import {
 	inject,
 } from '@angular/core';
 import { MegaMillionsService } from '../../services/mega-millions.service';
-import { BehaviorSubject, Subscription, combineLatest, debounceTime, filter, first, map, skip, tap } from 'rxjs';
+import { BehaviorSubject, Subscription, combineLatest, debounceTime, filter, map, skip, tap } from 'rxjs';
 import { MegaBall } from '../../types/mega-ball';
 import { WinningSet } from '../../types/winning-set';
 import { buildBallAverageData, buildMegaBallData } from '../../utils/synthesizers';

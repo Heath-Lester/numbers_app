@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { BehaviorSubject, Observable, delayWhen, interval } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { BallFilter } from '../../types/ball-filter';
 import { MegaBallTableComponent } from '../mega-ball-table/mega-ball-table.component';
 import { BallTableFilterComponent } from '../ball-table-filter/ball-table-filter.component';

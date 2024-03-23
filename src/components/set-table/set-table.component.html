@@ -14,6 +14,11 @@
 				Index
 			</mat-header-cell>
 			<mat-cell *matCellDef="let row"> {{ row.index }} </mat-cell>
+			<mat-footer-cell *matFooterCellDef
+				><span class="footer-title">Ranges:</span> {{ footerData ? footerData.indexRangeStart : 0 }}-{{
+					footerData ? footerData.indexRangeEnd : 0
+				}}
+			</mat-footer-cell>
 		</ng-container>
 
 		<!-- Draw Date Definition -->
@@ -26,6 +31,9 @@
 				Draw Date
 			</mat-header-cell>
 			<mat-cell *matCellDef="let row"> {{ row.date?.toLocaleDateString() ?? "-" }} </mat-cell>
+			<mat-footer-cell *matFooterCellDef
+				>{{ footerData ? displayTimeSpan(footerData.drawDateSpan) : "--yrs --mths --dys" }}
+			</mat-footer-cell>
 		</ng-container>
 
 		<!-- First Ball Definition -->
@@ -38,6 +46,11 @@
 				First Ball
 			</mat-header-cell>
 			<mat-cell *matCellDef="let row"> {{ row.firstBall }} </mat-cell>
+			<mat-footer-cell *matFooterCellDef
+				>{{ footerData ? footerData.firstBallRangeStart : 0 }}-{{
+					footerData ? footerData.firstBallRangeEnd : 0
+				}}
+			</mat-footer-cell>
 		</ng-container>
 
 		<!-- Second Ball Definition -->
@@ -50,6 +63,11 @@
 				Second Ball
 			</mat-header-cell>
 			<mat-cell *matCellDef="let row"> {{ row.secondBall }} </mat-cell>
+			<mat-footer-cell *matFooterCellDef
+				>{{ footerData ? footerData.secondBallRangeStart : 0 }}-{{
+					footerData ? footerData.secondBallRangeEnd : 0
+				}}
+			</mat-footer-cell>
 		</ng-container>
 
 		<!-- Third Ball Definition -->
@@ -62,6 +80,11 @@
 				Third Ball
 			</mat-header-cell>
 			<mat-cell *matCellDef="let row"> {{ row.thirdBall }} </mat-cell>
+			<mat-footer-cell *matFooterCellDef
+				>{{ footerData ? footerData.thirdBallRangeStart : 0 }}-{{
+					footerData ? footerData.thirdBallRangeEnd : 0
+				}}
+			</mat-footer-cell>
 		</ng-container>
 
 		<!-- Fourth Ball Definition -->
@@ -74,9 +97,14 @@
 				Fourth Ball
 			</mat-header-cell>
 			<mat-cell *matCellDef="let row"> {{ row.fourthBall }} </mat-cell>
+			<mat-footer-cell *matFooterCellDef
+				>{{ footerData ? footerData.fourthBallRangeStart : 0 }}-{{
+					footerData ? footerData.fourthBallRangeEnd : 0
+				}}
+			</mat-footer-cell>
 		</ng-container>
 
-		<!-- First Ball Definition -->
+		<!-- Fifth Ball Definition -->
 		<ng-container matColumnDef="fifthBall">
 			<mat-header-cell
 				*matHeaderCellDef
@@ -86,6 +114,11 @@
 				Fifth Ball
 			</mat-header-cell>
 			<mat-cell *matCellDef="let row"> {{ row.fifthBall }} </mat-cell>
+			<mat-footer-cell *matFooterCellDef
+				>{{ footerData ? footerData.fifthBallRangeStart : 0 }}-{{
+					footerData ? footerData.fifthBallRangeEnd : 0
+				}}
+			</mat-footer-cell>
 		</ng-container>
 
 		<!-- Mega Ball Definition -->
@@ -98,6 +131,9 @@
 				Mega Ball
 			</mat-header-cell>
 			<mat-cell *matCellDef="let row"> {{ row.megaBall }} </mat-cell>
+			<mat-footer-cell *matFooterCellDef
+				>{{ footerData ? footerData.megaBallRangeStart : 0 }}-{{ footerData ? footerData.megaBallRangeEnd : 0 }}
+			</mat-footer-cell>
 		</ng-container>
 
 		<!-- Megaplier Definition -->
@@ -110,11 +146,18 @@
 				Megaplier
 			</mat-header-cell>
 			<mat-cell *matCellDef="let row"> {{ row.megaplier }}x </mat-cell>
+			<mat-footer-cell *matFooterCellDef
+				>{{ footerData ? footerData.megaplierRangeStart : 0 }}-{{
+					footerData ? footerData.megaplierRangeEnd : 0
+				}}
+				<span class="footer-total">Total: {{ footerData ? footerData.totalSets : 0 }}</span>
+			</mat-footer-cell>
 		</ng-container>
 
 		<!-- Header and Row Declarations -->
-		<mat-header-row *matHeaderRowDef="displayColumns; sticky: true"></mat-header-row>
-		<mat-row *matRowDef="let row; columns: displayColumns"></mat-row>
+		<mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></mat-header-row>
+		<mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+		<mat-footer-row *matFooterRowDef="displayedColumns; sticky: true"></mat-footer-row>
 	</mat-table>
 </ng-container>
 

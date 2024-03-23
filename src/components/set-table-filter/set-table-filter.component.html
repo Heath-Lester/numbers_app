@@ -83,12 +83,26 @@
 			</mat-date-range-picker>
 		</mat-form-field>
 		<mat-form-field appearance="outline">
+			<mat-label>Ball</mat-label>
+			<input
+				[ngModel]="ball | async"
+				(ngModelChange)="ball.next($event)"
+				name="ball"
+				type="number"
+				[min]="1"
+				[max]="75"
+				matInput
+				placeholder="1-75"
+			/>
+		</mat-form-field>
+		<mat-form-field appearance="outline">
 			<mat-label>First Ball</mat-label>
 			<input
 				[ngModel]="firstBall | async"
 				(ngModelChange)="firstBall.next($event)"
 				name="firstBall"
 				type="number"
+				[disabled]="(ball | async) ? true : false"
 				[min]="1"
 				[max]="firstBallMax()"
 				matInput
@@ -102,6 +116,7 @@
 				(ngModelChange)="secondBall.next($event)"
 				name="secondBall"
 				type="number"
+				[disabled]="(ball | async) ? true : false"
 				[min]="(firstBall | async) ?? 2"
 				[max]="secondBallMax()"
 				matInput
@@ -115,6 +130,7 @@
 				(ngModelChange)="thirdBall.next($event)"
 				name="thirdBall"
 				type="number"
+				[disabled]="(ball | async) ? true : false"
 				[min]="thirdBallMin()"
 				[max]="thirdBallMax()"
 				matInput
@@ -128,6 +144,7 @@
 				(ngModelChange)="fourthBall.next($event)"
 				name="fourthBall"
 				type="number"
+				[disabled]="(ball | async) ? true : false"
 				[min]="fourthBallMin()"
 				[max]="(fifthBall | async) ?? 74"
 				matInput
@@ -141,6 +158,7 @@
 				(ngModelChange)="fifthBall.next($event)"
 				name="fifthBall"
 				type="number"
+				[disabled]="(ball | async) ? true : false"
 				[min]="fifthBallMin()"
 				[max]="75"
 				matInput

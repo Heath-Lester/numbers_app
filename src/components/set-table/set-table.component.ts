@@ -11,19 +11,8 @@ import {
 import { WinningSet } from './../../types/winning-set';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MegaMillionsService } from '../../services/mega-millions.service';
-import {
-	BehaviorSubject,
-	Subscription,
-	map,
-	skip,
-	debounceTime,
-	filter,
-	Subject,
-	withLatestFrom,
-	tap,
-	combineLatest,
-} from 'rxjs';
-import { buildSetData } from '../../utils/synthesizers';
+import { BehaviorSubject, Subscription, map, skip, debounceTime, filter, combineLatest, tap, Subject } from 'rxjs';
+import { buildSetData, buildSetRangeData } from '../../utils/synthesizers';
 import { HttpClientModule } from '@angular/common/http';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { SetData } from '../../types/set-data';
@@ -33,6 +22,7 @@ import { CommonModule } from '@angular/common';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
+import { SetRangeData } from '../../types/set-range-data';
 
 @Component({
 	selector: 'app-set-table',
@@ -88,7 +78,8 @@ export class SetTableComponent implements AfterViewInit, OnDestroy {
 					map((sets: WinningSet[]) =>
 						sets.map((set: WinningSet, index: number) => buildSetData(set, index + 1))
 					),
-					map((sets: SetData[]) => sets.sort((a: SetData, b: SetData) => b.index - a.index))
+					map((setsData: SetData[]) => setsData.sort((a: SetData, b: SetData) => b.index - a.index)),
+					tap((setsData: SetData[]) => (this.footerData = buildSetRangeData(setsData)))
 				)
 				.subscribe((ballData: SetData[]) => {
 					this.dataSource.data = ballData;
@@ -107,9 +98,18 @@ export class SetTableComponent implements AfterViewInit, OnDestroy {
 	private changeDetector = inject(ChangeDetectorRef, { self: true });
 	private filterSubscription?: Subscription;
 	private dataSubscription?: Subscription;
+	private recalculateSpans = new Subject<void>();
+	private recalculateSpansSubscription = this.recalculateSpans
+		.asObservable()
+		.pipe(debounceTime(10))
+		.subscribe(() => {
+			this.footerData = buildSetRangeData(this.dataSource.filteredData);
+			this.changeDetector.markForCheck();
+		});
 	protected dataSource = new MatTableDataSource<SetData>();
+	protected footerData?: SetRangeData;
 
-	protected displayColumns: string[] = [
+	protected displayedColumns: string[] = [
 		'index',
 		'date',
 		'firstBall',
@@ -128,6 +128,16 @@ export class SetTableComponent implements AfterViewInit, OnDestroy {
 	ngOnDestroy(): void {
 		this.dataSubscription?.unsubscribe();
 		this.filterSubscription?.unsubscribe();
+		this.recalculateSpansSubscription.unsubscribe();
+	}
+
+	protected displayTimeSpan(date: Date): string {
+		const epochStart = new Date(0);
+		const years = date.getFullYear() - epochStart.getFullYear();
+		const months = date.getMonth();
+		const days = date.getDay();
+
+		return `${years}ys ${months}ms ${days}ds`;
 	}
 
 	private filterPredicate = (data: SetData, filter: string): boolean => {
@@ -144,6 +154,13 @@ export class SetTableComponent implements AfterViewInit, OnDestroy {
 		const beforeEndDate: boolean =
 			filterObject.endDate === null ||
 			(data.date !== null && new Date(filterObject.endDate).getTime() >= data.date?.getTime());
+		const ballMatch: boolean =
+			filterObject.ball === null ||
+			filterObject.ball === data.firstBall ||
+			filterObject.ball === data.secondBall ||
+			filterObject.ball === data.thirdBall ||
+			filterObject.ball === data.fourthBall ||
+			filterObject.ball === data.fifthBall;
 		const firstBallMatch: boolean = filterObject.firstBall === null || filterObject.firstBall === data.firstBall;
 		const secondBallMatch: boolean =
 			filterObject.secondBall === null || filterObject.secondBall === data.secondBall;
@@ -154,18 +171,32 @@ export class SetTableComponent implements AfterViewInit, OnDestroy {
 		const megaBallMatch: boolean = filterObject.megaBall === null || filterObject.megaBall === data.megaBall;
 		const megaplierMatch: boolean = filterObject.megaplier === null || filterObject.megaplier === data.megaplier;
 
-		return (
-			afterStartIndex &&
-			beforeEndIndex &&
-			afterStartDate &&
-			beforeEndDate &&
-			firstBallMatch &&
-			secondBallMatch &&
-			thirdBallMatch &&
-			fourthBallMatch &&
-			fifthBallMatch &&
-			megaBallMatch &&
-			megaplierMatch
-		);
+		this.recalculateSpans.next();
+		// console.warn('RECALCULATE SPAN: ', data.index);
+		if (filterObject.ball === null) {
+			return (
+				afterStartIndex &&
+				beforeEndIndex &&
+				afterStartDate &&
+				beforeEndDate &&
+				firstBallMatch &&
+				secondBallMatch &&
+				thirdBallMatch &&
+				fourthBallMatch &&
+				fifthBallMatch &&
+				megaBallMatch &&
+				megaplierMatch
+			);
+		} else {
+			return (
+				afterStartIndex &&
+				beforeEndIndex &&
+				afterStartDate &&
+				beforeEndDate &&
+				ballMatch &&
+				megaBallMatch &&
+				megaplierMatch
+			);
+		}
 	};
 }

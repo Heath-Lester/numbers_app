@@ -3,6 +3,7 @@ export type SetFilter = {
 	indexEnd: number | null;
 	startDate: Date | null;
 	endDate: Date | null;
+	ball: number | null;
 	firstBall: number | null;
 	secondBall: number | null;
 	thirdBall: number | null;

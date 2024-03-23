@@ -2,7 +2,7 @@ import { SetFilter } from './../../types/set-filter';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { SetTableComponent } from '../set-table/set-table.component';
 import { SetTableFilterComponent } from '../set-table-filter/set-table-filter.component';
-import { BehaviorSubject, Subject, Subscription } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
 	selector: 'app-sets-view',
@@ -18,6 +18,7 @@ export class SetsViewComponent {
 		indexEnd: null,
 		startDate: null,
 		endDate: null,
+		ball: null,
 		firstBall: null,
 		secondBall: null,
 		thirdBall: null,

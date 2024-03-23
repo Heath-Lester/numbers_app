@@ -60,7 +60,7 @@ export class BallTableFilterComponent {
 		});
 
 	@Output() protected ballCutoff = new BehaviorSubject<number>(0);
-	@Output() protected dateCutoff = new BehaviorSubject<Date>(this.cutoffDates[7]);
+	@Output() protected dateCutoff = new BehaviorSubject<Date>(this.cutoffDates[6]);
 	@Output() protected filterExpanded = new BehaviorSubject<boolean>(false);
 
 	protected ballStart = new BehaviorSubject<number | null>(null);

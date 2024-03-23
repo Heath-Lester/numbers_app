@@ -1,4 +1,6 @@
 .set-table {
+	display: flex;
+	flex-direction: column;
 	height: 83vh;
 	overflow: auto;
 	border-radius: 4px;
@@ -16,4 +18,22 @@
 }
 .set-table-loader-bar {
 	padding: 20px 26px;
+}
+
+.footer-title {
+	margin-right: 16px;
+}
+.footer-total {
+	margin-left: auto;
+}
+
+mat-footer-cell {
+	font-weight: 500;
+	border-top-color: var(--mat-table-row-item-outline-color, rgba(0, 0, 0, 0.12));
+	border-top-width: var(--mat-table-row-item-outline-width, 1px);
+	border-top-style: solid;
+}
+
+mat-footer-row {
+	margin-top: auto;
 }

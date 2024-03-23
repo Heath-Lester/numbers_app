@@ -1,0 +1,20 @@
+export type SetRangeData = {
+	totalSets: number;
+	indexRangeStart: number;
+	indexRangeEnd: number;
+	drawDateSpan: Date;
+	firstBallRangeStart: number;
+	firstBallRangeEnd: number;
+	secondBallRangeStart: number;
+	secondBallRangeEnd: number;
+	thirdBallRangeStart: number;
+	thirdBallRangeEnd: number;
+	fourthBallRangeStart: number;
+	fourthBallRangeEnd: number;
+	fifthBallRangeStart: number;
+	fifthBallRangeEnd: number;
+	megaBallRangeStart: number;
+	megaBallRangeEnd: number;
+	megaplierRangeStart: number;
+	megaplierRangeEnd: number;
+};

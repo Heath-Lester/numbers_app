@@ -5,6 +5,7 @@ import { WinningSet } from '../types/winning-set';
 import { MegaBallData } from '../types/mega-ball-data';
 import { SetData } from '../types/set-data';
 import { BallAverageData } from '../types/ball-average-data';
+import { SetRangeData } from '../types/set-range-data';
 
 function getModeAndInstances(numbers: number[]): [number, number] | [null, null] {
 	if (numbers.length === 0) return [null, null];
@@ -277,12 +278,117 @@ export function buildBallAverageData(balls: BallData[] | MegaBallData[]): BallAv
 		meanDrawPercentage: totalDrawPercentage / balls.length,
 		lastDrawSpan: new Date(lastDrawMax.getTime() - lastDrawMin.getTime()),
 		firstDrawSpan: new Date(firstDrawMax.getTime() - firstDrawMin.getTime()),
-		meanLastDrawInterval: totalMeanDrawInterval / balls.length,
+		meanLastDrawInterval: totalLastDrawInterval / balls.length,
 		meanMaxDrawInterval: totalMaxDrawInterval / balls.length,
 		meanMinDrawInterval: totalMinDrawInterval / balls.length,
 		meanMeanDrawInterval: totalMeanDrawInterval / balls.length,
 		meanModeDrawInterval: totalModeDrawInterval / balls.length,
 		meanModeDrawInstances: totalModeDrawInstances / balls.length,
+	};
+
+	return data;
+}
+
+export function buildSetRangeData(setsData: SetData[]): SetRangeData {
+	const totalSets: number = setsData.length;
+	let indexRangeStart: number = 0;
+	let indexRangeEnd: number = 0;
+	let drawDateRangeStart: Date = new Date(0);
+	let drawDateRangeEnd: Date = new Date(0);
+	let firstBallRangeStart: number = 0;
+	let firstBallRangeEnd: number = 0;
+	let secondBallRangeStart: number = 0;
+	let secondBallRangeEnd: number = 0;
+	let thirdBallRangeStart: number = 0;
+	let thirdBallRangeEnd: number = 0;
+	let fourthBallRangeStart: number = 0;
+	let fourthBallRangeEnd: number = 0;
+	let fifthBallRangeStart: number = 0;
+	let fifthBallRangeEnd: number = 0;
+	let megaBallRangeStart: number = 0;
+	let megaBallRangeEnd: number = 0;
+	let megaplierRangeStart: number = 0;
+	let megaplierRangeEnd: number = 0;
+
+	for (const setData of setsData) {
+		if (indexRangeStart === 0 || indexRangeStart > setData.index) {
+			indexRangeStart = setData.index;
+		}
+		if (indexRangeEnd === 0 || indexRangeEnd < setData.index) {
+			indexRangeEnd = setData.index;
+		}
+		if (
+			drawDateRangeStart.getTime() === 0 ||
+			(setData.date && setData.date.getTime() < drawDateRangeStart.getTime())
+		) {
+			drawDateRangeStart = setData.date ?? new Date(0);
+		}
+		if (drawDateRangeEnd.getTime() === 0 || (setData.date && setData.date.getTime() > drawDateRangeEnd.getTime())) {
+			drawDateRangeEnd = setData.date ?? new Date(0);
+		}
+		if (firstBallRangeStart === 0 || setData.firstBall < firstBallRangeStart) {
+			firstBallRangeStart = setData.firstBall;
+		}
+		if (firstBallRangeEnd === 0 || setData.firstBall > firstBallRangeEnd) {
+			firstBallRangeEnd = setData.firstBall;
+		}
+		if (secondBallRangeStart === 0 || setData.secondBall < secondBallRangeStart) {
+			secondBallRangeStart = setData.secondBall;
+		}
+		if (secondBallRangeEnd === 0 || setData.secondBall > secondBallRangeEnd) {
+			secondBallRangeEnd = setData.secondBall;
+		}
+		if (thirdBallRangeStart === 0 || setData.thirdBall < thirdBallRangeStart) {
+			thirdBallRangeStart = setData.thirdBall;
+		}
+		if (thirdBallRangeEnd === 0 || setData.thirdBall > thirdBallRangeEnd) {
+			thirdBallRangeEnd = setData.thirdBall;
+		}
+		if (fourthBallRangeStart === 0 || setData.fourthBall < fourthBallRangeStart) {
+			fourthBallRangeStart = setData.fourthBall;
+		}
+		if (fourthBallRangeEnd === 0 || setData.fourthBall > fourthBallRangeEnd) {
+			fourthBallRangeEnd = setData.fourthBall;
+		}
+		if (fifthBallRangeStart === 0 || setData.fifthBall < fifthBallRangeStart) {
+			fifthBallRangeStart = setData.fifthBall;
+		}
+		if (fifthBallRangeEnd === 0 || setData.fifthBall > fifthBallRangeEnd) {
+			fifthBallRangeEnd = setData.fifthBall;
+		}
+		if (megaBallRangeStart === 0 || setData.megaBall < megaBallRangeStart) {
+			megaBallRangeStart = setData.megaBall;
+		}
+		if (megaBallRangeEnd === 0 || setData.megaBall > megaBallRangeEnd) {
+			megaBallRangeEnd = setData.megaBall;
+		}
+		if (megaplierRangeStart === 0 || setData.megaplier < megaplierRangeStart) {
+			megaplierRangeStart = setData.megaplier;
+		}
+		if (megaplierRangeEnd === 0 || setData.megaplier > megaplierRangeEnd) {
+			megaplierRangeEnd = setData.megaplier;
+		}
+	}
+
+	const data: SetRangeData = {
+		totalSets,
+		indexRangeStart,
+		indexRangeEnd,
+		drawDateSpan: new Date(drawDateRangeEnd.getTime() - drawDateRangeStart.getTime()),
+		firstBallRangeStart,
+		firstBallRangeEnd,
+		secondBallRangeStart,
+		secondBallRangeEnd,
+		thirdBallRangeStart,
+		thirdBallRangeEnd,
+		fourthBallRangeStart,
+		fourthBallRangeEnd,
+		fifthBallRangeStart,
+		fifthBallRangeEnd,
+		megaBallRangeStart,
+		megaBallRangeEnd,
+		megaplierRangeStart,
+		megaplierRangeEnd,
 	};
 
 	return data;

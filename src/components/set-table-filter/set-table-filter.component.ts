@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input, OnDestroy, Output } from '@angular/core';
 import { SetFilter } from '../../types/set-filter';
-import { BehaviorSubject, Subject, Subscription, combineLatest, skip } from 'rxjs';
+import { BehaviorSubject, Subscription, combineLatest, skip } from 'rxjs';
 import { MatCardModule } from '@angular/material/card';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -44,12 +44,13 @@ export class SetTableFilterComponent implements OnDestroy {
 			return new Date(`1-1-${value - index}`);
 		});
 
-	@Output() protected dateCutoff = new BehaviorSubject<Date>(this.cutoffDates[7]);
+	@Output() protected dateCutoff = new BehaviorSubject<Date>(this.cutoffDates[6]);
 
 	protected indexStart = new BehaviorSubject<number | null>(null);
 	protected indexEnd = new BehaviorSubject<number | null>(null);
 	protected startDate = new BehaviorSubject<Date | null>(null);
 	protected endDate = new BehaviorSubject<Date | null>(null);
+	protected ball = new BehaviorSubject<number | null>(null);
 	protected firstBall = new BehaviorSubject<number | null>(null);
 	protected secondBall = new BehaviorSubject<number | null>(null);
 	protected thirdBall = new BehaviorSubject<number | null>(null);
@@ -63,6 +64,7 @@ export class SetTableFilterComponent implements OnDestroy {
 		this.indexEnd,
 		this.startDate,
 		this.endDate,
+		this.ball,
 		this.firstBall,
 		this.secondBall,
 		this.thirdBall,
@@ -78,6 +80,7 @@ export class SetTableFilterComponent implements OnDestroy {
 				indexEnd,
 				startDate,
 				endDate,
+				ball,
 				firstBall,
 				secondBall,
 				thirdBall,
@@ -91,6 +94,7 @@ export class SetTableFilterComponent implements OnDestroy {
 					indexEnd,
 					startDate,
 					endDate,
+					ball,
 					firstBall,
 					secondBall,
 					thirdBall,
