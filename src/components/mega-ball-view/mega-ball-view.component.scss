@@ -1,11 +1,17 @@
 .ball-view-container {
 	display: flex;
 	flex-direction: column;
-	row-gap: 12px;
+	row-gap: 16px;
+	height: calc(100% - 35px);
+	justify-content: space-between;
 }
 
-.ball-table-container {
-	display: flex;
-	flex-direction: column;
-	row-gap: 16px;
+.short-table {
+	height: 68vh;
+	transition: height 0.25s;
+}
+
+.full-table {
+	height: 86vh;
+	transition: height 0.35s;
 }

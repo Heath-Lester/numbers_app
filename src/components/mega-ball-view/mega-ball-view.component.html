@@ -1,16 +1,16 @@
 <section class="ball-view-container">
-	<div class="ball-table-container">
-		<app-ball-table-filter
-			[ballFilter]="megaBallFilter"
-			[numberOfBalls]="46"
-			[initialBallCutoff]="25"
-			(ballCutoff)="ballCutoff.next($event)"
-			(dateCutoff)="dateCutoff.next($event)"
-		/>
-		<app-mega-ball-table
-			[ballFilter]="megaBallFilter"
-			[ballCutoff]="ballCutoff"
-			[dateCutoff]="dateCutoff"
-		/>
-	</div>
+	<app-ball-table-filter
+		[ballFilter]="megaBallFilter"
+		[numberOfBalls]="46"
+		[initialBallCutoff]="25"
+		(ballCutoff)="ballCutoff.next($event)"
+		(dateCutoff)="dateCutoff.next($event)"
+		(filterExpanded)="filterExpanded.next($event)"
+	/>
+	<app-mega-ball-table
+		[ngClass]="(filterExpanded | async) ? 'short-table' : 'full-table'"
+		[ballFilter]="megaBallFilter"
+		[ballCutoff]="ballCutoff"
+		[dateCutoff]="dateCutoff"
+	/>
 </section>

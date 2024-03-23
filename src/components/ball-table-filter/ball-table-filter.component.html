@@ -1,5 +1,8 @@
 <mat-accordion>
-	<mat-expansion-panel>
+	<mat-expansion-panel
+		(opened)="filterExpanded.next(true)"
+		(closed)="filterExpanded.next(false)"
+	>
 		<mat-expansion-panel-header class="expansion-header">
 			<mat-panel-title class="expansion-title"
 				><mat-icon>filter_alt</mat-icon>

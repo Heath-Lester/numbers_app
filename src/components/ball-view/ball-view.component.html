@@ -5,9 +5,11 @@
 		[initialBallCutoff]="70"
 		(ballCutoff)="ballCutoff.next($event)"
 		(dateCutoff)="dateCutoff.next($event)"
+		(filterExpanded)="filterExpanded.next($event)"
 	/>
 	<app-ball-table
 		class="table"
+		[ngClass]="(filterExpanded | async) ? 'short-table' : 'full-table'"
 		[ballFilter]="ballFilter"
 		[ballCutoff]="ballCutoff"
 		[dateCutoff]="dateCutoff"
