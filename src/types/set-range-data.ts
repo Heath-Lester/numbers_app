@@ -2,7 +2,8 @@ export type SetRangeData = {
 	totalSets: number;
 	indexRangeStart: number;
 	indexRangeEnd: number;
-	drawDateSpan: Date;
+	drawDateRangeStart: Date;
+	drawDateRangeEnd: Date;
 	firstBallRangeStart: number;
 	firstBallRangeEnd: number;
 	secondBallRangeStart: number;

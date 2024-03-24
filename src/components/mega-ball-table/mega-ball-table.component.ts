@@ -12,7 +12,7 @@ import { MegaMillionsService } from '../../services/mega-millions.service';
 import { BehaviorSubject, Subscription, combineLatest, debounceTime, filter, map, skip, tap } from 'rxjs';
 import { MegaBall } from '../../types/mega-ball';
 import { WinningSet } from '../../types/winning-set';
-import { buildBallAverageData, buildMegaBallData } from '../../utils/synthesizers';
+import { buildBallAverageData, buildMegaBallData, getDateDifference } from '../../utils/synthesizers';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MegaBallData } from '../../types/mega-ball-data';
 import { HttpClientModule } from '@angular/common/http';
@@ -136,13 +136,8 @@ export class MegaBallTableComponent implements OnDestroy, AfterViewInit {
 		this.filterSubscription?.unsubscribe();
 	}
 
-	protected displayTimeSpan(date: Date): string {
-		const epochStart = new Date(0);
-		const years = date.getFullYear() - epochStart.getFullYear();
-		const months = date.getMonth();
-		const days = date.getDay();
-
-		return `${years}ys ${months}ms ${days}ds`;
+	protected displayTimeSpan(startDate: Date, endDate: Date): string {
+		return getDateDifference(startDate, endDate);
 	}
 
 	private filterPredicate = (data: MegaBallData, filter: string): boolean => {

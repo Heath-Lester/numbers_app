@@ -12,7 +12,7 @@ import { WinningSet } from './../../types/winning-set';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MegaMillionsService } from '../../services/mega-millions.service';
 import { BehaviorSubject, Subscription, map, skip, debounceTime, filter, combineLatest, tap, Subject } from 'rxjs';
-import { buildSetData, buildSetRangeData } from '../../utils/synthesizers';
+import { buildSetData, buildSetRangeData, getDateDifference } from '../../utils/synthesizers';
 import { HttpClientModule } from '@angular/common/http';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { SetData } from '../../types/set-data';
@@ -131,13 +131,8 @@ export class SetTableComponent implements AfterViewInit, OnDestroy {
 		this.recalculateSpansSubscription.unsubscribe();
 	}
 
-	protected displayTimeSpan(date: Date): string {
-		const epochStart = new Date(0);
-		const years = date.getFullYear() - epochStart.getFullYear();
-		const months = date.getMonth();
-		const days = date.getDay();
-
-		return `${years}ys ${months}ms ${days}ds`;
+	protected displayTimeSpan(startDate: Date, endDate: Date): string {
+		return getDateDifference(startDate, endDate);
 	}
 
 	private filterPredicate = (data: SetData, filter: string): boolean => {

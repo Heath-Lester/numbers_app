@@ -276,8 +276,10 @@ export function buildBallAverageData(balls: BallData[] | MegaBallData[]): BallAv
 	const data: BallAverageData = {
 		meanTotalDraws: totalTotalDraws / balls.length,
 		meanDrawPercentage: totalDrawPercentage / balls.length,
-		lastDrawSpan: new Date(lastDrawMax.getTime() - lastDrawMin.getTime()),
-		firstDrawSpan: new Date(firstDrawMax.getTime() - firstDrawMin.getTime()),
+		lastDrawStart: lastDrawMax,
+		lastDrawEnd: lastDrawMin,
+		firstDrawStart: firstDrawMax,
+		firstDrawEnd: firstDrawMin,
 		meanLastDrawInterval: totalLastDrawInterval / balls.length,
 		meanMaxDrawInterval: totalMaxDrawInterval / balls.length,
 		meanMinDrawInterval: totalMinDrawInterval / balls.length,
@@ -287,6 +289,34 @@ export function buildBallAverageData(balls: BallData[] | MegaBallData[]): BallAv
 	};
 
 	return data;
+}
+
+export function getDateDifference(startDate: Date, endDate: Date): string {
+	const [startMonthString, startDayString, startYearString] = startDate.toLocaleDateString().split('/');
+	const [endMonthString, endDayString, endYearString] = endDate.toLocaleDateString().split('/');
+
+	const startDay = parseInt(startDayString);
+	const startMonth = parseInt(startMonthString);
+	const startYear = parseInt(startYearString);
+	const endDay = parseInt(endDayString);
+	const endMonth = parseInt(endMonthString);
+	const endYear = parseInt(endYearString);
+
+	const years: number = endYear - startYear;
+	const months: number = endMonth >= startMonth ? endMonth - startMonth : 12 - startMonth + endMonth;
+	const daysInMonths: number[] = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+	let days: number = 0;
+	if (endDay > startDay) {
+		days = endDay - startDay;
+	} else if (endDay < startDay) {
+		let daysInMonth = daysInMonths[startMonth - 1];
+		if (startMonth === 2 && startYear % 4 === 0) {
+			daysInMonth++;
+		}
+		days = daysInMonth - startDay + endDay;
+	}
+
+	return `${years}ys ${months}ms ${days}ds`;
 }
 
 export function buildSetRangeData(setsData: SetData[]): SetRangeData {
@@ -374,7 +404,8 @@ export function buildSetRangeData(setsData: SetData[]): SetRangeData {
 		totalSets,
 		indexRangeStart,
 		indexRangeEnd,
-		drawDateSpan: new Date(drawDateRangeEnd.getTime() - drawDateRangeStart.getTime()),
+		drawDateRangeStart,
+		drawDateRangeEnd,
 		firstBallRangeStart,
 		firstBallRangeEnd,
 		secondBallRangeStart,

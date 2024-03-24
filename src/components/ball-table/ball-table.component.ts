@@ -14,7 +14,7 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MegaMillionsService } from '../../services/mega-millions.service';
 import { BehaviorSubject, Subscription, combineLatest, debounceTime, filter, map, skip, tap } from 'rxjs';
 import { Ball } from '../../types/ball';
-import { buildBallData, buildBallAverageData } from '../../utils/synthesizers';
+import { buildBallData, buildBallAverageData, getDateDifference } from '../../utils/synthesizers';
 import { HttpClientModule } from '@angular/common/http';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatProgressBar } from '@angular/material/progress-bar';
@@ -124,13 +124,8 @@ export class BallTableComponent implements OnDestroy, AfterViewInit {
 		this.filterSubscription?.unsubscribe();
 	}
 
-	protected displayTimeSpan(date: Date): string {
-		const epochStart = new Date(0);
-		const years = date.getFullYear() - epochStart.getFullYear();
-		const months = date.getMonth();
-		const days = date.getDay();
-
-		return `${years}ys ${months}ms ${days}ds`;
+	protected displayTimeSpan(startDate: Date, endDate: Date): string {
+		return getDateDifference(startDate, endDate);
 	}
 
 	private filterPredicate = (data: BallData, filter: string): boolean => {

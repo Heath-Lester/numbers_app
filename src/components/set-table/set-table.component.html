@@ -32,7 +32,11 @@
 			</mat-header-cell>
 			<mat-cell *matCellDef="let row"> {{ row.date?.toLocaleDateString() ?? "-" }} </mat-cell>
 			<mat-footer-cell *matFooterCellDef
-				>{{ footerData ? displayTimeSpan(footerData.drawDateSpan) : "--yrs --mths --dys" }}
+				>{{
+					footerData
+						? displayTimeSpan(footerData.drawDateRangeStart, footerData.drawDateRangeEnd)
+						: "--yrs --mths --dys"
+				}}
 			</mat-footer-cell>
 		</ng-container>
 
