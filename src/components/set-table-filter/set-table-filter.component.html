@@ -62,13 +62,13 @@
 				<mat-label>Date Range</mat-label>
 				<mat-date-range-input
 					[rangePicker]="picker"
-					[min]="earliestDate"
+					[min]="(dateCutoff | async) ?? earliestDate"
 					[max]="latestDate"
 				>
 					<input
 						matStartDate
 						name="startDate"
-						[min]="earliestDate"
+						[min]="(dateCutoff | async) ?? earliestDate"
 						[max]="latestDate"
 						[ngModel]="startDate | async"
 						(ngModelChange)="startDate.next($event)"
@@ -77,7 +77,7 @@
 					<input
 						matEndDate
 						name="endDate"
-						[min]="earliestDate"
+						[min]="(dateCutoff | async) ?? earliestDate"
 						[max]="latestDate"
 						[ngModel]="endDate | async"
 						(ngModelChange)="endDate.next($event)"

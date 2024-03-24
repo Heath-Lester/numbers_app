@@ -179,14 +179,14 @@
 					<mat-label>Last Draw</mat-label>
 					<mat-date-range-input
 						[rangePicker]="lastPicker"
-						[min]="earliestDate"
+						[min]="(dateCutoff | async) ?? earliestDate"
 						[max]="latestDate"
 					>
 						<input
 							matStartDate
 							startView="multi-year"
 							name="lastDrawStart"
-							[min]="earliestDate"
+							[min]="(dateCutoff | async) ?? earliestDate"
 							[max]="latestDate"
 							[ngModel]="lastDrawStart | async"
 							(ngModelChange)="lastDrawStart.next($event)"
@@ -196,7 +196,7 @@
 							matEndDate
 							startView="multi-year"
 							name="lastDrawEnd"
-							[min]="earliestDate"
+							[min]="(dateCutoff | async) ?? earliestDate"
 							[max]="latestDate"
 							[ngModel]="lastDrawEnd | async"
 							(ngModelChange)="lastDrawEnd.next($event)"
@@ -234,13 +234,13 @@
 					<mat-label>First Draw</mat-label>
 					<mat-date-range-input
 						[rangePicker]="firstPicker"
-						[min]="earliestDate"
+						[min]="(dateCutoff | async) ?? earliestDate"
 						[max]="latestDate"
 					>
 						<input
 							matStartDate
 							name="firstDrawStart"
-							[min]="earliestDate"
+							[min]="(dateCutoff | async) ?? earliestDate"
 							[max]="latestDate"
 							[ngModel]="firstDrawStart | async"
 							(ngModelChange)="firstDrawStart.next($event)"
@@ -249,7 +249,7 @@
 						<input
 							matEndDate
 							name="firstDrawEnd"
-							[min]="earliestDate"
+							[min]="(dateCutoff | async) ?? earliestDate"
 							[max]="latestDate"
 							[ngModel]="firstDrawEnd | async"
 							(ngModelChange)="firstDrawEnd.next($event)"
