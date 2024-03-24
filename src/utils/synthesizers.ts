@@ -276,10 +276,10 @@ export function buildBallAverageData(balls: BallData[] | MegaBallData[]): BallAv
 	const data: BallAverageData = {
 		meanTotalDraws: totalTotalDraws / balls.length,
 		meanDrawPercentage: totalDrawPercentage / balls.length,
-		lastDrawStart: lastDrawMax,
-		lastDrawEnd: lastDrawMin,
-		firstDrawStart: firstDrawMax,
-		firstDrawEnd: firstDrawMin,
+		lastDrawStart: lastDrawMin,
+		lastDrawEnd: lastDrawMax,
+		firstDrawStart: firstDrawMin,
+		firstDrawEnd: firstDrawMax,
 		meanLastDrawInterval: totalLastDrawInterval / balls.length,
 		meanMaxDrawInterval: totalMaxDrawInterval / balls.length,
 		meanMinDrawInterval: totalMinDrawInterval / balls.length,
@@ -295,6 +295,7 @@ export function getDateDifference(startDate: Date, endDate: Date): string {
 	const [startMonthString, startDayString, startYearString] = startDate.toLocaleDateString().split('/');
 	const [endMonthString, endDayString, endYearString] = endDate.toLocaleDateString().split('/');
 
+	debugger;
 	const startDay = parseInt(startDayString);
 	const startMonth = parseInt(startMonthString);
 	const startYear = parseInt(startYearString);
