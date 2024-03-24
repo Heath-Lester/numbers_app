@@ -13,6 +13,16 @@
 				matInput
 				[placeholder]="'1-' + getStartIndexMax().toString()"
 			/>
+			@if (indexStart | async) {
+				<button
+					matSuffix
+					mat-icon-button
+					aria-label="Clear"
+					(click)="indexStart.next(null)"
+				>
+					<mat-icon>close</mat-icon>
+				</button>
+			}
 		</mat-form-field>
 		<span>to</span>
 		<mat-form-field appearance="outline">
@@ -27,6 +37,16 @@
 				matInput
 				[placeholder]="getEndIndexMin().toString() + '-2000'"
 			/>
+			@if (indexEnd | async) {
+				<button
+					matSuffix
+					mat-icon-button
+					aria-label="Clear"
+					(click)="indexEnd.next(null)"
+				>
+					<mat-icon>close</mat-icon>
+				</button>
+			}
 		</mat-form-field>
 		<!-- </div> -->
 		<mat-form-field appearance="outline">
@@ -94,6 +114,16 @@
 				matInput
 				placeholder="1-75"
 			/>
+			@if (ball | async) {
+				<button
+					matSuffix
+					mat-icon-button
+					aria-label="Clear"
+					(click)="ball.next(null)"
+				>
+					<mat-icon>close</mat-icon>
+				</button>
+			}
 		</mat-form-field>
 		<mat-form-field appearance="outline">
 			<mat-label>First Ball</mat-label>
@@ -108,6 +138,16 @@
 				matInput
 				[placeholder]="'1-' + firstBallMax().toString()"
 			/>
+			@if (firstBall | async) {
+				<button
+					matSuffix
+					mat-icon-button
+					aria-label="Clear"
+					(click)="firstBall.next(null)"
+				>
+					<mat-icon>close</mat-icon>
+				</button>
+			}
 		</mat-form-field>
 		<mat-form-field appearance="outline">
 			<mat-label>Second Ball</mat-label>
@@ -122,6 +162,16 @@
 				matInput
 				[placeholder]="secondBallMin().toString() + '-' + secondBallMax().toString()"
 			/>
+			@if (secondBall | async) {
+				<button
+					matSuffix
+					mat-icon-button
+					aria-label="Clear"
+					(click)="secondBall.next(null)"
+				>
+					<mat-icon>close</mat-icon>
+				</button>
+			}
 		</mat-form-field>
 		<mat-form-field appearance="outline">
 			<mat-label>Third Ball</mat-label>
@@ -136,6 +186,16 @@
 				matInput
 				[placeholder]="thirdBallMin().toString() + '-' + thirdBallMax().toString()"
 			/>
+			@if (thirdBall | async) {
+				<button
+					matSuffix
+					mat-icon-button
+					aria-label="Clear"
+					(click)="thirdBall.next(null)"
+				>
+					<mat-icon>close</mat-icon>
+				</button>
+			}
 		</mat-form-field>
 		<mat-form-field appearance="outline">
 			<mat-label>Fourth Ball</mat-label>
@@ -150,6 +210,16 @@
 				matInput
 				[placeholder]="fourthBallMin().toString() + '-' + fourthBallMax().toString()"
 			/>
+			@if (fourthBall | async) {
+				<button
+					matSuffix
+					mat-icon-button
+					aria-label="Clear"
+					(click)="fourthBall.next(null)"
+				>
+					<mat-icon>close</mat-icon>
+				</button>
+			}
 		</mat-form-field>
 		<mat-form-field appearance="outline">
 			<mat-label>Fifth Ball</mat-label>
@@ -164,6 +234,16 @@
 				matInput
 				[placeholder]="fifthBallMin().toString() + '-75'"
 			/>
+			@if (fifthBall | async) {
+				<button
+					matSuffix
+					mat-icon-button
+					aria-label="Clear"
+					(click)="fifthBall.next(null)"
+				>
+					<mat-icon>close</mat-icon>
+				</button>
+			}
 		</mat-form-field>
 		<mat-form-field appearance="outline">
 			<mat-label>Mega Ball</mat-label>
@@ -177,6 +257,16 @@
 				matInput
 				placeholder="1-50"
 			/>
+			@if (megaBall | async) {
+				<button
+					matSuffix
+					mat-icon-button
+					aria-label="Clear"
+					(click)="megaBall.next(null)"
+				>
+					<mat-icon>close</mat-icon>
+				</button>
+			}
 		</mat-form-field>
 		<mat-form-field appearance="outline">
 			<mat-label>Megaplier</mat-label>
@@ -190,6 +280,16 @@
 				matInput
 				placeholder="2-5"
 			/>
+			@if (megaplier | async) {
+				<button
+					matSuffix
+					mat-icon-button
+					aria-label="Clear"
+					(click)="megaplier.next(null)"
+				>
+					<mat-icon>close</mat-icon>
+				</button>
+			}
 		</mat-form-field>
 		<mat-form-field appearance="outline">
 			<mat-label>Cutoff Year</mat-label>
