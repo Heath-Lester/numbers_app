@@ -1,1 +1,17 @@
-<p>ball-details works!</p>
+<mat-form-field appearance="outline">
+	<mat-label>Select a Ball</mat-label>
+	<mat-select
+		name="selectedBall"
+		[value]="selectedBall | async"
+		(selectionChange)="selectedBall.next($event.value)"
+	>
+		<ng-container *ngFor="let ball of balls | async">
+			<mat-option [value]="ball">{{ ball.number }}</mat-option>
+		</ng-container>
+	</mat-select>
+</mat-form-field>
+<mat-card>
+	<mat-card-content>
+		<h1>{{ (selectedBall | async)?.number ?? "" }}</h1>
+	</mat-card-content>
+</mat-card>

@@ -21,6 +21,7 @@ export class SideBarComponent {
 		{ title: 'Predictions', path: '/predictions' },
 		{ title: 'Winning Sets', path: '/sets' },
 		{ title: 'Balls', path: '/balls' },
+		{ title: 'Ball Statistics', path: '/ball' },
 		{ title: 'Mega Balls', path: '/mega-balls' },
 	];
 }

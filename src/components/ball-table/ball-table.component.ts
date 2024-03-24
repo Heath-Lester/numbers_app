@@ -27,7 +27,15 @@ import { MatCardModule } from '@angular/material/card';
 @Component({
 	selector: 'app-ball-table',
 	standalone: true,
-	imports: [MatTableModule, HttpClientModule, MatSortModule, MatProgressBar, CommonModule, MatCardModule],
+	imports: [
+		MatTableModule,
+		HttpClientModule,
+		MatSortModule,
+		MatProgressBar,
+		CommonModule,
+		MatCardModule,
+		MatCardModule,
+	],
 	templateUrl: './ball-table.component.html',
 	styleUrl: './ball-table.component.scss',
 	providers: [MegaMillionsService, CdkColumnDef],
@@ -38,27 +46,7 @@ export class BallTableComponent implements OnDestroy, AfterViewInit {
 		if (setFilter) {
 			this.filterSubscription = setFilter
 				.asObservable()
-				.pipe(
-					skip(1),
-					filter((filter: BallFilter) => {
-						const isStartBallLargerThanEndBall: boolean =
-							filter.ballStart !== null && filter.ballEnd !== null && filter.ballStart > filter.ballEnd;
-						const isLastStartDateLargerThanEndDate: boolean =
-							filter.lastDrawStart !== null &&
-							filter.lastDrawEnd !== null &&
-							new Date(filter.lastDrawStart).getTime() > new Date(filter.lastDrawEnd).getTime();
-						const isFirstStartDateLargerThanEndDate: boolean =
-							filter.firstDrawStart !== null &&
-							filter.firstDrawEnd !== null &&
-							new Date(filter.firstDrawStart).getTime() > new Date(filter.firstDrawEnd).getTime();
-						return (
-							!isStartBallLargerThanEndBall &&
-							!isLastStartDateLargerThanEndDate &&
-							!isFirstStartDateLargerThanEndDate
-						);
-					}),
-					debounceTime(1000)
-				)
+				.pipe(skip(1), debounceTime(1000))
 				.subscribe((filter: BallFilter) => (this.dataSource.filter = JSON.stringify(filter)));
 		}
 	}
@@ -149,13 +137,13 @@ export class BallTableComponent implements OnDestroy, AfterViewInit {
 			(data.lastDraw !== null && new Date(filterObject.lastDrawStart).getTime() <= data.lastDraw?.getTime());
 		const beforeLastDrawEnd: boolean =
 			filterObject.lastDrawEnd === null ||
-			(data.lastDraw !== null && new Date(filterObject.lastDrawEnd).getTime() <= data.lastDraw?.getTime());
+			(data.lastDraw !== null && new Date(filterObject.lastDrawEnd).getTime() >= data.lastDraw?.getTime());
 		const afterFirstDrawStart: boolean =
 			filterObject.firstDrawStart === null ||
 			(data.firstDraw !== null && new Date(filterObject.firstDrawStart).getTime() <= data.firstDraw?.getTime());
 		const beforeFirstDrawEnd: boolean =
 			filterObject.firstDrawEnd === null ||
-			(data.firstDraw !== null && new Date(filterObject.firstDrawEnd).getTime() <= data.firstDraw?.getTime());
+			(data.firstDraw !== null && new Date(filterObject.firstDrawEnd).getTime() >= data.firstDraw?.getTime());
 		const afterCurrentDrawStart: boolean =
 			filterObject.currentDrawStart === null || filterObject.currentDrawStart <= data.lastDrawInterval;
 		const beforeCurrentDrawEnd: boolean =
