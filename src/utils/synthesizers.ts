@@ -295,7 +295,6 @@ export function getDateDifference(startDate: Date, endDate: Date): string {
 	const [startMonthString, startDayString, startYearString] = startDate.toLocaleDateString().split('/');
 	const [endMonthString, endDayString, endYearString] = endDate.toLocaleDateString().split('/');
 
-	debugger;
 	const startDay = parseInt(startDayString);
 	const startMonth = parseInt(startMonthString);
 	const startYear = parseInt(startYearString);
