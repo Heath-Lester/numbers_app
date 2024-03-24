@@ -11,12 +11,12 @@ import { MatSliderModule } from '@angular/material/slider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 @Component({
 	selector: 'app-set-table-filter',
 	standalone: true,
 	imports: [
-		MatCardModule,
 		CommonModule,
 		FormsModule,
 		ReactiveFormsModule,
@@ -27,6 +27,7 @@ import { MatButtonModule } from '@angular/material/button';
 		MatSliderModule,
 		MatSelectModule,
 		MatButtonModule,
+		MatExpansionModule,
 	],
 	templateUrl: './set-table-filter.component.html',
 	styleUrl: './set-table-filter.component.scss',
@@ -45,6 +46,7 @@ export class SetTableFilterComponent implements OnDestroy {
 		});
 
 	@Output() protected dateCutoff = new BehaviorSubject<Date>(this.cutoffDates[6]);
+	@Output() protected filterExpanded = new BehaviorSubject<boolean>(false);
 
 	protected indexStart = new BehaviorSubject<number | null>(null);
 	protected indexEnd = new BehaviorSubject<number | null>(null);

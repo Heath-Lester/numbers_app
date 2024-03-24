@@ -2,8 +2,10 @@
 	<app-set-table-filter
 		[setFilter]="filter"
 		(dateCutoff)="dateCutoff.next($event)"
+		(filterExpanded)="filterExpanded.next($event)"
 	/>
 	<app-set-table
+		[ngClass]="(filterExpanded | async) ? 'short-table' : 'full-table'"
 		[setFilter]="filter"
 		[dateCutoff]="dateCutoff"
 	/>

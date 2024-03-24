@@ -1,9 +1,9 @@
 .set-table {
 	display: flex;
 	flex-direction: column;
-	height: 83vh;
 	overflow: auto;
-	border-radius: 4px;
+	border-radius: 8px;
+	height: 100%;
 }
 
 .set-table-loader-header {
