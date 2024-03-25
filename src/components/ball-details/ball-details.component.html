@@ -10,8 +10,122 @@
 		</ng-container>
 	</mat-select>
 </mat-form-field>
-<mat-card>
-	<mat-card-content>
-		<h1>{{ (selectedBall | async)?.number ?? "" }}</h1>
-	</mat-card-content>
-</mat-card>
+
+<ng-container *ngIf="selectedBall | async">
+	<ng-container *ngIf="dataSource.data.length > 0; else loading">
+		<mat-table
+			matSort
+			class="ball-stats-table mat-elevation-z2"
+			[dataSource]="dataSource"
+		>
+			<ng-container matColumnDef="index">
+				<mat-header-cell
+					*matHeaderCellDef
+					mat-sort-header
+					sortActionDescription="Sort by index"
+				>
+					Index
+				</mat-header-cell>
+				<mat-cell *matCellDef="let row"> {{ row.index }} </mat-cell>
+				<!-- <mat-footer-cell *matFooterCellDef>Average/Span</mat-footer-cell> -->
+			</ng-container>
+
+			<ng-container matColumnDef="setNumber">
+				<mat-header-cell
+					*matHeaderCellDef
+					mat-sort-header
+					sortActionDescription="Sort by set number"
+				>
+					Set Number
+				</mat-header-cell>
+				<mat-cell *matCellDef="let row"> {{ row.setNumber }} </mat-cell>
+				<!-- <mat-footer-cell *matFooterCellDef>{{
+			footerData ? footerData.meanTotalDraws.toFixed(1) : 0
+			}}</mat-footer-cell> -->
+			</ng-container>
+
+			<ng-container matColumnDef="drawDate">
+				<mat-header-cell
+					*matHeaderCellDef
+					mat-sort-header
+					sortActionDescription="Sort by draw date"
+				>
+					Draw Date
+				</mat-header-cell>
+				<mat-cell *matCellDef="let row"> {{ row.drawDate?.toLocaleDateString() ?? "-" }} </mat-cell>
+				<!-- <mat-footer-cell *matFooterCellDef>{{
+				footerData ? displayTimeSpan(footerData.drawDateStart, footerData.drawDateEnd) : "--yrs --mths --dys"
+			}}</mat-footer-cell> -->
+			</ng-container>
+
+			<ng-container matColumnDef="drawnPosition">
+				<mat-header-cell
+					*matHeaderCellDef
+					mat-sort-header
+					sortActionDescription="Sort by drawn position"
+				>
+					Drawn Position
+				</mat-header-cell>
+				<mat-cell *matCellDef="let row"> {{ row.drawnPosition }} </mat-cell>
+				<!-- <mat-footer-cell *matFooterCellDef>{{
+				footerData ? displayTimeSpan(footerData.drawnPositionStart, footerData.drawnPositionEnd) : "--yrs --mths --dys"
+			}}</mat-footer-cell> -->
+			</ng-container>
+
+			<ng-container matColumnDef="drawPercentage">
+				<mat-header-cell
+					*matHeaderCellDef
+					mat-sort-header
+					sortActionDescription="Sort by draw percentage"
+				>
+					Draw Percentage
+				</mat-header-cell>
+				<mat-cell *matCellDef="let row"> {{ row.drawPercentage.toFixed(3) }}% </mat-cell>
+				<!-- <mat-footer-cell *matFooterCellDef
+			>{{ footerData ? footerData.meanDrawPercentage.toFixed(3) : 0.0 }}%</mat-footer-cell
+			> -->
+			</ng-container>
+
+			<ng-container matColumnDef="drawInterval">
+				<mat-header-cell
+					*matHeaderCellDef
+					mat-sort-header
+					sortActionDescription="Sort by current interval"
+				>
+					Draw Interval
+				</mat-header-cell>
+				<mat-cell *matCellDef="let row"> {{ row.drawInterval }} </mat-cell>
+				<!-- <mat-footer-cell *matFooterCellDef>{{
+				footerData ? footerData.meanLastDrawInterval.toFixed(1) : 0
+			}}</mat-footer-cell> -->
+			</ng-container>
+
+			<ng-container matColumnDef="adjacentBall">
+				<mat-header-cell
+					*matHeaderCellDef
+					mat-sort-header
+					sortActionDescription="Sort by mean draw interval"
+				>
+					Adjacent Ball
+				</mat-header-cell>
+				<mat-cell *matCellDef="let row"> {{ row.adjacentBall?.number ?? "-" }} </mat-cell>
+				<!-- <mat-footer-cell *matFooterCellDef>{{
+				footerData ? footerData.meanAdjacentBall.toFixed(1) : 0
+			}}</mat-footer-cell> -->
+			</ng-container>
+
+			<!-- Header and Row Declarations -->
+			<mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></mat-header-row>
+			<mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+			<!-- <mat-footer-row *matFooterRowDef="displayedColumns; sticky: true"></mat-footer-row> -->
+		</mat-table>
+	</ng-container>
+</ng-container>
+
+<ng-template #loading>
+	<mat-card>
+		<mat-card-header class="ball-table-loader-header">
+			<mat-progress-bar mode="query"></mat-progress-bar>
+		</mat-card-header>
+	</mat-card>
+</ng-template>

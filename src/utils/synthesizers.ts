@@ -6,6 +6,8 @@ import { MegaBallData } from '../types/mega-ball-data';
 import { SetData } from '../types/set-data';
 import { BallAverageData } from '../types/ball-average-data';
 import { SetRangeData } from '../types/set-range-data';
+import { BallStatistics } from '../types/ball-statistics';
+import { DrawnPosition } from '../types/drawnPosition';
 
 function getModeAndInstances(numbers: number[]): [number, number] | [null, null] {
 	if (numbers.length === 0) return [null, null];
@@ -79,11 +81,11 @@ export function buildBallData(ball: Ball, sets: WinningSet[]): BallData {
 			}
 
 			if (ball.id === set.firstBall.id) {
-				const position: number | undefined = data.drawnPositions.get('firstBall');
+				const position: number | undefined = data.drawnPositions.get(1);
 				if (position !== undefined) {
-					data.drawnPositions.set('firstBall', position + 1);
+					data.drawnPositions.set(1, position + 1);
 				} else {
-					data.drawnPositions.set('firstBall', 1);
+					data.drawnPositions.set(1, 1);
 				}
 				const adjacentBall: number | undefined = data.adjacentBalls.get(set.secondBall.number);
 				if (adjacentBall !== undefined) {
@@ -92,11 +94,11 @@ export function buildBallData(ball: Ball, sets: WinningSet[]): BallData {
 					data.adjacentBalls.set(set.secondBall.number, 1);
 				}
 			} else if (ball.id === set.secondBall.id) {
-				const position: number | undefined = data.drawnPositions.get('secondBall');
+				const position: number | undefined = data.drawnPositions.get(2);
 				if (position !== undefined) {
-					data.drawnPositions.set('secondBall', position + 1);
+					data.drawnPositions.set(2, position + 1);
 				} else {
-					data.drawnPositions.set('secondBall', 1);
+					data.drawnPositions.set(2, 1);
 				}
 				const adjacentBall: number | undefined = data.adjacentBalls.get(set.thirdBall.number);
 				if (adjacentBall !== undefined) {
@@ -105,11 +107,11 @@ export function buildBallData(ball: Ball, sets: WinningSet[]): BallData {
 					data.adjacentBalls.set(set.thirdBall.number, 1);
 				}
 			} else if (ball.id === set.thirdBall.id) {
-				const position: number | undefined = data.drawnPositions.get('thirdBall');
+				const position: number | undefined = data.drawnPositions.get(3);
 				if (position !== undefined) {
-					data.drawnPositions.set('thirdBall', position + 1);
+					data.drawnPositions.set(3, position + 1);
 				} else {
-					data.drawnPositions.set('thirdBall', 1);
+					data.drawnPositions.set(3, 1);
 				}
 				const adjacentBall: number | undefined = data.adjacentBalls.get(set.fourthBall.number);
 				if (adjacentBall !== undefined) {
@@ -118,11 +120,11 @@ export function buildBallData(ball: Ball, sets: WinningSet[]): BallData {
 					data.adjacentBalls.set(set.fourthBall.number, 1);
 				}
 			} else if (ball.id === set.fourthBall.id) {
-				const position: number | undefined = data.drawnPositions.get('fourthBall');
+				const position: number | undefined = data.drawnPositions.get(4);
 				if (position !== undefined) {
-					data.drawnPositions.set('fourthBall', position + 1);
+					data.drawnPositions.set(4, position + 1);
 				} else {
-					data.drawnPositions.set('fourthBall', 1);
+					data.drawnPositions.set(4, 1);
 				}
 				const adjacentBall: number | undefined = data.adjacentBalls.get(set.fifthBall.number);
 				if (adjacentBall !== undefined) {
@@ -131,11 +133,11 @@ export function buildBallData(ball: Ball, sets: WinningSet[]): BallData {
 					data.adjacentBalls.set(set.fifthBall.number, 1);
 				}
 			} else if (ball.id === set.fifthBall.id) {
-				const position: number | undefined = data.drawnPositions.get('fifthBall');
+				const position: number | undefined = data.drawnPositions.get(5);
 				if (position !== undefined) {
-					data.drawnPositions.set('fifthBall', position + 1);
+					data.drawnPositions.set(5, position + 1);
 				} else {
-					data.drawnPositions.set('fifthBall', 1);
+					data.drawnPositions.set(5, 1);
 				}
 			}
 
@@ -317,6 +319,57 @@ export function getDateDifference(startDate: Date, endDate: Date): string {
 	}
 
 	return `${years}ys ${months}ms ${days}ds`;
+}
+
+export function buildBallStatistics(ball: Ball, sets: WinningSet[]): BallStatistics[] {
+	sets.sort((a: WinningSet, b: WinningSet) => a.date.getTime() - b.date.getTime());
+
+	const ballStatistics = new Array<BallStatistics>();
+	let statIndex: number = 1;
+
+	sets.forEach((set, index) => {
+		if (
+			set.firstBall.number === ball.number ||
+			set.secondBall.number === ball.number ||
+			set.thirdBall.number === ball.number ||
+			set.fourthBall.number === ball.number ||
+			set.fifthBall.number === ball.number
+		) {
+			let drawnPosition: DrawnPosition = 1;
+			let adjacentBall: Ball | null = null;
+
+			if (set.secondBall.number === ball.number) {
+				drawnPosition = 2;
+				adjacentBall = set.thirdBall;
+			} else if (set.thirdBall.number === ball.number) {
+				drawnPosition = 3;
+				adjacentBall = set.fourthBall;
+			} else if (set.fourthBall.number === ball.number) {
+				drawnPosition = 4;
+				adjacentBall = set.fifthBall;
+			} else if (set.fifthBall.number === ball.number) {
+				drawnPosition = 5;
+			} else {
+				adjacentBall = set.secondBall;
+			}
+
+			const data: BallStatistics = {
+				index: statIndex,
+				setNumber: index + 1,
+				drawDate: set.date,
+				drawnPosition,
+				drawPercentage: ((ballStatistics.length + 1) / (index + 1)) * 100,
+				drawInterval: index + 1 - (ballStatistics[statIndex - 2]?.setNumber ?? 0),
+				adjacentBall,
+			};
+			ballStatistics.push(data);
+			statIndex++;
+		}
+	});
+
+	ballStatistics.sort((a, b) => b.index - a.index);
+
+	return ballStatistics;
 }
 
 export function buildSetRangeData(setsData: SetData[]): SetRangeData {

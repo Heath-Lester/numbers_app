@@ -12,7 +12,7 @@ import {
 import { BallData } from '../../types/ball-data';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MegaMillionsService } from '../../services/mega-millions.service';
-import { BehaviorSubject, Subscription, combineLatest, debounceTime, filter, map, skip, tap } from 'rxjs';
+import { BehaviorSubject, Subscription, combineLatest, debounceTime, map, skip, tap } from 'rxjs';
 import { Ball } from '../../types/ball';
 import { buildBallData, buildBallAverageData, getDateDifference } from '../../utils/synthesizers';
 import { HttpClientModule } from '@angular/common/http';

@@ -15,7 +15,7 @@ export const routes: Routes = [
 	{ path: 'picker', component: PickerViewComponent, title: 'Picker' },
 	{ path: 'set', component: SetDetailsComponent, title: 'Winning Set' },
 	{ path: 'sets', component: SetsViewComponent, title: 'Winning Sets' },
-	{ path: 'ball', component: BallDetailsComponent, title: 'Ball' },
+	{ path: 'ball', component: BallDetailsComponent, title: 'Ball Statistics' },
 	{ path: 'balls', component: BallViewComponent, title: 'Balls' },
 	{ path: 'mega-ball', component: MegaBallDetailsComponent, title: 'Mega Ball' },
 	{ path: 'mega-balls', component: MegaBallViewComponent, title: 'Mega Balls' },

@@ -1,0 +1,22 @@
+.ball-stats-table {
+	display: flex;
+	flex-direction: column;
+	overflow: auto;
+	border-radius: 8px;
+	height: 86vh;
+}
+
+.ball-table-loader-header {
+	padding: 26px !important;
+}
+
+mat-footer-cell {
+	font-weight: 500;
+	border-top-color: var(--mat-table-row-item-outline-color, rgba(0, 0, 0, 0.12));
+	border-top-width: var(--mat-table-row-item-outline-width, 1px);
+	border-top-style: solid;
+}
+
+mat-footer-row {
+	margin-top: auto;
+}

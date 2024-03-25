@@ -1,1 +1,3 @@
-export type DrawnPositions = Map<'firstBall' | 'secondBall' | 'thirdBall' | 'fourthBall' | 'fifthBall', number>;
+import { DrawnPosition } from './drawnPosition';
+
+export type DrawnPositions = Map<DrawnPosition, number>;

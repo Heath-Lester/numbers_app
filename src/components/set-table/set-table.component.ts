@@ -167,7 +167,6 @@ export class SetTableComponent implements AfterViewInit, OnDestroy {
 		const megaplierMatch: boolean = filterObject.megaplier === null || filterObject.megaplier === data.megaplier;
 
 		this.recalculateSpans.next();
-		// console.warn('RECALCULATE SPAN: ', data.index);
 		if (filterObject.ball === null) {
 			return (
 				afterStartIndex &&
