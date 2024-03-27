@@ -8,6 +8,7 @@ import { BallAverageData } from '../types/ball-average-data';
 import { SetRangeData } from '../types/set-range-data';
 import { BallStatistics } from '../types/ball-statistics';
 import { DrawnPosition } from '../types/drawnPosition';
+import { BallStatsMeanModeRange } from '../types/ball-stats-mean-mode-range';
 
 function getModeAndInstances(numbers: number[]): [number, number] | [null, null] {
 	if (numbers.length === 0) return [null, null];
@@ -293,6 +294,125 @@ export function buildBallAverageData(balls: BallData[] | MegaBallData[]): BallAv
 	return data;
 }
 
+export function buildBallStatsMeanModeRangeData(ballStats: BallStatistics[]): BallStatsMeanModeRange {
+	const data: BallStatsMeanModeRange = {
+		descendingDrawnPositions: new Array<DrawnPosition>(),
+		modePosition: 1,
+		drawnIntervalMean: 0,
+		drawnIntervalMode: 0,
+		drawnIntervalMax: null,
+		drawnIntervalMin: null,
+		leftBallMean: 0,
+		leftBallMode: 0,
+		leftBallMin: null,
+		leftBallMax: null,
+		rightBallMean: 0,
+		rightBallMode: 0,
+		rightBallMin: null,
+		rightBallMax: null,
+	};
+	let allDrawnPositions = new Map<DrawnPosition, number>();
+	let totalDrawnInterval = 0;
+	let allDrawnIntervals = new Map<number, number>();
+	let totalLeftBallValue = 0;
+	let allLeftBallValues = new Map<number, number>();
+	let totalRightBallValue = 0;
+	let allRightBallValues = new Map<number, number>();
+	for (const stat of ballStats) {
+		const drawnPositionCount: number | undefined = allDrawnPositions.get(stat.drawnPosition);
+		if (drawnPositionCount) {
+			allDrawnPositions.set(stat.drawnPosition, drawnPositionCount + 1);
+		} else {
+			allDrawnPositions.set(stat.drawnPosition, 1);
+		}
+		totalDrawnInterval += stat.drawInterval ?? 0;
+		const drawnInterval: number | undefined = allDrawnIntervals.get(stat.drawInterval);
+		if (drawnInterval) {
+			allDrawnIntervals.set(stat.drawInterval, drawnInterval + 1);
+		} else {
+			allDrawnIntervals.set(stat.drawInterval, 1);
+		}
+		if (data.drawnIntervalMax === null || data.drawnIntervalMax < stat.drawInterval) {
+			data.drawnIntervalMax = stat.drawInterval;
+		}
+		if (data.drawnIntervalMin === null || data.drawnIntervalMin > stat.drawInterval) {
+			data.drawnIntervalMin = stat.drawInterval;
+		}
+		totalLeftBallValue += stat.leftBall ?? 0;
+		if (stat.leftBall) {
+			const leftBall: number | undefined = allLeftBallValues.get(stat.leftBall);
+			if (leftBall) {
+				allLeftBallValues.set(stat.leftBall, leftBall + 1);
+			} else {
+				allLeftBallValues.set(stat.leftBall, 1);
+			}
+		}
+		if (data.leftBallMax === null || (stat.leftBall !== null && data.leftBallMax < stat.leftBall)) {
+			data.leftBallMax = stat.leftBall;
+		}
+		if (data.leftBallMin === null || (stat.leftBall !== null && data.leftBallMin < stat.leftBall)) {
+			data.leftBallMin = stat.leftBall;
+		}
+		totalRightBallValue += stat.rightBall ?? 0;
+		if (stat.rightBall) {
+			const rightBall: number | undefined = allRightBallValues.get(stat.rightBall);
+			if (rightBall) {
+				allRightBallValues.set(stat.rightBall, rightBall + 1);
+			} else {
+				allRightBallValues.set(stat.rightBall, 1);
+			}
+		}
+		if (data.rightBallMax === null || (stat.rightBall !== null && data.rightBallMax < stat.rightBall)) {
+			data.rightBallMax = stat.rightBall;
+		}
+		if (data.rightBallMin === null || (stat.rightBall !== null && data.rightBallMin < stat.rightBall)) {
+			data.rightBallMin = stat.rightBall;
+		}
+	}
+
+	let maxDrawnPosition: DrawnPosition | null = null;
+	for (const [key, value] of allDrawnPositions.entries()) {
+		if (maxDrawnPosition === null || maxDrawnPosition < value) {
+			data.modePosition = key;
+		}
+	}
+	let allDrawIntervalInstances: number | null = null;
+	for (const [key, value] of allDrawnIntervals.entries()) {
+		if (allDrawIntervalInstances === null || allDrawIntervalInstances < value) {
+			data.drawnIntervalMax = key;
+		}
+	}
+	let maxLeftBallInstances: number | null = null;
+	for (const [key, value] of allLeftBallValues.entries()) {
+		if (maxLeftBallInstances === null || maxLeftBallInstances < value) {
+			data.leftBallMode = key;
+		}
+	}
+	let maxRightBallInstances: number | null = null;
+	for (const [key, value] of allRightBallValues.entries()) {
+		if (maxRightBallInstances === null || maxRightBallInstances < value) {
+			data.rightBallMode = key;
+		}
+	}
+
+	data.drawnIntervalMean = totalDrawnInterval / ballStats.length;
+	data.leftBallMean = totalLeftBallValue / ballStats.length;
+	data.rightBallMean = totalRightBallValue / ballStats.length;
+
+	const descendingPositionInstances: number[] = new Array<number>(...allDrawnPositions.values()).sort(
+		(a, b) => b - a
+	);
+
+	const previousDrawPosition: number | null = null;
+	for (const [key, value] of allDrawnPositions.entries()) {
+		if (previousDrawPosition === null) {
+			data.descendingDrawnPositions.push(key);
+		}
+	}
+
+	return data;
+}
+
 export function getDateDifference(startDate: Date, endDate: Date): string {
 	const [startMonthString, startDayString, startYearString] = startDate.toLocaleDateString().split('/');
 	const [endMonthString, endDayString, endYearString] = endDate.toLocaleDateString().split('/');
@@ -336,21 +456,26 @@ export function buildBallStatistics(ball: Ball, sets: WinningSet[]): BallStatist
 			set.fifthBall.number === ball.number
 		) {
 			let drawnPosition: DrawnPosition = 1;
-			let adjacentBall: Ball | null = null;
+			let leftBall: number | null = null;
+			let rightBall: number | null = null;
 
 			if (set.secondBall.number === ball.number) {
 				drawnPosition = 2;
-				adjacentBall = set.thirdBall;
+				leftBall = set.firstBall.number;
+				rightBall = set.thirdBall.number;
 			} else if (set.thirdBall.number === ball.number) {
 				drawnPosition = 3;
-				adjacentBall = set.fourthBall;
+				leftBall = set.secondBall.number;
+				rightBall = set.fourthBall.number;
 			} else if (set.fourthBall.number === ball.number) {
 				drawnPosition = 4;
-				adjacentBall = set.fifthBall;
+				leftBall = set.thirdBall.number;
+				rightBall = set.fifthBall.number;
 			} else if (set.fifthBall.number === ball.number) {
 				drawnPosition = 5;
+				leftBall = set.fourthBall.number;
 			} else {
-				adjacentBall = set.secondBall;
+				rightBall = set.secondBall.number;
 			}
 
 			const data: BallStatistics = {
@@ -360,7 +485,8 @@ export function buildBallStatistics(ball: Ball, sets: WinningSet[]): BallStatist
 				drawnPosition,
 				drawPercentage: ((ballStatistics.length + 1) / (index + 1)) * 100,
 				drawInterval: index + 1 - (ballStatistics[statIndex - 2]?.setNumber ?? 0),
-				adjacentBall,
+				leftBall,
+				rightBall,
 			};
 			ballStatistics.push(data);
 			statIndex++;

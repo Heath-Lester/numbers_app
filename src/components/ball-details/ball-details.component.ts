@@ -21,7 +21,8 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { BallStatistics } from '../../types/ball-statistics';
-import { buildBallStatistics } from '../../utils/synthesizers';
+import { buildBallStatistics, buildBallStatsMeanModeRangeData } from '../../utils/synthesizers';
+import { BallStatsMeanModeRange } from '../../types/ball-stats-mean-mode-range';
 
 @Component({
 	selector: 'app-ball-details',
@@ -58,12 +59,14 @@ export class BallDetailsComponent implements OnDestroy {
 		.pipe(
 			filter((selection) => !!selection),
 			debounceTime(500),
-			map(([ball, sets]: [Ball, WinningSet[]]) => buildBallStatistics(ball, sets))
+			map(([ball, sets]: [Ball, WinningSet[]]) => buildBallStatistics(ball, sets)),
+			tap((ballStats: BallStatistics[]) => (this.footerData = buildBallStatsMeanModeRangeData(ballStats)))
 		)
 		.subscribe((ballStats: BallStatistics[]) => {
 			this.dataSource.data = ballStats;
 			this.changeDetector.markForCheck();
 		});
+	protected footerData?: BallStatsMeanModeRange;
 	private changeDetector = inject(ChangeDetectorRef, { self: true });
 	protected displayedColumns: string[] = [
 		'index',
@@ -72,7 +75,8 @@ export class BallDetailsComponent implements OnDestroy {
 		'drawnPosition',
 		'drawPercentage',
 		'drawInterval',
-		'adjacentBall',
+		'leftBall',
+		'rightBall',
 	];
 
 	ngOnDestroy(): void {

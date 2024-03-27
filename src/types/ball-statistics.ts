@@ -1,4 +1,3 @@
-import { Ball } from './ball';
 import { DrawnPosition } from './drawnPosition';
 
 export type BallStatistics = {
@@ -8,5 +7,6 @@ export type BallStatistics = {
 	drawnPosition: DrawnPosition;
 	drawPercentage: number;
 	drawInterval: number;
-	adjacentBall: Ball | null;
+	rightBall: number | null;
+	leftBall: number | null;
 };

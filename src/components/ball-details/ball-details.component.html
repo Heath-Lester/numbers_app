@@ -100,17 +100,30 @@
 			}}</mat-footer-cell> -->
 			</ng-container>
 
-			<ng-container matColumnDef="adjacentBall">
+			<ng-container matColumnDef="leftBall">
 				<mat-header-cell
 					*matHeaderCellDef
 					mat-sort-header
-					sortActionDescription="Sort by mean draw interval"
+					sortActionDescription="Sort by left ball"
 				>
-					Adjacent Ball
+					Left Ball
 				</mat-header-cell>
-				<mat-cell *matCellDef="let row"> {{ row.adjacentBall?.number ?? "-" }} </mat-cell>
+				<mat-cell *matCellDef="let row"> {{ row.leftBall ?? "-" }} </mat-cell>
 				<!-- <mat-footer-cell *matFooterCellDef>{{
 				footerData ? footerData.meanAdjacentBall.toFixed(1) : 0
+			}}</mat-footer-cell> -->
+			</ng-container>
+			<ng-container matColumnDef="rightBall">
+				<mat-header-cell
+					*matHeaderCellDef
+					mat-sort-header
+					sortActionDescription="Sort by right ball"
+				>
+					Right Ball
+				</mat-header-cell>
+				<mat-cell *matCellDef="let row"> {{ row.rightBall ?? "-" }} </mat-cell>
+				<!-- <mat-footer-cell *matFooterCellDef>{{
+				footerData ? footerData.meanRightBall.toFixed(1) : 0
 			}}</mat-footer-cell> -->
 			</ng-container>
 
