@@ -1,8 +1,10 @@
 import { DrawnPosition } from './drawnPosition';
 
 export type BallStatsMeanModeRange = {
+	total: number;
 	descendingDrawnPositions: DrawnPosition[];
-	modePosition: DrawnPosition;
+	modePosition: DrawnPosition | null;
+	meanDrawPercentage: number;
 	drawnIntervalMean: number;
 	drawnIntervalMode: number;
 	drawnIntervalMax: number | null;

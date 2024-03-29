@@ -27,7 +27,7 @@
 					Index
 				</mat-header-cell>
 				<mat-cell *matCellDef="let row"> {{ row.index }} </mat-cell>
-				<!-- <mat-footer-cell *matFooterCellDef>Average/Span</mat-footer-cell> -->
+				<mat-footer-cell *matFooterCellDef>Mean/Mode/Range</mat-footer-cell>
 			</ng-container>
 
 			<ng-container matColumnDef="setNumber">
@@ -39,9 +39,7 @@
 					Set Number
 				</mat-header-cell>
 				<mat-cell *matCellDef="let row"> {{ row.setNumber }} </mat-cell>
-				<!-- <mat-footer-cell *matFooterCellDef>{{
-			footerData ? footerData.meanTotalDraws.toFixed(1) : 0
-			}}</mat-footer-cell> -->
+				<mat-footer-cell *matFooterCellDef>Total: {{ footerData ? footerData.total : 0 }}</mat-footer-cell>
 			</ng-container>
 
 			<ng-container matColumnDef="drawDate">
@@ -53,9 +51,7 @@
 					Draw Date
 				</mat-header-cell>
 				<mat-cell *matCellDef="let row"> {{ row.drawDate?.toLocaleDateString() ?? "-" }} </mat-cell>
-				<!-- <mat-footer-cell *matFooterCellDef>{{
-				footerData ? displayTimeSpan(footerData.drawDateStart, footerData.drawDateEnd) : "--yrs --mths --dys"
-			}}</mat-footer-cell> -->
+				<mat-footer-cell *matFooterCellDef></mat-footer-cell>
 			</ng-container>
 
 			<ng-container matColumnDef="drawnPosition">
@@ -67,9 +63,9 @@
 					Drawn Position
 				</mat-header-cell>
 				<mat-cell *matCellDef="let row"> {{ row.drawnPosition }} </mat-cell>
-				<!-- <mat-footer-cell *matFooterCellDef>{{
-				footerData ? displayTimeSpan(footerData.drawnPositionStart, footerData.drawnPositionEnd) : "--yrs --mths --dys"
-			}}</mat-footer-cell> -->
+				<mat-footer-cell *matFooterCellDef>
+					{{ footerData ? footerData.descendingDrawnPositions.toString() : 0 }}</mat-footer-cell
+				>
 			</ng-container>
 
 			<ng-container matColumnDef="drawPercentage">
@@ -81,9 +77,9 @@
 					Draw Percentage
 				</mat-header-cell>
 				<mat-cell *matCellDef="let row"> {{ row.drawPercentage.toFixed(3) }}% </mat-cell>
-				<!-- <mat-footer-cell *matFooterCellDef
-			>{{ footerData ? footerData.meanDrawPercentage.toFixed(3) : 0.0 }}%</mat-footer-cell
-			> -->
+				<mat-footer-cell *matFooterCellDef
+					>{{ footerData ? footerData.meanDrawPercentage.toFixed(3) : 0.0 }}%</mat-footer-cell
+				>
 			</ng-container>
 
 			<ng-container matColumnDef="drawInterval">
@@ -95,9 +91,13 @@
 					Draw Interval
 				</mat-header-cell>
 				<mat-cell *matCellDef="let row"> {{ row.drawInterval }} </mat-cell>
-				<!-- <mat-footer-cell *matFooterCellDef>{{
-				footerData ? footerData.meanLastDrawInterval.toFixed(1) : 0
-			}}</mat-footer-cell> -->
+				<mat-footer-cell *matFooterCellDef>
+					{{ footerData ? footerData.drawnIntervalMean.toFixed(1) : 0.0 }} |
+					{{ footerData ? footerData.drawnIntervalMode : 0 }} |
+					{{ footerData ? footerData.drawnIntervalMin : "" }}-{{
+						footerData ? footerData.drawnIntervalMax : ""
+					}}
+				</mat-footer-cell>
 			</ng-container>
 
 			<ng-container matColumnDef="leftBall">
@@ -109,9 +109,12 @@
 					Left Ball
 				</mat-header-cell>
 				<mat-cell *matCellDef="let row"> {{ row.leftBall ?? "-" }} </mat-cell>
-				<!-- <mat-footer-cell *matFooterCellDef>{{
-				footerData ? footerData.meanAdjacentBall.toFixed(1) : 0
-			}}</mat-footer-cell> -->
+				<mat-footer-cell *matFooterCellDef>
+					{{ footerData ? footerData.leftBallMean.toFixed(1) : 0.0 }} |
+					{{ footerData ? footerData.leftBallMode : 0 }} | {{ footerData ? footerData.leftBallMin : "" }}-{{
+						footerData ? footerData.leftBallMax : ""
+					}}
+				</mat-footer-cell>
 			</ng-container>
 			<ng-container matColumnDef="rightBall">
 				<mat-header-cell
@@ -122,15 +125,18 @@
 					Right Ball
 				</mat-header-cell>
 				<mat-cell *matCellDef="let row"> {{ row.rightBall ?? "-" }} </mat-cell>
-				<!-- <mat-footer-cell *matFooterCellDef>{{
-				footerData ? footerData.meanRightBall.toFixed(1) : 0
-			}}</mat-footer-cell> -->
+				<mat-footer-cell *matFooterCellDef>
+					{{ footerData ? footerData.rightBallMean.toFixed(1) : 0.0 }} |
+					{{ footerData ? footerData.rightBallMode : 0 }} | {{ footerData ? footerData.rightBallMin : "" }}-{{
+						footerData ? footerData.rightBallMax : ""
+					}}
+				</mat-footer-cell>
 			</ng-container>
 
 			<!-- Header and Row Declarations -->
 			<mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></mat-header-row>
 			<mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
-			<!-- <mat-footer-row *matFooterRowDef="displayedColumns; sticky: true"></mat-footer-row> -->
+			<mat-footer-row *matFooterRowDef="displayedColumns; sticky: true"></mat-footer-row>
 		</mat-table>
 	</ng-container>
 </ng-container>

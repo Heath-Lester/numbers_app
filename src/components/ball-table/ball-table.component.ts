@@ -1,3 +1,4 @@
+import { DateSpanPipe } from './../../pipes/date-span.pipe';
 import { WinningSet } from './../../types/winning-set';
 import {
 	AfterViewInit,
@@ -14,7 +15,7 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MegaMillionsService } from '../../services/mega-millions.service';
 import { BehaviorSubject, Subscription, combineLatest, debounceTime, map, skip, tap } from 'rxjs';
 import { Ball } from '../../types/ball';
-import { buildBallData, buildBallAverageData, getDateDifference } from '../../utils/synthesizers';
+import { buildBallData, buildBallAverageData } from '../../utils/synthesizers';
 import { HttpClientModule } from '@angular/common/http';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatProgressBar } from '@angular/material/progress-bar';
@@ -35,10 +36,11 @@ import { MatCardModule } from '@angular/material/card';
 		CommonModule,
 		MatCardModule,
 		MatCardModule,
+		DateSpanPipe,
 	],
 	templateUrl: './ball-table.component.html',
 	styleUrl: './ball-table.component.scss',
-	providers: [MegaMillionsService, CdkColumnDef],
+	providers: [MegaMillionsService, CdkColumnDef, DateSpanPipe],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BallTableComponent implements OnDestroy, AfterViewInit {
@@ -110,10 +112,6 @@ export class BallTableComponent implements OnDestroy, AfterViewInit {
 	ngOnDestroy(): void {
 		this.ballData?.unsubscribe();
 		this.filterSubscription?.unsubscribe();
-	}
-
-	protected displayTimeSpan(startDate: Date, endDate: Date): string {
-		return getDateDifference(startDate, endDate);
 	}
 
 	private filterPredicate = (data: BallData, filter: string): boolean => {

@@ -12,7 +12,7 @@ import { WinningSet } from './../../types/winning-set';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MegaMillionsService } from '../../services/mega-millions.service';
 import { BehaviorSubject, Subscription, map, skip, debounceTime, filter, combineLatest, tap, Subject } from 'rxjs';
-import { buildSetData, buildSetRangeData, getDateDifference } from '../../utils/synthesizers';
+import { buildSetData, buildSetRangeData } from '../../utils/synthesizers';
 import { HttpClientModule } from '@angular/common/http';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { SetData } from '../../types/set-data';
@@ -23,10 +23,15 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { SetRangeData } from '../../types/set-range-data';
+import { DateSpanPipe } from '../../pipes/date-span.pipe';
 
 @Component({
 	selector: 'app-set-table',
 	standalone: true,
+	templateUrl: './set-table.component.html',
+	styleUrl: './set-table.component.scss',
+	providers: [MegaMillionsService, CdkColumnDef, DateSpanPipe],
+	changeDetection: ChangeDetectionStrategy.OnPush,
 	imports: [
 		MatTableModule,
 		HttpClientModule,
@@ -35,11 +40,8 @@ import { SetRangeData } from '../../types/set-range-data';
 		MatProgressBarModule,
 		MatCardModule,
 		MatDividerModule,
+		DateSpanPipe,
 	],
-	templateUrl: './set-table.component.html',
-	styleUrl: './set-table.component.scss',
-	providers: [MegaMillionsService, CdkColumnDef],
-	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SetTableComponent implements AfterViewInit, OnDestroy {
 	@Input({ required: false }) set setFilter(setFilter: BehaviorSubject<SetFilter> | undefined) {
@@ -75,9 +77,7 @@ export class SetTableComponent implements AfterViewInit, OnDestroy {
 					map((sets: WinningSet[]) =>
 						sets.sort((a: WinningSet, b: WinningSet) => a.date.getTime() - b.date.getTime())
 					),
-					map((sets: WinningSet[]) =>
-						sets.map((set: WinningSet, index: number) => buildSetData(set, index + 1))
-					),
+					map((sets: WinningSet[]) => buildSetData(sets)),
 					map((setsData: SetData[]) => setsData.sort((a: SetData, b: SetData) => b.index - a.index)),
 					tap((setsData: SetData[]) => (this.footerData = buildSetRangeData(setsData)))
 				)
@@ -129,10 +129,6 @@ export class SetTableComponent implements AfterViewInit, OnDestroy {
 		this.dataSubscription?.unsubscribe();
 		this.filterSubscription?.unsubscribe();
 		this.recalculateSpansSubscription.unsubscribe();
-	}
-
-	protected displayTimeSpan(startDate: Date, endDate: Date): string {
-		return getDateDifference(startDate, endDate);
 	}
 
 	private filterPredicate = (data: SetData, filter: string): boolean => {

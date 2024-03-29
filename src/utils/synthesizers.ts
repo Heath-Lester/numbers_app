@@ -296,8 +296,10 @@ export function buildBallAverageData(balls: BallData[] | MegaBallData[]): BallAv
 
 export function buildBallStatsMeanModeRangeData(ballStats: BallStatistics[]): BallStatsMeanModeRange {
 	const data: BallStatsMeanModeRange = {
+		total: ballStats.length,
 		descendingDrawnPositions: new Array<DrawnPosition>(),
 		modePosition: 1,
+		meanDrawPercentage: 0,
 		drawnIntervalMean: 0,
 		drawnIntervalMode: 0,
 		drawnIntervalMax: null,
@@ -313,6 +315,7 @@ export function buildBallStatsMeanModeRangeData(ballStats: BallStatistics[]): Ba
 	};
 	let allDrawnPositions = new Map<DrawnPosition, number>();
 	let totalDrawnInterval = 0;
+	let totalDrawnPercentage = 0;
 	let allDrawnIntervals = new Map<number, number>();
 	let totalLeftBallValue = 0;
 	let allLeftBallValues = new Map<number, number>();
@@ -325,6 +328,7 @@ export function buildBallStatsMeanModeRangeData(ballStats: BallStatistics[]): Ba
 		} else {
 			allDrawnPositions.set(stat.drawnPosition, 1);
 		}
+		totalDrawnPercentage += stat.drawPercentage;
 		totalDrawnInterval += stat.drawInterval ?? 0;
 		const drawnInterval: number | undefined = allDrawnIntervals.get(stat.drawInterval);
 		if (drawnInterval) {
@@ -350,7 +354,7 @@ export function buildBallStatsMeanModeRangeData(ballStats: BallStatistics[]): Ba
 		if (data.leftBallMax === null || (stat.leftBall !== null && data.leftBallMax < stat.leftBall)) {
 			data.leftBallMax = stat.leftBall;
 		}
-		if (data.leftBallMin === null || (stat.leftBall !== null && data.leftBallMin < stat.leftBall)) {
+		if (data.leftBallMin === null || (stat.leftBall !== null && data.leftBallMin > stat.leftBall)) {
 			data.leftBallMin = stat.leftBall;
 		}
 		totalRightBallValue += stat.rightBall ?? 0;
@@ -365,80 +369,59 @@ export function buildBallStatsMeanModeRangeData(ballStats: BallStatistics[]): Ba
 		if (data.rightBallMax === null || (stat.rightBall !== null && data.rightBallMax < stat.rightBall)) {
 			data.rightBallMax = stat.rightBall;
 		}
-		if (data.rightBallMin === null || (stat.rightBall !== null && data.rightBallMin < stat.rightBall)) {
+		if (data.rightBallMin === null || (stat.rightBall !== null && data.rightBallMin > stat.rightBall)) {
 			data.rightBallMin = stat.rightBall;
 		}
 	}
 
+	let maxDrawnPositionValue: number = 0;
 	let maxDrawnPosition: DrawnPosition | null = null;
 	for (const [key, value] of allDrawnPositions.entries()) {
-		if (maxDrawnPosition === null || maxDrawnPosition < value) {
-			data.modePosition = key;
+		if (maxDrawnPositionValue < value) {
+			maxDrawnPosition = key;
+			maxDrawnPositionValue = value;
 		}
 	}
+	data.modePosition = maxDrawnPosition;
+
 	let allDrawIntervalInstances: number | null = null;
 	for (const [key, value] of allDrawnIntervals.entries()) {
 		if (allDrawIntervalInstances === null || allDrawIntervalInstances < value) {
-			data.drawnIntervalMax = key;
+			data.drawnIntervalMode = key;
 		}
 	}
-	let maxLeftBallInstances: number | null = null;
+	let maxLeftBallInstance: number | null = null;
+	console.warn('ALL LEFT BALL VALUES: ', maxLeftBallInstance);
 	for (const [key, value] of allLeftBallValues.entries()) {
-		if (maxLeftBallInstances === null || maxLeftBallInstances < value) {
+		if (maxLeftBallInstance === null || maxLeftBallInstance < value) {
 			data.leftBallMode = key;
 		}
 	}
 	let maxRightBallInstances: number | null = null;
+	console.warn('ALL RIGHT BALL VALUES: ', allRightBallValues);
 	for (const [key, value] of allRightBallValues.entries()) {
 		if (maxRightBallInstances === null || maxRightBallInstances < value) {
 			data.rightBallMode = key;
 		}
 	}
 
+	data.meanDrawPercentage = totalDrawnPercentage / ballStats.length;
 	data.drawnIntervalMean = totalDrawnInterval / ballStats.length;
 	data.leftBallMean = totalLeftBallValue / ballStats.length;
 	data.rightBallMean = totalRightBallValue / ballStats.length;
 
-	const descendingPositionInstances: number[] = new Array<number>(...allDrawnPositions.values()).sort(
-		(a, b) => b - a
+	console.warn('ALL DRAWN POSITIONS: ', allDrawnPositions);
+	const descendingPositionInstances: DrawnPosition[] = new Array<DrawnPosition>(
+		...new Map(
+			new Array<[DrawnPosition, number]>(...allDrawnPositions.entries()).sort(
+				(a: [DrawnPosition, number], b: [DrawnPosition, number]) => b[1] - a[1]
+			)
+		).keys()
 	);
 
-	const previousDrawPosition: number | null = null;
-	for (const [key, value] of allDrawnPositions.entries()) {
-		if (previousDrawPosition === null) {
-			data.descendingDrawnPositions.push(key);
-		}
-	}
+	data.descendingDrawnPositions = descendingPositionInstances;
 
 	return data;
-}
-
-export function getDateDifference(startDate: Date, endDate: Date): string {
-	const [startMonthString, startDayString, startYearString] = startDate.toLocaleDateString().split('/');
-	const [endMonthString, endDayString, endYearString] = endDate.toLocaleDateString().split('/');
-
-	const startDay = parseInt(startDayString);
-	const startMonth = parseInt(startMonthString);
-	const startYear = parseInt(startYearString);
-	const endDay = parseInt(endDayString);
-	const endMonth = parseInt(endMonthString);
-	const endYear = parseInt(endYearString);
-
-	const years: number = endYear - startYear;
-	const months: number = endMonth >= startMonth ? endMonth - startMonth : 12 - startMonth + endMonth;
-	const daysInMonths: number[] = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-	let days: number = 0;
-	if (endDay > startDay) {
-		days = endDay - startDay;
-	} else if (endDay < startDay) {
-		let daysInMonth = daysInMonths[startMonth - 1];
-		if (startMonth === 2 && startYear % 4 === 0) {
-			daysInMonth++;
-		}
-		days = daysInMonth - startDay + endDay;
-	}
-
-	return `${years}ys ${months}ms ${days}ds`;
 }
 
 export function buildBallStatistics(ball: Ball, sets: WinningSet[]): BallStatistics[] {
@@ -604,18 +587,27 @@ export function buildSetRangeData(setsData: SetData[]): SetRangeData {
 	return data;
 }
 
-export function buildSetData(set: WinningSet, index: number): SetData {
-	const data: SetData = {
-		index,
-		date: set.date,
-		firstBall: set.firstBall.number,
-		secondBall: set.secondBall.number,
-		thirdBall: set.thirdBall.number,
-		fourthBall: set.fourthBall.number,
-		fifthBall: set.fifthBall.number,
-		megaBall: set.megaBall.number,
-		megaplier: set.megaplier,
-	};
+export function buildSetData(sets: WinningSet[]): SetData[] {
+	const setData = sets.map((set, index) => {
+		const data: SetData = {
+			index,
+			date: set.date,
+			firstBall: set.firstBall.number,
+			firstDiff: sets[index - 1] ? set.firstBall.number - sets[index - 1].firstBall.number : 0,
+			secondBall: set.secondBall.number,
+			secondDiff: sets[index - 1] ? set.secondBall.number - sets[index - 1].secondBall.number : 0,
+			thirdBall: set.thirdBall.number,
+			thirdDiff: sets[index - 1] ? set.thirdBall.number - sets[index - 1].thirdBall.number : 0,
+			fourthBall: set.fourthBall.number,
+			fourthDiff: sets[index - 1] ? set.fourthBall.number - sets[index - 1].fourthBall.number : 0,
+			fifthBall: set.fifthBall.number,
+			fifthDiff: sets[index - 1] ? set.fifthBall.number - sets[index - 1].fifthBall.number : 0,
+			megaBall: set.megaBall.number,
+			megaDiff: sets[index - 1] ? set.megaBall.number - sets[index - 1].megaBall.number : 0,
+			megaplier: set.megaplier,
+		};
+		return data;
+	});
 
-	return data;
+	return setData;
 }
