@@ -10,7 +10,16 @@
 			>
 		</mat-expansion-panel-header>
 		<form class="set-filter-form">
-			<!-- <div class="index-range-container"> -->
+			<!-- Diff Toggle -->
+			<section class="toggle">
+				<span class="toggle-title">Diff Columns</span>
+				<mat-slide-toggle
+					name="toggleDiff"
+					[ngModel]="toggleDiff | async"
+					(change)="toggleDiff.next($event.checked)"
+				/>
+			</section>
+			<!-- Index Filter -->
 			<mat-form-field appearance="outline">
 				<mat-label>Index Start</mat-label>
 				<input
@@ -57,7 +66,7 @@
 					</button>
 				}
 			</mat-form-field>
-			<!-- </div> -->
+			<!-- Date Range Filter -->
 			<mat-form-field appearance="outline">
 				<mat-label>Date Range</mat-label>
 				<mat-date-range-input
@@ -134,6 +143,7 @@
 					</button>
 				}
 			</mat-form-field>
+			<!-- First Ball Filter -->
 			<mat-form-field appearance="outline">
 				<mat-label>First Ball</mat-label>
 				<input
@@ -158,6 +168,7 @@
 					</button>
 				}
 			</mat-form-field>
+			<!-- Second Ball Filter -->
 			<mat-form-field appearance="outline">
 				<mat-label>Second Ball</mat-label>
 				<input
@@ -182,6 +193,7 @@
 					</button>
 				}
 			</mat-form-field>
+			<!-- Third Ball Filter -->
 			<mat-form-field appearance="outline">
 				<mat-label>Third Ball</mat-label>
 				<input
@@ -206,6 +218,7 @@
 					</button>
 				}
 			</mat-form-field>
+			<!-- Fourth Ball Filter -->
 			<mat-form-field appearance="outline">
 				<mat-label>Fourth Ball</mat-label>
 				<input
@@ -230,6 +243,7 @@
 					</button>
 				}
 			</mat-form-field>
+			<!-- Fifth Ball Filter -->
 			<mat-form-field appearance="outline">
 				<mat-label>Fifth Ball</mat-label>
 				<input
@@ -254,6 +268,7 @@
 					</button>
 				}
 			</mat-form-field>
+			<!-- Mega Ball Filter -->
 			<mat-form-field appearance="outline">
 				<mat-label>Mega Ball</mat-label>
 				<input
@@ -277,6 +292,7 @@
 					</button>
 				}
 			</mat-form-field>
+			<!-- Megaplier Filter -->
 			<mat-form-field appearance="outline">
 				<mat-label>Megaplier</mat-label>
 				<input
@@ -300,6 +316,7 @@
 					</button>
 				}
 			</mat-form-field>
+			<!-- Year Cutoff -->
 			<mat-form-field appearance="outline">
 				<mat-label>Cutoff Year</mat-label>
 				<mat-select

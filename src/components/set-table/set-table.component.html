@@ -4,7 +4,7 @@
 		class="set-table mat-elevation-z2"
 		[dataSource]="dataSource"
 	>
-		<!-- Index Definition -->
+		<!-- Index  -->
 		<ng-container matColumnDef="index">
 			<mat-header-cell
 				*matHeaderCellDef
@@ -21,7 +21,7 @@
 			</mat-footer-cell>
 		</ng-container>
 
-		<!-- Draw Date Definition -->
+		<!-- Draw Date  -->
 		<ng-container matColumnDef="date">
 			<mat-header-cell
 				*matHeaderCellDef
@@ -36,7 +36,7 @@
 			</mat-footer-cell>
 		</ng-container>
 
-		<!-- First Ball Definition -->
+		<!-- First Ball -->
 		<ng-container matColumnDef="firstBall">
 			<mat-header-cell
 				*matHeaderCellDef
@@ -53,7 +53,25 @@
 			</mat-footer-cell>
 		</ng-container>
 
-		<!-- Second Ball Definition -->
+		<!-- First Diff  -->
+		<ng-container matColumnDef="firstDiff">
+			<mat-header-cell
+				*matHeaderCellDef
+				mat-sort-header
+				sortActionDescription="Sort by first diff"
+			>
+				1st Diff
+			</mat-header-cell>
+			<mat-cell
+				*matCellDef="let row"
+				[ngClass]="row.firstDiff > 0 ? 'pos-diff' : 'neg-diff'"
+			>
+				{{ row.firstDiff | posNeg }}
+			</mat-cell>
+			<mat-footer-cell *matFooterCellDef></mat-footer-cell>
+		</ng-container>
+
+		<!-- Second Ball  -->
 		<ng-container matColumnDef="secondBall">
 			<mat-header-cell
 				*matHeaderCellDef
@@ -70,7 +88,25 @@
 			</mat-footer-cell>
 		</ng-container>
 
-		<!-- Third Ball Definition -->
+		<!-- Second Diff  -->
+		<ng-container matColumnDef="secondDiff">
+			<mat-header-cell
+				*matHeaderCellDef
+				mat-sort-header
+				sortActionDescription="Sort by second diff"
+			>
+				2nd Diff
+			</mat-header-cell>
+			<mat-cell
+				*matCellDef="let row"
+				[ngClass]="row.secondDiff > 0 ? 'pos-diff' : 'neg-diff'"
+			>
+				{{ row.secondDiff | posNeg }}
+			</mat-cell>
+			<mat-footer-cell *matFooterCellDef></mat-footer-cell>
+		</ng-container>
+
+		<!-- Third Ball  -->
 		<ng-container matColumnDef="thirdBall">
 			<mat-header-cell
 				*matHeaderCellDef
@@ -87,7 +123,25 @@
 			</mat-footer-cell>
 		</ng-container>
 
-		<!-- Fourth Ball Definition -->
+		<!-- Third Diff  -->
+		<ng-container matColumnDef="thirdDiff">
+			<mat-header-cell
+				*matHeaderCellDef
+				mat-sort-header
+				sortActionDescription="Sort by third diff"
+			>
+				3rd Diff
+			</mat-header-cell>
+			<mat-cell
+				*matCellDef="let row"
+				[ngClass]="row.thirdDiff > 0 ? 'pos-diff' : 'neg-diff'"
+			>
+				{{ row.thirdDiff | posNeg }}
+			</mat-cell>
+			<mat-footer-cell *matFooterCellDef></mat-footer-cell>
+		</ng-container>
+
+		<!-- Fourth Ball  -->
 		<ng-container matColumnDef="fourthBall">
 			<mat-header-cell
 				*matHeaderCellDef
@@ -96,7 +150,9 @@
 			>
 				Fourth Ball
 			</mat-header-cell>
-			<mat-cell *matCellDef="let row"> {{ row.fourthBall }} </mat-cell>
+			<mat-cell *matCellDef="let row">
+				{{ row.fourthBall }}
+			</mat-cell>
 			<mat-footer-cell *matFooterCellDef
 				>{{ footerData ? footerData.fourthBallRangeStart : 0 }}-{{
 					footerData ? footerData.fourthBallRangeEnd : 0
@@ -104,7 +160,25 @@
 			</mat-footer-cell>
 		</ng-container>
 
-		<!-- Fifth Ball Definition -->
+		<!-- Fourth Diff  -->
+		<ng-container matColumnDef="fourthDiff">
+			<mat-header-cell
+				*matHeaderCellDef
+				mat-sort-header
+				sortActionDescription="Sort by fourth diff"
+			>
+				4th Diff
+			</mat-header-cell>
+			<mat-cell
+				*matCellDef="let row"
+				[ngClass]="row.fourthDiff > 0 ? 'pos-diff' : 'neg-diff'"
+			>
+				{{ row.fourthDiff | posNeg }}
+			</mat-cell>
+			<mat-footer-cell *matFooterCellDef></mat-footer-cell>
+		</ng-container>
+
+		<!-- Fifth Ball  -->
 		<ng-container matColumnDef="fifthBall">
 			<mat-header-cell
 				*matHeaderCellDef
@@ -121,7 +195,25 @@
 			</mat-footer-cell>
 		</ng-container>
 
-		<!-- Mega Ball Definition -->
+		<!-- Fifth Diff  -->
+		<ng-container matColumnDef="fifthDiff">
+			<mat-header-cell
+				*matHeaderCellDef
+				mat-sort-header
+				sortActionDescription="Sort by fifth diff"
+			>
+				5th Diff
+			</mat-header-cell>
+			<mat-cell
+				*matCellDef="let row"
+				[ngClass]="row.fifthDiff > 0 ? 'pos-diff' : 'neg-diff'"
+			>
+				{{ row.fifthDiff | posNeg }}
+			</mat-cell>
+			<mat-footer-cell *matFooterCellDef></mat-footer-cell>
+		</ng-container>
+
+		<!-- Mega Ball  -->
 		<ng-container matColumnDef="megaBall">
 			<mat-header-cell
 				*matHeaderCellDef
@@ -136,7 +228,25 @@
 			</mat-footer-cell>
 		</ng-container>
 
-		<!-- Megaplier Definition -->
+		<!-- Mega Diff  -->
+		<ng-container matColumnDef="megaDiff">
+			<mat-header-cell
+				*matHeaderCellDef
+				mat-sort-header
+				sortActionDescription="Sort by mega diff"
+			>
+				Mega Diff
+			</mat-header-cell>
+			<mat-cell
+				*matCellDef="let row"
+				[ngClass]="row.megaDiff > 0 ? 'pos-diff' : 'neg-diff'"
+			>
+				{{ row.megaDiff | posNeg }}
+			</mat-cell>
+			<mat-footer-cell *matFooterCellDef></mat-footer-cell>
+		</ng-container>
+
+		<!-- Megaplier  -->
 		<ng-container matColumnDef="megaplier">
 			<mat-header-cell
 				*matHeaderCellDef

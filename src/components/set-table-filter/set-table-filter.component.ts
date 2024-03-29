@@ -12,6 +12,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 @Component({
 	selector: 'app-set-table-filter',
@@ -28,6 +29,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 		MatSelectModule,
 		MatButtonModule,
 		MatExpansionModule,
+		MatSlideToggleModule,
 	],
 	templateUrl: './set-table-filter.component.html',
 	styleUrl: './set-table-filter.component.scss',
@@ -36,30 +38,33 @@ import { MatExpansionModule } from '@angular/material/expansion';
 export class SetTableFilterComponent implements OnDestroy {
 	@Input({ required: true }) setFilter!: BehaviorSubject<SetFilter>;
 
-	protected earliestDate = new Date('2010-2-1');
-	protected latestDate = new Date();
+	protected readonly earliestDate = new Date('2010-2-1');
+	protected readonly latestDate = new Date();
 
-	protected cutoffDates: Date[] = new Array(this.latestDate.getFullYear() - this.earliestDate.getFullYear() + 1)
+	protected readonly cutoffDates: Date[] = new Array(
+		this.latestDate.getFullYear() - this.earliestDate.getFullYear() + 1
+	)
 		.fill(this.latestDate.getFullYear())
 		.map((value, index) => {
 			return new Date(`1-1-${value - index}`);
 		});
 
-	@Output() protected dateCutoff = new BehaviorSubject<Date>(this.cutoffDates[6]);
-	@Output() protected filterExpanded = new BehaviorSubject<boolean>(false);
+	@Output() protected readonly dateCutoff = new BehaviorSubject<Date>(this.cutoffDates[6]);
+	@Output() protected readonly filterExpanded = new BehaviorSubject<boolean>(false);
+	@Output() protected readonly toggleDiff = new BehaviorSubject<boolean>(false);
 
-	protected indexStart = new BehaviorSubject<number | null>(null);
-	protected indexEnd = new BehaviorSubject<number | null>(null);
-	protected startDate = new BehaviorSubject<Date | null>(null);
-	protected endDate = new BehaviorSubject<Date | null>(null);
-	protected ball = new BehaviorSubject<number | null>(null);
-	protected firstBall = new BehaviorSubject<number | null>(null);
-	protected secondBall = new BehaviorSubject<number | null>(null);
-	protected thirdBall = new BehaviorSubject<number | null>(null);
-	protected fourthBall = new BehaviorSubject<number | null>(null);
-	protected fifthBall = new BehaviorSubject<number | null>(null);
-	protected megaBall = new BehaviorSubject<number | null>(null);
-	protected megaplier = new BehaviorSubject<number | null>(null);
+	protected readonly indexStart = new BehaviorSubject<number | null>(null);
+	protected readonly indexEnd = new BehaviorSubject<number | null>(null);
+	protected readonly startDate = new BehaviorSubject<Date | null>(null);
+	protected readonly endDate = new BehaviorSubject<Date | null>(null);
+	protected readonly ball = new BehaviorSubject<number | null>(null);
+	protected readonly firstBall = new BehaviorSubject<number | null>(null);
+	protected readonly secondBall = new BehaviorSubject<number | null>(null);
+	protected readonly thirdBall = new BehaviorSubject<number | null>(null);
+	protected readonly fourthBall = new BehaviorSubject<number | null>(null);
+	protected readonly fifthBall = new BehaviorSubject<number | null>(null);
+	protected readonly megaBall = new BehaviorSubject<number | null>(null);
+	protected readonly megaplier = new BehaviorSubject<number | null>(null);
 
 	private filterSubscription: Subscription = combineLatest([
 		this.indexStart,

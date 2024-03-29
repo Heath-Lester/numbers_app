@@ -14,7 +14,7 @@ import { CommonModule } from '@angular/common';
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SetsViewComponent {
-	protected filter = new BehaviorSubject<SetFilter>({
+	protected readonly filter = new BehaviorSubject<SetFilter>({
 		indexStart: null,
 		indexEnd: null,
 		startDate: null,
@@ -29,6 +29,7 @@ export class SetsViewComponent {
 		megaplier: null,
 	});
 
-	protected dateCutoff = new BehaviorSubject<Date>(new Date(0));
-	protected filterExpanded = new BehaviorSubject<boolean>(false);
+	protected readonly dateCutoff = new BehaviorSubject<Date>(new Date(0));
+	protected readonly filterExpanded = new BehaviorSubject<boolean>(false);
+	protected readonly diffToggle = new BehaviorSubject<boolean>(false);
 }

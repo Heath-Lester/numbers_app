@@ -23,7 +23,9 @@ import { MatDividerModule } from '@angular/material/divider';
 import { BallFilter } from '../../types/ball-filter';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
-import { DateSpanPipe } from '../../pipes/date-span.pipe';
+import { DateSpanPipe } from '../../pipes/date-span/date-span.pipe';
+import { PercentToPipe } from '../../pipes/percent-to/percent-to.pipe';
+import { MeanPipe } from '../../pipes/mean/mean.pipe';
 
 @Component({
 	selector: 'app-mega-ball-table',
@@ -37,10 +39,12 @@ import { DateSpanPipe } from '../../pipes/date-span.pipe';
 		CommonModule,
 		MatCardModule,
 		DateSpanPipe,
+		PercentToPipe,
+		MeanPipe,
 	],
 	templateUrl: './mega-ball-table.component.html',
 	styleUrl: './mega-ball-table.component.scss',
-	providers: [MegaMillionsService, DateSpanPipe],
+	providers: [MegaMillionsService, DateSpanPipe, PercentToPipe, MeanPipe],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MegaBallTableComponent implements OnDestroy, AfterViewInit {
@@ -57,13 +61,13 @@ export class MegaBallTableComponent implements OnDestroy, AfterViewInit {
 	@Input({ required: true }) ballCutoff!: BehaviorSubject<number>;
 	@Input({ required: true }) dateCutoff!: BehaviorSubject<Date>;
 	private filterSubscription?: Subscription;
-	private megaService = inject(MegaMillionsService, { self: true });
+	private readonly megaService = inject(MegaMillionsService, { self: true });
 	private megaBallData?: Subscription;
-	private changeDetector = inject(ChangeDetectorRef, { self: true });
-	protected dataSource = new MatTableDataSource<MegaBallData>();
+	private readonly changeDetector = inject(ChangeDetectorRef, { self: true });
+	protected readonly dataSource = new MatTableDataSource<MegaBallData>();
 	protected footerData?: BallAverageData;
 
-	protected displayedColumns: string[] = [
+	protected readonly displayedColumns: string[] = [
 		'megaBall',
 		'totalDraws',
 		'drawPercentage',

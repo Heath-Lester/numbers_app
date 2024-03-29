@@ -14,7 +14,7 @@ import { CommonModule } from '@angular/common';
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MegaBallViewComponent {
-	private newBallFilter: BallFilter = {
+	private readonly newBallFilter: BallFilter = {
 		ballStart: null,
 		ballEnd: null,
 		totalDrawsStart: null,
@@ -39,8 +39,8 @@ export class MegaBallViewComponent {
 		modeInstanceEnd: null,
 	};
 
-	protected megaBallFilter = new BehaviorSubject<BallFilter>(this.newBallFilter);
-	protected ballCutoff = new BehaviorSubject<number>(0);
-	protected dateCutoff = new BehaviorSubject<Date>(new Date(0));
-	protected filterExpanded = new BehaviorSubject<boolean>(false);
+	protected readonly megaBallFilter = new BehaviorSubject<BallFilter>(this.newBallFilter);
+	protected readonly ballCutoff = new BehaviorSubject<number>(0);
+	protected readonly dateCutoff = new BehaviorSubject<Date>(new Date(0));
+	protected readonly filterExpanded = new BehaviorSubject<boolean>(false);
 }

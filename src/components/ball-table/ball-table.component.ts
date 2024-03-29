@@ -1,4 +1,4 @@
-import { DateSpanPipe } from './../../pipes/date-span.pipe';
+import { DateSpanPipe } from '../../pipes/date-span/date-span.pipe';
 import { WinningSet } from './../../types/winning-set';
 import {
 	AfterViewInit,
@@ -24,6 +24,8 @@ import { BallAverageData } from '../../types/ball-average-data';
 import { BallFilter } from '../../types/ball-filter';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
+import { PercentToPipe } from '../../pipes/percent-to/percent-to.pipe';
+import { MeanPipe } from '../../pipes/mean/mean.pipe';
 
 @Component({
 	selector: 'app-ball-table',
@@ -37,10 +39,12 @@ import { MatCardModule } from '@angular/material/card';
 		MatCardModule,
 		MatCardModule,
 		DateSpanPipe,
+		PercentToPipe,
+		MeanPipe,
 	],
 	templateUrl: './ball-table.component.html',
 	styleUrl: './ball-table.component.scss',
-	providers: [MegaMillionsService, CdkColumnDef, DateSpanPipe],
+	providers: [MegaMillionsService, CdkColumnDef, DateSpanPipe, PercentToPipe, MeanPipe],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BallTableComponent implements OnDestroy, AfterViewInit {

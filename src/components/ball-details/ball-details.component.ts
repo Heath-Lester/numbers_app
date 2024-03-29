@@ -23,6 +23,8 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
 import { BallStatistics } from '../../types/ball-statistics';
 import { buildBallStatistics, buildBallStatsMeanModeRangeData } from '../../utils/synthesizers';
 import { BallStatsMeanModeRange } from '../../types/ball-stats-mean-mode-range';
+import { PercentToPipe } from '../../pipes/percent-to/percent-to.pipe';
+import { MeanPipe } from '../../pipes/mean/mean.pipe';
 
 @Component({
 	selector: 'app-ball-details',
@@ -37,10 +39,12 @@ import { BallStatsMeanModeRange } from '../../types/ball-stats-mean-mode-range';
 		MatTableModule,
 		MatProgressBarModule,
 		MatButtonToggleModule,
+		PercentToPipe,
+		MeanPipe,
 	],
 	templateUrl: './ball-details.component.html',
 	styleUrl: './ball-details.component.scss',
-	providers: [MegaMillionsService],
+	providers: [MegaMillionsService, PercentToPipe, MeanPipe],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BallDetailsComponent implements OnDestroy {

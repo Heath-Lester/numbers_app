@@ -4,7 +4,7 @@
 		class="ball-table mat-elevation-z2"
 		[dataSource]="dataSource"
 	>
-		<!-- Ball Definition -->
+		<!-- Ball -->
 		<ng-container matColumnDef="ball">
 			<mat-header-cell
 				*matHeaderCellDef
@@ -17,7 +17,7 @@
 			<mat-footer-cell *matFooterCellDef>Average/Span</mat-footer-cell>
 		</ng-container>
 
-		<!-- Total Draws Definition -->
+		<!-- Total Draws -->
 		<ng-container matColumnDef="totalDraws">
 			<mat-header-cell
 				*matHeaderCellDef
@@ -27,12 +27,10 @@
 				Total Draws
 			</mat-header-cell>
 			<mat-cell *matCellDef="let row"> {{ row.totalDraws }} </mat-cell>
-			<mat-footer-cell *matFooterCellDef>{{
-				footerData ? footerData.meanTotalDraws.toFixed(1) : 0
-			}}</mat-footer-cell>
+			<mat-footer-cell *matFooterCellDef>{{ footerData?.meanTotalDraws | mean }}</mat-footer-cell>
 		</ng-container>
 
-		<!-- Draw Percentage Definition -->
+		<!-- Draw Percentage -->
 		<ng-container matColumnDef="drawPercentage">
 			<mat-header-cell
 				*matHeaderCellDef
@@ -41,10 +39,8 @@
 			>
 				Draw Percentage
 			</mat-header-cell>
-			<mat-cell *matCellDef="let row"> {{ row.drawPercentage.toFixed(3) }}% </mat-cell>
-			<mat-footer-cell *matFooterCellDef
-				>{{ footerData ? footerData.meanDrawPercentage.toFixed(3) : 0.0 }}%</mat-footer-cell
-			>
+			<mat-cell *matCellDef="let row"> {{ row.drawPercentage | percentTo }} </mat-cell>
+			<mat-footer-cell *matFooterCellDef>{{ footerData?.meanDrawPercentage | percentTo }}</mat-footer-cell>
 		</ng-container>
 
 		<!-- Last Draw -->
@@ -87,9 +83,7 @@
 				Current Draw Interval
 			</mat-header-cell>
 			<mat-cell *matCellDef="let row"> {{ row.lastDrawInterval }} </mat-cell>
-			<mat-footer-cell *matFooterCellDef>{{
-				footerData ? footerData.meanLastDrawInterval.toFixed(1) : 0
-			}}</mat-footer-cell>
+			<mat-footer-cell *matFooterCellDef>{{ footerData?.meanLastDrawInterval | mean }}</mat-footer-cell>
 		</ng-container>
 
 		<!-- Mean Draw Interval -->
@@ -101,10 +95,8 @@
 			>
 				Mean Draw Interval
 			</mat-header-cell>
-			<mat-cell *matCellDef="let row"> {{ row.meanDrawInterval?.toFixed(1) ?? "-" }} </mat-cell>
-			<mat-footer-cell *matFooterCellDef>{{
-				footerData ? footerData.meanMeanDrawInterval.toFixed(1) : 0
-			}}</mat-footer-cell>
+			<mat-cell *matCellDef="let row"> {{ row?.meanDrawInterval | mean }} </mat-cell>
+			<mat-footer-cell *matFooterCellDef>{{ footerData?.meanMeanDrawInterval | mean }}</mat-footer-cell>
 		</ng-container>
 
 		<!-- Mode Draw Interval -->
@@ -117,9 +109,7 @@
 				Mode Draw Interval
 			</mat-header-cell>
 			<mat-cell *matCellDef="let row">{{ row.modeDrawInterval ?? "-" }}</mat-cell>
-			<mat-footer-cell *matFooterCellDef>{{
-				footerData ? footerData.meanModeDrawInterval.toFixed(1) : 0
-			}}</mat-footer-cell>
+			<mat-footer-cell *matFooterCellDef>{{ footerData?.meanModeDrawInterval | mean }}</mat-footer-cell>
 		</ng-container>
 
 		<!-- Mode Draw Instances -->
@@ -132,9 +122,7 @@
 				Mode Draw Instances
 			</mat-header-cell>
 			<mat-cell *matCellDef="let row"> {{ row.modeDrawInstances ?? "-" }} </mat-cell>
-			<mat-footer-cell *matFooterCellDef>{{
-				footerData ? footerData.meanModeDrawInstances.toFixed(1) : 0
-			}}</mat-footer-cell>
+			<mat-footer-cell *matFooterCellDef>{{ footerData?.meanModeDrawInstances | mean }}</mat-footer-cell>
 		</ng-container>
 
 		<!-- Maximum Draw Interval -->
@@ -147,9 +135,7 @@
 				Maximum Draw Interval
 			</mat-header-cell>
 			<mat-cell *matCellDef="let row"> {{ row.maxDrawInterval }} </mat-cell>
-			<mat-footer-cell *matFooterCellDef>{{
-				footerData ? footerData.meanMaxDrawInterval.toFixed(1) : 0
-			}}</mat-footer-cell>
+			<mat-footer-cell *matFooterCellDef>{{ footerData?.meanMaxDrawInterval | mean }}</mat-footer-cell>
 		</ng-container>
 
 		<!-- Minimum Draw Interval -->
@@ -162,9 +148,7 @@
 				Minimum Draw Interval
 			</mat-header-cell>
 			<mat-cell *matCellDef="let row"> {{ row.minDrawInterval }} </mat-cell>
-			<mat-footer-cell *matFooterCellDef>{{
-				footerData ? footerData.meanMinDrawInterval.toFixed(1) : 0
-			}}</mat-footer-cell>
+			<mat-footer-cell *matFooterCellDef>{{ footerData?.meanMinDrawInterval | mean }}</mat-footer-cell>
 		</ng-container>
 
 		<!-- Header and Row Declarations -->

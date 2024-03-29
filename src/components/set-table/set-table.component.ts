@@ -23,14 +23,15 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { SetRangeData } from '../../types/set-range-data';
-import { DateSpanPipe } from '../../pipes/date-span.pipe';
+import { DateSpanPipe } from '../../pipes/date-span/date-span.pipe';
+import { PosNegPipe } from '../../pipes/pos-neg/pos-neg.pipe';
 
 @Component({
 	selector: 'app-set-table',
 	standalone: true,
 	templateUrl: './set-table.component.html',
 	styleUrl: './set-table.component.scss',
-	providers: [MegaMillionsService, CdkColumnDef, DateSpanPipe],
+	providers: [MegaMillionsService, CdkColumnDef, DateSpanPipe, PosNegPipe],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	imports: [
 		MatTableModule,
@@ -41,6 +42,7 @@ import { DateSpanPipe } from '../../pipes/date-span.pipe';
 		MatCardModule,
 		MatDividerModule,
 		DateSpanPipe,
+		PosNegPipe,
 	],
 })
 export class SetTableComponent implements AfterViewInit, OnDestroy {
@@ -87,6 +89,21 @@ export class SetTableComponent implements AfterViewInit, OnDestroy {
 				});
 		}
 	}
+	@Input({ required: false }) set toggleDiffColumns(toggleDiffColumns: BehaviorSubject<boolean>) {
+		if (toggleDiffColumns) {
+			this.diffColumnSubscription = toggleDiffColumns
+				.asObservable()
+				.pipe(debounceTime(500))
+				.subscribe((showDiffs: boolean) => {
+					if (showDiffs) {
+						this.displayedColumns = this.columnsWithDiffs;
+					} else {
+						this.displayedColumns = this.columnsWithoutDiffs;
+					}
+					this.changeDetector.markForCheck();
+				});
+		}
+	}
 
 	@ViewChild(MatSort) set sort(sort: MatSort) {
 		if (sort) {
@@ -94,12 +111,13 @@ export class SetTableComponent implements AfterViewInit, OnDestroy {
 		}
 	}
 
-	private megaService = inject(MegaMillionsService, { self: true });
-	private changeDetector = inject(ChangeDetectorRef, { self: true });
+	private readonly megaService = inject(MegaMillionsService, { self: true });
+	private readonly changeDetector = inject(ChangeDetectorRef, { self: true });
 	private filterSubscription?: Subscription;
 	private dataSubscription?: Subscription;
-	private recalculateSpans = new Subject<void>();
-	private recalculateSpansSubscription = this.recalculateSpans
+	protected diffColumnSubscription?: Subscription;
+	private readonly recalculateSpans = new Subject<void>();
+	private readonly recalculateSpansSubscription = this.recalculateSpans
 		.asObservable()
 		.pipe(debounceTime(10))
 		.subscribe(() => {
@@ -109,7 +127,7 @@ export class SetTableComponent implements AfterViewInit, OnDestroy {
 	protected dataSource = new MatTableDataSource<SetData>();
 	protected footerData?: SetRangeData;
 
-	protected displayedColumns: string[] = [
+	private readonly columnsWithoutDiffs: string[] = [
 		'index',
 		'date',
 		'firstBall',
@@ -120,6 +138,25 @@ export class SetTableComponent implements AfterViewInit, OnDestroy {
 		'megaBall',
 		'megaplier',
 	];
+	private readonly columnsWithDiffs: string[] = [
+		'index',
+		'date',
+		'firstBall',
+		'firstDiff',
+		'secondBall',
+		'secondDiff',
+		'thirdBall',
+		'thirdDiff',
+		'fourthBall',
+		'fourthDiff',
+		'fifthBall',
+		'fifthDiff',
+		'megaBall',
+		'megaDiff',
+		'megaplier',
+	];
+
+	protected displayedColumns: string[] = this.columnsWithoutDiffs;
 
 	ngAfterViewInit(): void {
 		this.dataSource.filterPredicate = this.filterPredicate;
@@ -129,9 +166,10 @@ export class SetTableComponent implements AfterViewInit, OnDestroy {
 		this.dataSubscription?.unsubscribe();
 		this.filterSubscription?.unsubscribe();
 		this.recalculateSpansSubscription.unsubscribe();
+		this.diffColumnSubscription?.unsubscribe();
 	}
 
-	private filterPredicate = (data: SetData, filter: string): boolean => {
+	private readonly filterPredicate = (data: SetData, filter: string): boolean => {
 		if (!filter || filter.length === 0) {
 			return true;
 		}

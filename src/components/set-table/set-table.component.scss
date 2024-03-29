@@ -27,6 +27,15 @@
 	margin-left: auto;
 }
 
+.pos-diff {
+	color: limegreen;
+	font-weight: 500;
+}
+.neg-diff {
+	color: crimson;
+	font-weight: 500;
+}
+
 mat-footer-cell {
 	font-weight: 500;
 	border-top-color: var(--mat-table-row-item-outline-color, rgba(0, 0, 0, 0.12));

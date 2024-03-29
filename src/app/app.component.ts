@@ -15,9 +15,9 @@ import { CommonModule } from '@angular/common';
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent {
-	protected sidebarToggle = new BehaviorSubject<boolean>(false);
-	protected router = inject(Router, { self: true });
-	protected title: Observable<string | undefined> = this.router.events.pipe(
+	protected readonly sidebarToggle = new BehaviorSubject<boolean>(false);
+	protected readonly router = inject(Router, { self: true });
+	protected readonly title: Observable<string | undefined> = this.router.events.pipe(
 		filter((event: Event) => event instanceof ActivationEnd),
 		map((event: Event) => event as ActivationEnd),
 		map((end: ActivationEnd) => {

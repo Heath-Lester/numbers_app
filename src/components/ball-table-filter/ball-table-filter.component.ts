@@ -50,41 +50,43 @@ export class BallTableFilterComponent {
 			this.ballCutoff.next(this.cutoffBalls.find((a) => a === ball) ?? 0);
 		}
 	}
-	protected earliestDate = new Date('2010-2-1');
-	protected latestDate = new Date();
+	protected readonly earliestDate = new Date('2010-2-1');
+	protected readonly latestDate = new Date();
 	protected cutoffBalls: number[] = [];
-	protected cutoffDates: Date[] = new Array(this.latestDate.getFullYear() - this.earliestDate.getFullYear() + 1)
+	protected readonly cutoffDates: Date[] = new Array(
+		this.latestDate.getFullYear() - this.earliestDate.getFullYear() + 1
+	)
 		.fill(this.latestDate.getFullYear())
 		.map((value, index) => {
 			return new Date(`1-1-${value - index}`);
 		});
 
-	@Output() protected ballCutoff = new BehaviorSubject<number>(0);
-	@Output() protected dateCutoff = new BehaviorSubject<Date>(this.cutoffDates[6]);
-	@Output() protected filterExpanded = new BehaviorSubject<boolean>(false);
+	@Output() protected readonly ballCutoff = new BehaviorSubject<number>(0);
+	@Output() protected readonly dateCutoff = new BehaviorSubject<Date>(this.cutoffDates[6]);
+	@Output() protected readonly filterExpanded = new BehaviorSubject<boolean>(false);
 
-	protected ballStart = new BehaviorSubject<number | null>(null);
-	protected ballEnd = new BehaviorSubject<number | null>(null);
-	protected totalDrawsStart = new BehaviorSubject<number | null>(null);
-	protected totalDrawsEnd = new BehaviorSubject<number | null>(null);
-	protected percentageStart = new BehaviorSubject<number | null>(null);
-	protected percentageEnd = new BehaviorSubject<number | null>(null);
-	protected lastDrawStart = new BehaviorSubject<Date | null>(null);
-	protected lastDrawEnd = new BehaviorSubject<Date | null>(null);
-	protected firstDrawStart = new BehaviorSubject<Date | null>(null);
-	protected firstDrawEnd = new BehaviorSubject<Date | null>(null);
-	protected currentDrawStart = new BehaviorSubject<number | null>(null);
-	protected currentDrawEnd = new BehaviorSubject<number | null>(null);
-	protected meanDrawStart = new BehaviorSubject<number | null>(null);
-	protected meanDrawEnd = new BehaviorSubject<number | null>(null);
-	protected maximumDrawStart = new BehaviorSubject<number | null>(null);
-	protected maximumDrawEnd = new BehaviorSubject<number | null>(null);
-	protected minimumDrawStart = new BehaviorSubject<number | null>(null);
-	protected minimumDrawEnd = new BehaviorSubject<number | null>(null);
-	protected modeDrawStart = new BehaviorSubject<number | null>(null);
-	protected modeDrawEnd = new BehaviorSubject<number | null>(null);
-	protected modeInstanceStart = new BehaviorSubject<number | null>(null);
-	protected modeInstanceEnd = new BehaviorSubject<number | null>(null);
+	protected readonly ballStart = new BehaviorSubject<number | null>(null);
+	protected readonly ballEnd = new BehaviorSubject<number | null>(null);
+	protected readonly totalDrawsStart = new BehaviorSubject<number | null>(null);
+	protected readonly totalDrawsEnd = new BehaviorSubject<number | null>(null);
+	protected readonly percentageStart = new BehaviorSubject<number | null>(null);
+	protected readonly percentageEnd = new BehaviorSubject<number | null>(null);
+	protected readonly lastDrawStart = new BehaviorSubject<Date | null>(null);
+	protected readonly lastDrawEnd = new BehaviorSubject<Date | null>(null);
+	protected readonly firstDrawStart = new BehaviorSubject<Date | null>(null);
+	protected readonly firstDrawEnd = new BehaviorSubject<Date | null>(null);
+	protected readonly currentDrawStart = new BehaviorSubject<number | null>(null);
+	protected readonly currentDrawEnd = new BehaviorSubject<number | null>(null);
+	protected readonly meanDrawStart = new BehaviorSubject<number | null>(null);
+	protected readonly meanDrawEnd = new BehaviorSubject<number | null>(null);
+	protected readonly maximumDrawStart = new BehaviorSubject<number | null>(null);
+	protected readonly maximumDrawEnd = new BehaviorSubject<number | null>(null);
+	protected readonly minimumDrawStart = new BehaviorSubject<number | null>(null);
+	protected readonly minimumDrawEnd = new BehaviorSubject<number | null>(null);
+	protected readonly modeDrawStart = new BehaviorSubject<number | null>(null);
+	protected readonly modeDrawEnd = new BehaviorSubject<number | null>(null);
+	protected readonly modeInstanceStart = new BehaviorSubject<number | null>(null);
+	protected readonly modeInstanceEnd = new BehaviorSubject<number | null>(null);
 
 	private filterSubscription: Subscription = combineLatest([
 		this.ballStart,

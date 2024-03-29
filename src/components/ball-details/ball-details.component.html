@@ -18,6 +18,7 @@
 			class="ball-stats-table mat-elevation-z2"
 			[dataSource]="dataSource"
 		>
+			<!-- Index -->
 			<ng-container matColumnDef="index">
 				<mat-header-cell
 					*matHeaderCellDef
@@ -30,6 +31,7 @@
 				<mat-footer-cell *matFooterCellDef>Mean/Mode/Range</mat-footer-cell>
 			</ng-container>
 
+			<!-- Set Number -->
 			<ng-container matColumnDef="setNumber">
 				<mat-header-cell
 					*matHeaderCellDef
@@ -42,6 +44,7 @@
 				<mat-footer-cell *matFooterCellDef>Total: {{ footerData ? footerData.total : 0 }}</mat-footer-cell>
 			</ng-container>
 
+			<!-- Draw Date -->
 			<ng-container matColumnDef="drawDate">
 				<mat-header-cell
 					*matHeaderCellDef
@@ -54,6 +57,7 @@
 				<mat-footer-cell *matFooterCellDef></mat-footer-cell>
 			</ng-container>
 
+			<!-- Drawn Position -->
 			<ng-container matColumnDef="drawnPosition">
 				<mat-header-cell
 					*matHeaderCellDef
@@ -68,6 +72,7 @@
 				>
 			</ng-container>
 
+			<!-- Draw Percentage -->
 			<ng-container matColumnDef="drawPercentage">
 				<mat-header-cell
 					*matHeaderCellDef
@@ -76,12 +81,11 @@
 				>
 					Draw Percentage
 				</mat-header-cell>
-				<mat-cell *matCellDef="let row"> {{ row.drawPercentage.toFixed(3) }}% </mat-cell>
-				<mat-footer-cell *matFooterCellDef
-					>{{ footerData ? footerData.meanDrawPercentage.toFixed(3) : 0.0 }}%</mat-footer-cell
-				>
+				<mat-cell *matCellDef="let row"> {{ row.drawPercentage | percentTo }} </mat-cell>
+				<mat-footer-cell *matFooterCellDef>{{ footerData?.meanDrawPercentage | percentTo }}</mat-footer-cell>
 			</ng-container>
 
+			<!-- Draw Interval -->
 			<ng-container matColumnDef="drawInterval">
 				<mat-header-cell
 					*matHeaderCellDef
@@ -92,14 +96,14 @@
 				</mat-header-cell>
 				<mat-cell *matCellDef="let row"> {{ row.drawInterval }} </mat-cell>
 				<mat-footer-cell *matFooterCellDef>
-					{{ footerData ? footerData.drawnIntervalMean.toFixed(1) : 0.0 }} |
-					{{ footerData ? footerData.drawnIntervalMode : 0 }} |
+					{{ footerData?.drawnIntervalMean | mean }} | {{ footerData ? footerData.drawnIntervalMode : 0 }} |
 					{{ footerData ? footerData.drawnIntervalMin : "" }}-{{
 						footerData ? footerData.drawnIntervalMax : ""
 					}}
 				</mat-footer-cell>
 			</ng-container>
 
+			<!-- Left Ball -->
 			<ng-container matColumnDef="leftBall">
 				<mat-header-cell
 					*matHeaderCellDef
@@ -110,12 +114,12 @@
 				</mat-header-cell>
 				<mat-cell *matCellDef="let row"> {{ row.leftBall ?? "-" }} </mat-cell>
 				<mat-footer-cell *matFooterCellDef>
-					{{ footerData ? footerData.leftBallMean.toFixed(1) : 0.0 }} |
-					{{ footerData ? footerData.leftBallMode : 0 }} | {{ footerData ? footerData.leftBallMin : "" }}-{{
-						footerData ? footerData.leftBallMax : ""
-					}}
+					{{ footerData?.leftBallMean | mean }} | {{ footerData ? footerData.leftBallMode : 0 }} |
+					{{ footerData ? footerData.leftBallMin : "" }}-{{ footerData ? footerData.leftBallMax : "" }}
 				</mat-footer-cell>
 			</ng-container>
+
+			<!-- Right Ball -->
 			<ng-container matColumnDef="rightBall">
 				<mat-header-cell
 					*matHeaderCellDef
@@ -126,10 +130,8 @@
 				</mat-header-cell>
 				<mat-cell *matCellDef="let row"> {{ row.rightBall ?? "-" }} </mat-cell>
 				<mat-footer-cell *matFooterCellDef>
-					{{ footerData ? footerData.rightBallMean.toFixed(1) : 0.0 }} |
-					{{ footerData ? footerData.rightBallMode : 0 }} | {{ footerData ? footerData.rightBallMin : "" }}-{{
-						footerData ? footerData.rightBallMax : ""
-					}}
+					{{ footerData?.rightBallMean | mean }} | {{ footerData ? footerData.rightBallMode : 0 }} |
+					{{ footerData ? footerData.rightBallMin : "" }}-{{ footerData ? footerData.rightBallMax : "" }}
 				</mat-footer-cell>
 			</ng-container>
 

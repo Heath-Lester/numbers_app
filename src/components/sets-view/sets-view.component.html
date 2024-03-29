@@ -3,10 +3,12 @@
 		[setFilter]="filter"
 		(dateCutoff)="dateCutoff.next($event)"
 		(filterExpanded)="filterExpanded.next($event)"
+		(toggleDiff)="diffToggle.next($event)"
 	/>
 	<app-set-table
 		[ngClass]="(filterExpanded | async) ? 'short-table' : 'full-table'"
 		[setFilter]="filter"
 		[dateCutoff]="dateCutoff"
+		[toggleDiffColumns]="diffToggle"
 	/>
 </section>

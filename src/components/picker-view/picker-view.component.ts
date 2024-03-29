@@ -14,8 +14,8 @@ import { MegaBall } from '../../types/mega-ball';
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PickerViewComponent {
-	private megaService = inject(MegaMillionsService);
+	private readonly megaService = inject(MegaMillionsService);
 
-	protected balls: Observable<Ball[]> = this.megaService.getAllBalls();
-	protected megaBalls: Observable<MegaBall[]> = this.megaService.getAllMegaBalls();
+	protected readonly balls: Observable<Ball[]> = this.megaService.getAllBalls();
+	protected readonly megaBalls: Observable<MegaBall[]> = this.megaService.getAllMegaBalls();
 }

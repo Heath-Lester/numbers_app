@@ -5,6 +5,7 @@
 	overflow-x: auto;
 	column-gap: 16px;
 	justify-content: space-between;
+	align-content: center;
 }
 
 .index-range-container {
@@ -43,4 +44,19 @@
 
 .mat-mdc-form-field-type-mat-date-range-input {
 	min-width: 250px;
+}
+
+.toggle {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	margin-bottom: 22px;
+}
+
+.mat-mdc-slide-toggle {
+	margin: 0 auto;
+}
+
+.toggle-title {
+	width: max-content;
 }
