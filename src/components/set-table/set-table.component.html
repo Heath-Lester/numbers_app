@@ -64,14 +64,14 @@
 			</mat-header-cell>
 			<mat-cell
 				*matCellDef="let row"
-				[ngClass]="row.firstDiff > 0 ? 'pos-diff' : 'neg-diff'"
+				[ngClass]="row.firstDiff > 0 ? 'pos-diff' : row.firstDiff < 0 ? 'neg-diff' : 'neu-diff'"
 			>
 				{{ row.firstDiff | posNeg }}
 			</mat-cell>
 			<mat-footer-cell *matFooterCellDef>
-				{{ footerData?.firstDiffMax }} < {{ footerData?.firstDiffMaxMean | mean }} |
-				{{ footerData?.firstDiffMinMean | mean }} >
-				{{ footerData?.firstDiffMin }}
+				{{ footerData?.firstDiffMin }} < {{ footerData?.firstDiffMinMean | mean }} |
+				{{ footerData?.firstDiffMaxMean | mean }} >
+				{{ footerData?.firstDiffMax }}
 			</mat-footer-cell>
 		</ng-container>
 
@@ -103,14 +103,14 @@
 			</mat-header-cell>
 			<mat-cell
 				*matCellDef="let row"
-				[ngClass]="row.secondDiff > 0 ? 'pos-diff' : 'neg-diff'"
+				[ngClass]="row.secondDiff > 0 ? 'pos-diff' : row.secondDiff < 0 ? 'neg-diff' : 'neu-diff'"
 			>
 				{{ row.secondDiff | posNeg }}
 			</mat-cell>
 			<mat-footer-cell *matFooterCellDef>
-				{{ footerData?.secondDiffMax }} < {{ footerData?.secondDiffMaxMean | mean }} |
-				{{ footerData?.secondDiffMinMean | mean }} >
-				{{ footerData?.secondDiffMin }}
+				{{ footerData?.secondDiffMin }} < {{ footerData?.secondDiffMinMean | mean }} |
+				{{ footerData?.secondDiffMaxMean | mean }} >
+				{{ footerData?.secondDiffMax }}
 			</mat-footer-cell>
 		</ng-container>
 
@@ -142,14 +142,14 @@
 			</mat-header-cell>
 			<mat-cell
 				*matCellDef="let row"
-				[ngClass]="row.thirdDiff > 0 ? 'pos-diff' : 'neg-diff'"
+				[ngClass]="row.thirdDiff > 0 ? 'pos-diff' : row.thirdDiff < 0 ? 'neg-diff' : 'neu-diff'"
 			>
 				{{ row.thirdDiff | posNeg }}
 			</mat-cell>
 			<mat-footer-cell *matFooterCellDef>
-				{{ footerData?.thirdDiffMax }} < {{ footerData?.thirdDiffMaxMean | mean }} |
-				{{ footerData?.thirdDiffMinMean | mean }} >
-				{{ footerData?.thirdDiffMin }}
+				{{ footerData?.thirdDiffMin }} < {{ footerData?.thirdDiffMinMean | mean }} |
+				{{ footerData?.thirdDiffMaxMean | mean }} >
+				{{ footerData?.thirdDiffMax }}
 			</mat-footer-cell>
 		</ng-container>
 
@@ -183,14 +183,14 @@
 			</mat-header-cell>
 			<mat-cell
 				*matCellDef="let row"
-				[ngClass]="row.fourthDiff > 0 ? 'pos-diff' : 'neg-diff'"
+				[ngClass]="row.fourthDiff > 0 ? 'pos-diff' : row.fourthDiff < 0 ? 'neg-diff' : 'neu-diff'"
 			>
 				{{ row.fourthDiff | posNeg }}
 			</mat-cell>
 			<mat-footer-cell *matFooterCellDef>
-				{{ footerData?.fourthDiffMax }} < {{ footerData?.fourthDiffMaxMean | mean }} |
-				{{ footerData?.fourthDiffMinMean | mean }} >
-				{{ footerData?.fourthDiffMin }}
+				{{ footerData?.fourthDiffMin }} < {{ footerData?.fourthDiffMinMean | mean }} |
+				{{ footerData?.fourthDiffMaxMean | mean }} >
+				{{ footerData?.fourthDiffMax }}
 			</mat-footer-cell>
 		</ng-container>
 
@@ -222,14 +222,14 @@
 			</mat-header-cell>
 			<mat-cell
 				*matCellDef="let row"
-				[ngClass]="row.fifthDiff > 0 ? 'pos-diff' : 'neg-diff'"
+				[ngClass]="row.fifthDiff > 0 ? 'pos-diff' : row.fifthDiff < 0 ? 'neg-diff' : 'neu-diff'"
 			>
 				{{ row.fifthDiff | posNeg }}
 			</mat-cell>
 			<mat-footer-cell *matFooterCellDef>
-				{{ footerData?.fifthDiffMax }} < {{ footerData?.fifthDiffMaxMean | mean }} |
-				{{ footerData?.fifthDiffMinMean | mean }} >
-				{{ footerData?.fifthDiffMin }}
+				{{ footerData?.fifthDiffMin }} < {{ footerData?.fifthDiffMinMean | mean }} |
+				{{ footerData?.fifthDiffMaxMean | mean }} >
+				{{ footerData?.fifthDiffMax }}
 			</mat-footer-cell>
 		</ng-container>
 
@@ -259,14 +259,14 @@
 			</mat-header-cell>
 			<mat-cell
 				*matCellDef="let row"
-				[ngClass]="row.megaDiff > 0 ? 'pos-diff' : 'neg-diff'"
+				[ngClass]="row.megaDiff > 0 ? 'pos-diff' : row.megaDiff < 0 ? 'neg-diff' : 'neu-diff'"
 			>
 				{{ row.megaDiff | posNeg }}
 			</mat-cell>
 			<mat-footer-cell *matFooterCellDef>
-				{{ footerData?.megaDiffMax }} < {{ footerData?.megaDiffMaxMean | mean }} |
-				{{ footerData?.megaDiffMinMean | mean }} >
-				{{ footerData?.megaDiffMin }}
+				{{ footerData?.megaDiffMin }} < {{ footerData?.megaDiffMinMean | mean }} |
+				{{ footerData?.megaDiffMaxMean | mean }} >
+				{{ footerData?.megaDiffMax }}
 			</mat-footer-cell>
 		</ng-container>
 
