@@ -9,6 +9,7 @@ import { SetRangeData } from '../types/set-range-data';
 import { BallStatistics } from '../types/ball-statistics';
 import { DrawnPosition } from '../types/drawnPosition';
 import { BallStatsMeanModeRange } from '../types/ball-stats-mean-mode-range';
+import { setEnvironmentData } from 'node:worker_threads';
 
 function getModeAndInstances(numbers: number[]): [number, number] | [null, null] {
 	if (numbers.length === 0) return [null, null];
@@ -489,18 +490,68 @@ export function buildSetRangeData(setsData: SetData[]): SetRangeData {
 	let drawDateRangeEnd: Date = new Date(0);
 	let firstBallRangeStart: number = 0;
 	let firstBallRangeEnd: number = 0;
+	let firstDiffMax: number = 0;
+	let firstDiffMaxMean: number = 0;
+	let firstDiffMinMean: number = 0;
+	let firstDiffMin: number = 0;
 	let secondBallRangeStart: number = 0;
 	let secondBallRangeEnd: number = 0;
+	let secondDiffMax: number = 0;
+	let secondDiffMaxMean: number = 0;
+	let secondDiffMinMean: number = 0;
+	let secondDiffMin: number = 0;
 	let thirdBallRangeStart: number = 0;
 	let thirdBallRangeEnd: number = 0;
+	let thirdDiffMax: number = 0;
+	let thirdDiffMaxMean: number = 0;
+	let thirdDiffMinMean: number = 0;
+	let thirdDiffMin: number = 0;
 	let fourthBallRangeStart: number = 0;
 	let fourthBallRangeEnd: number = 0;
+	let fourthDiffMax: number = 0;
+	let fourthDiffMaxMean: number = 0;
+	let fourthDiffMinMean: number = 0;
+	let fourthDiffMin: number = 0;
 	let fifthBallRangeStart: number = 0;
 	let fifthBallRangeEnd: number = 0;
+	let fifthDiffMax: number = 0;
+	let fifthDiffMaxMean: number = 0;
+	let fifthDiffMinMean: number = 0;
+	let fifthDiffMin: number = 0;
 	let megaBallRangeStart: number = 0;
 	let megaBallRangeEnd: number = 0;
+	let megaDiffMax: number = 0;
+	let megaDiffMaxMean: number = 0;
+	let megaDiffMinMean: number = 0;
+	let megaDiffMin: number = 0;
 	let megaplierRangeStart: number = 0;
 	let megaplierRangeEnd: number = 0;
+
+	let totalPositiveFirst = 0;
+	let totalNegativeFirst = 0;
+	let totalPositiveSecond = 0;
+	let totalNegativeSecond = 0;
+	let totalPositiveThird = 0;
+	let totalNegativeThird = 0;
+	let totalPositiveFourth = 0;
+	let totalNegativeFourth = 0;
+	let totalPositiveFifth = 0;
+	let totalNegativeFifth = 0;
+	let totalPositiveMega = 0;
+	let totalNegativeMega = 0;
+
+	let positiveFirstTally = 0;
+	let negativeFirstTally = 0;
+	let positiveSecondTally = 0;
+	let negativeSecondTally = 0;
+	let positiveThirdTally = 0;
+	let negativeThirdTally = 0;
+	let positiveFourthTally = 0;
+	let negativeFourthTally = 0;
+	let positiveFifthTally = 0;
+	let negativeFifthTally = 0;
+	let positiveMegaTally = 0;
+	let negativeMegaTally = 0;
 
 	for (const setData of setsData) {
 		if (indexRangeStart === 0 || indexRangeStart > setData.index) {
@@ -524,11 +575,31 @@ export function buildSetRangeData(setsData: SetData[]): SetRangeData {
 		if (firstBallRangeEnd === 0 || setData.firstBall > firstBallRangeEnd) {
 			firstBallRangeEnd = setData.firstBall;
 		}
+		if (firstDiffMax === 0 || setData.firstDiff > firstDiffMax) {
+			firstDiffMax = setData.firstDiff;
+			totalPositiveFirst += setData.firstDiff;
+			positiveFirstTally++;
+		}
+		if (firstDiffMin === 0 || setData.firstDiff < firstDiffMin) {
+			firstDiffMin = setData.firstDiff;
+			totalNegativeFirst += setData.firstDiff;
+			negativeFirstTally++;
+		}
 		if (secondBallRangeStart === 0 || setData.secondBall < secondBallRangeStart) {
 			secondBallRangeStart = setData.secondBall;
 		}
 		if (secondBallRangeEnd === 0 || setData.secondBall > secondBallRangeEnd) {
 			secondBallRangeEnd = setData.secondBall;
+		}
+		if (secondDiffMax === 0 || setData.secondDiff > secondDiffMax) {
+			secondDiffMax = setData.secondDiff;
+			totalPositiveSecond += setData.secondDiff;
+			positiveSecondTally++;
+		}
+		if (secondDiffMin === 0 || setData.secondDiff < secondDiffMin) {
+			secondDiffMin = setData.secondDiff;
+			totalNegativeSecond += setData.secondDiff;
+			negativeSecondTally++;
 		}
 		if (thirdBallRangeStart === 0 || setData.thirdBall < thirdBallRangeStart) {
 			thirdBallRangeStart = setData.thirdBall;
@@ -536,11 +607,31 @@ export function buildSetRangeData(setsData: SetData[]): SetRangeData {
 		if (thirdBallRangeEnd === 0 || setData.thirdBall > thirdBallRangeEnd) {
 			thirdBallRangeEnd = setData.thirdBall;
 		}
+		if (thirdDiffMax === 0 || setData.thirdDiff > thirdDiffMax) {
+			thirdDiffMax = setData.thirdDiff;
+			totalPositiveThird += setData.thirdDiff;
+			positiveThirdTally++;
+		}
+		if (thirdDiffMin === 0 || setData.thirdDiff < thirdDiffMin) {
+			thirdDiffMin = setData.thirdDiff;
+			totalNegativeThird += setData.thirdDiff;
+			negativeThirdTally++;
+		}
 		if (fourthBallRangeStart === 0 || setData.fourthBall < fourthBallRangeStart) {
 			fourthBallRangeStart = setData.fourthBall;
 		}
 		if (fourthBallRangeEnd === 0 || setData.fourthBall > fourthBallRangeEnd) {
 			fourthBallRangeEnd = setData.fourthBall;
+		}
+		if (fourthDiffMax === 0 || setData.fourthDiff > fourthDiffMax) {
+			fourthDiffMax = setData.fourthDiff;
+			totalPositiveFourth += setData.fourthDiff;
+			positiveFourthTally++;
+		}
+		if (fourthDiffMin === 0 || setData.fourthDiff < fourthDiffMin) {
+			fourthDiffMin = setData.fourthDiff;
+			totalNegativeFourth += setData.fourthDiff;
+			negativeFourthTally++;
 		}
 		if (fifthBallRangeStart === 0 || setData.fifthBall < fifthBallRangeStart) {
 			fifthBallRangeStart = setData.fifthBall;
@@ -548,11 +639,31 @@ export function buildSetRangeData(setsData: SetData[]): SetRangeData {
 		if (fifthBallRangeEnd === 0 || setData.fifthBall > fifthBallRangeEnd) {
 			fifthBallRangeEnd = setData.fifthBall;
 		}
+		if (fifthDiffMax === 0 || setData.fifthDiff > fifthDiffMax) {
+			fifthDiffMax = setData.fifthDiff;
+			totalPositiveFifth += setData.fifthDiff;
+			positiveFifthTally++;
+		}
+		if (fifthDiffMin === 0 || setData.fifthDiff < fifthDiffMin) {
+			fifthDiffMin = setData.fifthDiff;
+			totalNegativeFifth += setData.fifthDiff;
+			negativeFifthTally++;
+		}
 		if (megaBallRangeStart === 0 || setData.megaBall < megaBallRangeStart) {
 			megaBallRangeStart = setData.megaBall;
 		}
 		if (megaBallRangeEnd === 0 || setData.megaBall > megaBallRangeEnd) {
 			megaBallRangeEnd = setData.megaBall;
+		}
+		if (megaDiffMax === 0 || setData.megaDiff > megaDiffMax) {
+			megaDiffMax = setData.megaDiff;
+			totalPositiveMega += setData.megaDiff;
+			positiveMegaTally++;
+		}
+		if (megaDiffMin === 0 || setData.megaDiff < megaDiffMin) {
+			megaDiffMin = setData.megaDiff;
+			totalNegativeMega += setData.megaDiff;
+			negativeMegaTally++;
 		}
 		if (megaplierRangeStart === 0 || setData.megaplier < megaplierRangeStart) {
 			megaplierRangeStart = setData.megaplier;
@@ -562,6 +673,19 @@ export function buildSetRangeData(setsData: SetData[]): SetRangeData {
 		}
 	}
 
+	firstDiffMaxMean = totalPositiveFirst / positiveFirstTally;
+	firstDiffMinMean = totalNegativeFirst / negativeFirstTally;
+	secondDiffMaxMean = totalPositiveSecond / positiveSecondTally;
+	secondDiffMinMean = totalNegativeSecond / negativeSecondTally;
+	thirdDiffMaxMean = totalPositiveThird / negativeThirdTally;
+	thirdDiffMinMean = totalNegativeThird / negativeThirdTally;
+	fourthDiffMaxMean = totalPositiveFourth / positiveFourthTally;
+	fourthDiffMinMean = totalNegativeFourth / negativeFourthTally;
+	fifthDiffMaxMean = totalPositiveFifth / positiveFifthTally;
+	fifthDiffMinMean = totalNegativeFifth / negativeFifthTally;
+	megaDiffMaxMean = totalPositiveMega / positiveMegaTally;
+	megaDiffMinMean = totalNegativeMega / negativeMegaTally;
+
 	const data: SetRangeData = {
 		totalSets,
 		indexRangeStart,
@@ -570,16 +694,40 @@ export function buildSetRangeData(setsData: SetData[]): SetRangeData {
 		drawDateRangeEnd,
 		firstBallRangeStart,
 		firstBallRangeEnd,
+		firstDiffMax,
+		firstDiffMaxMean,
+		firstDiffMinMean,
+		firstDiffMin,
 		secondBallRangeStart,
 		secondBallRangeEnd,
+		secondDiffMax,
+		secondDiffMaxMean,
+		secondDiffMinMean,
+		secondDiffMin,
 		thirdBallRangeStart,
 		thirdBallRangeEnd,
+		thirdDiffMax,
+		thirdDiffMaxMean,
+		thirdDiffMinMean,
+		thirdDiffMin,
 		fourthBallRangeStart,
 		fourthBallRangeEnd,
+		fourthDiffMax,
+		fourthDiffMaxMean,
+		fourthDiffMinMean,
+		fourthDiffMin,
 		fifthBallRangeStart,
 		fifthBallRangeEnd,
+		fifthDiffMax,
+		fifthDiffMaxMean,
+		fifthDiffMinMean,
+		fifthDiffMin,
 		megaBallRangeStart,
 		megaBallRangeEnd,
+		megaDiffMax,
+		megaDiffMaxMean,
+		megaDiffMinMean,
+		megaDiffMin,
 		megaplierRangeStart,
 		megaplierRangeEnd,
 	};

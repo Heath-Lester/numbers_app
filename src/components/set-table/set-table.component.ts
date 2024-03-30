@@ -25,13 +25,14 @@ import { MatDividerModule } from '@angular/material/divider';
 import { SetRangeData } from '../../types/set-range-data';
 import { DateSpanPipe } from '../../pipes/date-span/date-span.pipe';
 import { PosNegPipe } from '../../pipes/pos-neg/pos-neg.pipe';
+import { MeanPipe } from '../../pipes/mean/mean.pipe';
 
 @Component({
 	selector: 'app-set-table',
 	standalone: true,
 	templateUrl: './set-table.component.html',
 	styleUrl: './set-table.component.scss',
-	providers: [MegaMillionsService, CdkColumnDef, DateSpanPipe, PosNegPipe],
+	providers: [MegaMillionsService, CdkColumnDef, DateSpanPipe, PosNegPipe, MeanPipe],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	imports: [
 		MatTableModule,
@@ -43,6 +44,7 @@ import { PosNegPipe } from '../../pipes/pos-neg/pos-neg.pipe';
 		MatDividerModule,
 		DateSpanPipe,
 		PosNegPipe,
+		MeanPipe,
 	],
 })
 export class SetTableComponent implements AfterViewInit, OnDestroy {
@@ -93,7 +95,7 @@ export class SetTableComponent implements AfterViewInit, OnDestroy {
 		if (toggleDiffColumns) {
 			this.diffColumnSubscription = toggleDiffColumns
 				.asObservable()
-				.pipe(debounceTime(500))
+				.pipe(debounceTime(5))
 				.subscribe((showDiffs: boolean) => {
 					if (showDiffs) {
 						this.displayedColumns = this.columnsWithDiffs;

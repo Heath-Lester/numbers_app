@@ -68,7 +68,11 @@
 			>
 				{{ row.firstDiff | posNeg }}
 			</mat-cell>
-			<mat-footer-cell *matFooterCellDef></mat-footer-cell>
+			<mat-footer-cell *matFooterCellDef>
+				{{ footerData?.firstDiffMax }} < {{ footerData?.firstDiffMaxMean | mean }} |
+				{{ footerData?.firstDiffMinMean | mean }} >
+				{{ footerData?.firstDiffMin }}
+			</mat-footer-cell>
 		</ng-container>
 
 		<!-- Second Ball  -->
@@ -103,7 +107,11 @@
 			>
 				{{ row.secondDiff | posNeg }}
 			</mat-cell>
-			<mat-footer-cell *matFooterCellDef></mat-footer-cell>
+			<mat-footer-cell *matFooterCellDef>
+				{{ footerData?.secondDiffMax }} < {{ footerData?.secondDiffMaxMean | mean }} |
+				{{ footerData?.secondDiffMinMean | mean }} >
+				{{ footerData?.secondDiffMin }}
+			</mat-footer-cell>
 		</ng-container>
 
 		<!-- Third Ball  -->
@@ -138,7 +146,11 @@
 			>
 				{{ row.thirdDiff | posNeg }}
 			</mat-cell>
-			<mat-footer-cell *matFooterCellDef></mat-footer-cell>
+			<mat-footer-cell *matFooterCellDef>
+				{{ footerData?.thirdDiffMax }} < {{ footerData?.thirdDiffMaxMean | mean }} |
+				{{ footerData?.thirdDiffMinMean | mean }} >
+				{{ footerData?.thirdDiffMin }}
+			</mat-footer-cell>
 		</ng-container>
 
 		<!-- Fourth Ball  -->
@@ -175,7 +187,11 @@
 			>
 				{{ row.fourthDiff | posNeg }}
 			</mat-cell>
-			<mat-footer-cell *matFooterCellDef></mat-footer-cell>
+			<mat-footer-cell *matFooterCellDef>
+				{{ footerData?.fourthDiffMax }} < {{ footerData?.fourthDiffMaxMean | mean }} |
+				{{ footerData?.fourthDiffMinMean | mean }} >
+				{{ footerData?.fourthDiffMin }}
+			</mat-footer-cell>
 		</ng-container>
 
 		<!-- Fifth Ball  -->
@@ -210,7 +226,11 @@
 			>
 				{{ row.fifthDiff | posNeg }}
 			</mat-cell>
-			<mat-footer-cell *matFooterCellDef></mat-footer-cell>
+			<mat-footer-cell *matFooterCellDef>
+				{{ footerData?.fifthDiffMax }} < {{ footerData?.fifthDiffMaxMean | mean }} |
+				{{ footerData?.fifthDiffMinMean | mean }} >
+				{{ footerData?.fifthDiffMin }}
+			</mat-footer-cell>
 		</ng-container>
 
 		<!-- Mega Ball  -->
@@ -243,7 +263,11 @@
 			>
 				{{ row.megaDiff | posNeg }}
 			</mat-cell>
-			<mat-footer-cell *matFooterCellDef></mat-footer-cell>
+			<mat-footer-cell *matFooterCellDef>
+				{{ footerData?.megaDiffMax }} < {{ footerData?.megaDiffMaxMean | mean }} |
+				{{ footerData?.megaDiffMinMean | mean }} >
+				{{ footerData?.megaDiffMin }}
+			</mat-footer-cell>
 		</ng-container>
 
 		<!-- Megaplier  -->
