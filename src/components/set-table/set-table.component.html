@@ -303,19 +303,48 @@
 			>
 				{{ row.diffSum | posNeg }}</mat-cell
 			>
-			<mat-footer-cell
-				*matFooterCellDef
-				[ngClass]="
-					footerData
-						? footerData.diffSum > 0
-							? 'pos-diff'
-							: footerData.diffSum < 0
-								? 'neg-diff'
-								: 'neu-diff'
-						: ''
-				"
-			>
-				{{ footerData?.diffSum | posNeg }}
+			<mat-footer-cell *matFooterCellDef>
+				<span
+					[ngClass]="
+						footerData
+							? footerData.diffSum > 0
+								? 'pos-diff'
+								: footerData.diffSum < 0
+									? 'neg-diff'
+									: 'neu-diff'
+							: ''
+					"
+				>
+					{{ footerData?.diffSum | posNeg }}
+				</span>
+				<span class="divider">|</span>
+				<span
+					[ngClass]="
+						footerData
+							? footerData.diffSumMin > 0
+								? 'pos-diff'
+								: footerData.diffSumMin < 0
+									? 'neg-diff'
+									: 'neu-diff'
+							: ''
+					"
+				>
+					{{ footerData?.diffSumMin | posNeg }}
+				</span>
+				<span class="divider">-</span>
+				<span
+					[ngClass]="
+						footerData
+							? footerData.diffSumMax > 0
+								? 'pos-diff'
+								: footerData.diffSumMax < 0
+									? 'neg-diff'
+									: 'neu-diff'
+							: ''
+					"
+				>
+					{{ footerData?.diffSumMax | posNeg }}
+				</span>
 			</mat-footer-cell>
 		</ng-container>
 
@@ -380,7 +409,7 @@
 				>
 					{{ footerData?.diffAggregateMin | posNeg }}
 				</span>
-				-
+				<span class="divider">-</span>
 				<span
 					[ngClass]="
 						footerData

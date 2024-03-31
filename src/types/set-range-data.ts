@@ -44,6 +44,8 @@ export type SetRangeData = {
 	megaplierRangeEnd: number;
 	diffSum: number;
 	diffSumMean: number;
+	diffSumMax: number;
+	diffSumMin: number;
 	diffAggregateMax: number;
 	diffAggregateMin: number;
 };

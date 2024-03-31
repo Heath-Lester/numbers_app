@@ -551,6 +551,8 @@ export function buildSetRangeData(setsData: SetData[]): SetRangeData {
 
 	let diffSum = 0;
 	let diffSumMean = 0;
+	let diffSumMax = 0;
+	let diffSumMin = 0;
 	let diffAggregateMax = 0;
 	let diffAggregateMin = 0;
 
@@ -673,6 +675,13 @@ export function buildSetRangeData(setsData: SetData[]): SetRangeData {
 			megaplierRangeEnd = setData.megaplier;
 		}
 		diffSum += setData.diffSum;
+
+		if (diffSumMax < setData.diffSum) {
+			diffSumMax = setData.diffSum;
+		}
+		if (diffSumMin > setData.diffSum) {
+			diffSumMin = setData.diffSum;
+		}
 		if (diffAggregateMax < setData.diffAggregate) {
 			diffAggregateMax = setData.diffAggregate;
 		}
@@ -742,6 +751,8 @@ export function buildSetRangeData(setsData: SetData[]): SetRangeData {
 		megaplierRangeEnd,
 		diffSum,
 		diffSumMean,
+		diffSumMax,
+		diffSumMin,
 		diffAggregateMax,
 		diffAggregateMin,
 	};
