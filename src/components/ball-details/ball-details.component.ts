@@ -72,6 +72,7 @@ export class BallDetailsComponent implements OnDestroy {
 		});
 	protected footerData?: BallStatsMeanModeRange;
 	private changeDetector = inject(ChangeDetectorRef, { self: true });
+	protected selectedRows = new Set<BallStatistics>();
 	protected displayedColumns: string[] = [
 		'index',
 		'setNumber',
@@ -85,5 +86,13 @@ export class BallDetailsComponent implements OnDestroy {
 
 	ngOnDestroy(): void {
 		this.dataSubscription.unsubscribe();
+	}
+
+	protected handleRowSelection(row: BallStatistics): void {
+		if (this.selectedRows.has(row)) {
+			this.selectedRows.delete(row);
+		} else {
+			this.selectedRows.add(row);
+		}
 	}
 }

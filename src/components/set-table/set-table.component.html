@@ -303,10 +303,19 @@
 			>
 				{{ row.diffSum | posNeg }}</mat-cell
 			>
-			<mat-footer-cell *matFooterCellDef>
-				<!-- {{ footerData ? footerData.megaplierRangeStart : 0 }}-{{
-					footerData ? footerData.megaplierRangeEnd : 0
-				}} -->
+			<mat-footer-cell
+				*matFooterCellDef
+				[ngClass]="
+					footerData
+						? footerData.diffSum > 0
+							? 'pos-diff'
+							: footerData.diffSum < 0
+								? 'neg-diff'
+								: 'neu-diff'
+						: ''
+				"
+			>
+				{{ footerData?.diffSum | posNeg }}
 			</mat-footer-cell>
 		</ng-container>
 
@@ -326,10 +335,66 @@
 				{{ row.diffMean | posNeg }}
 			</mat-cell>
 			<mat-footer-cell *matFooterCellDef>
-				<!-- {{ footerData ? footerData.megaplierRangeStart : 0 }}-{{
-				footerData ? footerData.megaplierRangeEnd : 0
-			}} -->
-				<span class="footer-total">Total: {{ footerData ? footerData.totalSets : 0 }}</span>
+				<span
+					[ngClass]="
+						footerData
+							? footerData.diffSumMean > 0
+								? 'pos-diff'
+								: footerData.diffSumMean < 0
+									? 'neg-diff'
+									: 'neu-diff'
+							: ''
+					"
+				>
+					{{ footerData?.diffSumMean | posNeg: 3 }}
+				</span>
+			</mat-footer-cell>
+		</ng-container>
+
+		<!-- Diff Aggregate  -->
+		<ng-container matColumnDef="diffAggregate">
+			<mat-header-cell
+				*matHeaderCellDef
+				mat-sort-header
+				sortActionDescription="Sort by diff sum"
+			>
+				Diff Aggregate
+			</mat-header-cell>
+			<mat-cell
+				*matCellDef="let row"
+				[ngClass]="row.diffAggregate > 0 ? 'pos-diff' : row.diffAggregate < 0 ? 'neg-diff' : 'neu-diff'"
+			>
+				{{ row.diffAggregate | posNeg }}
+			</mat-cell>
+			<mat-footer-cell *matFooterCellDef>
+				<span
+					[ngClass]="
+						footerData
+							? footerData.diffAggregateMin > 0
+								? 'pos-diff'
+								: footerData.diffAggregateMin < 0
+									? 'neg-diff'
+									: 'neu-diff'
+							: ''
+					"
+				>
+					{{ footerData?.diffAggregateMin | posNeg }}
+				</span>
+				-
+				<span
+					[ngClass]="
+						footerData
+							? footerData.diffAggregateMax > 0
+								? 'pos-diff'
+								: footerData.diffAggregateMax < 0
+									? 'neg-diff'
+									: 'neu-diff'
+							: ''
+					"
+				>
+					{{ footerData?.diffAggregateMax | posNeg }}
+				</span>
+				<!-- <span class="footer-total">Total: {{ footerData ? footerData.totalSets : 0 }}</span> -->
 			</mat-footer-cell>
 		</ng-container>
 

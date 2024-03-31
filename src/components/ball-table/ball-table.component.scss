@@ -10,6 +10,21 @@
 	padding: 26px !important;
 }
 
+.selected-row {
+	font-weight: 550;
+	border-color: rgba(0, 0, 0, 0.35);
+	border-width: 2px;
+	border-radius: 2px;
+	border-style: solid;
+	background: unset;
+	> .mat-mdc-cell {
+		align-self: unset;
+	}
+	> mat-cell:first-of-type {
+		padding-left: 22px;
+	}
+}
+
 mat-footer-cell {
 	font-weight: 500;
 	border-top-color: var(--mat-table-row-item-outline-color, rgba(0, 0, 0, 0.12));

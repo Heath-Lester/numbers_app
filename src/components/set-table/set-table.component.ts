@@ -9,7 +9,7 @@ import {
 	inject,
 } from '@angular/core';
 import { WinningSet } from './../../types/winning-set';
-import { MatRow, MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MegaMillionsService } from '../../services/mega-millions.service';
 import { BehaviorSubject, Subscription, map, skip, debounceTime, filter, combineLatest, tap, Subject } from 'rxjs';
 import { buildSetData, buildSetRangeData } from '../../utils/synthesizers';
@@ -75,13 +75,15 @@ export class SetTableComponent implements AfterViewInit, OnDestroy {
 			this.dataSubscription = combineLatest([this.megaService.getAllWinningSets(), dateCutoff.asObservable()])
 				.pipe(
 					debounceTime(500),
-					map(([sets, dateCutoff]) =>
-						sets.filter((set: WinningSet) => set.date.getTime() > dateCutoff.getTime())
+					map(([sets, dateCutoff]: [WinningSet[], Date]): [SetData[], Date] => [
+						buildSetData(sets),
+						dateCutoff,
+					]),
+					map(([setsData, dateCutoff]: [SetData[], Date]) =>
+						setsData.filter((set: SetData) =>
+							set.date ? set.date.getTime() > dateCutoff.getTime() : false
+						)
 					),
-					map((sets: WinningSet[]) =>
-						sets.sort((a: WinningSet, b: WinningSet) => a.date.getTime() - b.date.getTime())
-					),
-					map((sets: WinningSet[]) => buildSetData(sets)),
 					map((setsData: SetData[]) => setsData.sort((a: SetData, b: SetData) => b.index - a.index)),
 					tap((setsData: SetData[]) => (this.footerData = buildSetRangeData(setsData)))
 				)
@@ -158,6 +160,7 @@ export class SetTableComponent implements AfterViewInit, OnDestroy {
 		'megaDiff',
 		'diffSum',
 		'diffMean',
+		'diffAggregate',
 	];
 
 	protected displayedColumns: string[] = this.columnsWithoutDiffs;

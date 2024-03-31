@@ -67,6 +67,7 @@ export class MegaBallTableComponent implements OnDestroy, AfterViewInit {
 	protected readonly dataSource = new MatTableDataSource<MegaBallData>();
 	protected footerData?: BallAverageData;
 
+	protected selectedRows = new Set<MegaBallData>();
 	protected readonly displayedColumns: string[] = [
 		'megaBall',
 		'totalDraws',
@@ -120,6 +121,14 @@ export class MegaBallTableComponent implements OnDestroy, AfterViewInit {
 	ngOnDestroy(): void {
 		this.megaBallData?.unsubscribe();
 		this.filterSubscription?.unsubscribe();
+	}
+
+	protected handleRowSelection(row: MegaBallData): void {
+		if (this.selectedRows.has(row)) {
+			this.selectedRows.delete(row);
+		} else {
+			this.selectedRows.add(row);
+		}
 	}
 
 	private filterPredicate = (data: MegaBallData, filter: string): boolean => {

@@ -65,6 +65,7 @@ export class BallTableComponent implements OnDestroy, AfterViewInit {
 	private changeDetector = inject(ChangeDetectorRef, { self: true });
 	protected dataSource = new MatTableDataSource<BallData>();
 	protected footerData?: BallAverageData;
+	protected selectedRows = new Set<BallData>();
 	protected displayedColumns: string[] = [
 		'ball',
 		'totalDraws',
@@ -116,6 +117,14 @@ export class BallTableComponent implements OnDestroy, AfterViewInit {
 	ngOnDestroy(): void {
 		this.ballData?.unsubscribe();
 		this.filterSubscription?.unsubscribe();
+	}
+
+	protected handleRowSelection(row: BallData): void {
+		if (this.selectedRows.has(row)) {
+			this.selectedRows.delete(row);
+		} else {
+			this.selectedRows.add(row);
+		}
 	}
 
 	private filterPredicate = (data: BallData, filter: string): boolean => {

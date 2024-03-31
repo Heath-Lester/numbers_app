@@ -9,7 +9,6 @@ import { SetRangeData } from '../types/set-range-data';
 import { BallStatistics } from '../types/ball-statistics';
 import { DrawnPosition } from '../types/drawn-position';
 import { BallStatsMeanModeRange } from '../types/ball-stats-mean-mode-range';
-import { setEnvironmentData } from 'node:worker_threads';
 
 function getModeAndInstances(numbers: number[]): [number, number] | [null, null] {
 	if (numbers.length === 0) return [null, null];
@@ -392,14 +391,12 @@ export function buildBallStatsMeanModeRangeData(ballStats: BallStatistics[]): Ba
 		}
 	}
 	let maxLeftBallInstance: number | null = null;
-	console.warn('ALL LEFT BALL VALUES: ', maxLeftBallInstance);
 	for (const [key, value] of allLeftBallValues.entries()) {
 		if (maxLeftBallInstance === null || maxLeftBallInstance < value) {
 			data.leftBallMode = key;
 		}
 	}
 	let maxRightBallInstances: number | null = null;
-	console.warn('ALL RIGHT BALL VALUES: ', allRightBallValues);
 	for (const [key, value] of allRightBallValues.entries()) {
 		if (maxRightBallInstances === null || maxRightBallInstances < value) {
 			data.rightBallMode = key;
@@ -411,7 +408,6 @@ export function buildBallStatsMeanModeRangeData(ballStats: BallStatistics[]): Ba
 	data.leftBallMean = totalLeftBallValue / ballStats.length;
 	data.rightBallMean = totalRightBallValue / ballStats.length;
 
-	console.warn('ALL DRAWN POSITIONS: ', allDrawnPositions);
 	const descendingPositionInstances: DrawnPosition[] = new Array<DrawnPosition>(
 		...new Map(
 			new Array<[DrawnPosition, number]>(...allDrawnPositions.entries()).sort(
@@ -553,6 +549,11 @@ export function buildSetRangeData(setsData: SetData[]): SetRangeData {
 	let positiveMegaTally = 0;
 	let negativeMegaTally = 0;
 
+	let diffSum = 0;
+	let diffSumMean = 0;
+	let diffAggregateMax = 0;
+	let diffAggregateMin = 0;
+
 	for (const setData of setsData) {
 		if (indexRangeStart === 0 || indexRangeStart > setData.index) {
 			indexRangeStart = setData.index;
@@ -671,6 +672,13 @@ export function buildSetRangeData(setsData: SetData[]): SetRangeData {
 		if (megaplierRangeEnd === 0 || setData.megaplier > megaplierRangeEnd) {
 			megaplierRangeEnd = setData.megaplier;
 		}
+		diffSum += setData.diffSum;
+		if (diffAggregateMax < setData.diffAggregate) {
+			diffAggregateMax = setData.diffAggregate;
+		}
+		if (diffAggregateMin > setData.diffAggregate) {
+			diffAggregateMin = setData.diffAggregate;
+		}
 	}
 
 	firstDiffMaxMean = totalPositiveFirst / positiveFirstTally;
@@ -685,6 +693,8 @@ export function buildSetRangeData(setsData: SetData[]): SetRangeData {
 	fifthDiffMinMean = totalNegativeFifth / negativeFifthTally;
 	megaDiffMaxMean = totalPositiveMega / positiveMegaTally;
 	megaDiffMinMean = totalNegativeMega / negativeMegaTally;
+
+	diffSumMean = diffSum / setsData.length;
 
 	const data: SetRangeData = {
 		totalSets,
@@ -730,12 +740,19 @@ export function buildSetRangeData(setsData: SetData[]): SetRangeData {
 		megaDiffMin,
 		megaplierRangeStart,
 		megaplierRangeEnd,
+		diffSum,
+		diffSumMean,
+		diffAggregateMax,
+		diffAggregateMin,
 	};
 
 	return data;
 }
 
 export function buildSetData(sets: WinningSet[]): SetData[] {
+	sets.sort((a: WinningSet, b: WinningSet) => a.date.getTime() - b.date.getTime());
+
+	let diffAggregate = 0;
 	const setData = sets.map((set, index) => {
 		const firstDiff = sets[index - 1] ? set.firstBall.number - sets[index - 1].firstBall.number : 0;
 		const secondDiff = sets[index - 1] ? set.secondBall.number - sets[index - 1].secondBall.number : 0;
@@ -747,6 +764,7 @@ export function buildSetData(sets: WinningSet[]): SetData[] {
 		const totalDiffSum = diffSum + megaDiff;
 		let diffMax = firstDiff;
 		let diffMin = firstDiff;
+		diffAggregate += diffSum;
 
 		new Array(firstDiff, secondDiff, thirdDiff, fourthDiff, fifthDiff).forEach((diff: number) => {
 			if (diff > diffMax) {
@@ -758,7 +776,7 @@ export function buildSetData(sets: WinningSet[]): SetData[] {
 		});
 
 		const data: SetData = {
-			index,
+			index: index + 1,
 			date: set.date,
 			firstBall: set.firstBall.number,
 			firstDiff,
@@ -778,6 +796,7 @@ export function buildSetData(sets: WinningSet[]): SetData[] {
 			diffMean: diffSum / 5,
 			diffMax,
 			diffMin,
+			diffAggregate,
 		};
 
 		return data;

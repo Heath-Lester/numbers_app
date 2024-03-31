@@ -19,4 +19,5 @@ export type SetData = {
 	diffMean: number;
 	diffMax: number;
 	diffMin: number;
+	diffAggregate: number;
 };

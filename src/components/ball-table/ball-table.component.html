@@ -153,7 +153,11 @@
 
 		<!-- Header and Row Declarations -->
 		<mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></mat-header-row>
-		<mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+		<mat-row
+			*matRowDef="let row; columns: displayedColumns"
+			(click)="handleRowSelection(row)"
+			[class.selected-row]="selectedRows.has(row)"
+		></mat-row>
 		<mat-footer-row *matFooterRowDef="displayedColumns; sticky: true"></mat-footer-row>
 	</mat-table>
 </ng-container>
