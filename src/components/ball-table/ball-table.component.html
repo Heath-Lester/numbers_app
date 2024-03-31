@@ -157,6 +157,7 @@
 			*matRowDef="let row; columns: displayedColumns"
 			(click)="handleRowSelection(row)"
 			[class.selected-row]="selectedRows.has(row)"
+			class="pointer"
 		></mat-row>
 		<mat-footer-row *matFooterRowDef="displayedColumns; sticky: true"></mat-footer-row>
 	</mat-table>

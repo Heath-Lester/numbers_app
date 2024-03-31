@@ -25,6 +25,10 @@
 	}
 }
 
+.pointer {
+	cursor: pointer;
+}
+
 mat-footer-cell {
 	font-weight: 500;
 	border-top-color: var(--mat-table-row-item-outline-color, rgba(0, 0, 0, 0.12));
