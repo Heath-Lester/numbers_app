@@ -1,4 +1,4 @@
-import { DrawnPosition } from './drawnPosition';
+import { DrawnPosition } from './drawn-position';
 
 export type BallStatistics = {
 	index: number;

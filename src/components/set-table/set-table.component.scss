@@ -16,6 +16,22 @@
 	padding-left: 0px !important;
 	padding-bottom: 0px !important;
 }
+
+.selected-row {
+	font-weight: 550;
+	border-color: rgba(0, 0, 0, 0.35);
+	border-width: 2px;
+	border-radius: 2px;
+	border-style: solid;
+	background: unset;
+	> .mat-mdc-cell {
+		align-self: unset;
+	}
+	> mat-cell:first-of-type {
+		padding-left: 22px;
+	}
+}
+
 .set-table-loader-bar {
 	padding: 20px 26px;
 }

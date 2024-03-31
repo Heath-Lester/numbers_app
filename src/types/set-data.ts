@@ -14,4 +14,9 @@ export type SetData = {
 	megaBall: number;
 	megaDiff: number;
 	megaplier: number;
+	totalDiffSum: number;
+	diffSum: number;
+	diffMean: number;
+	diffMax: number;
+	diffMin: number;
 };

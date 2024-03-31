@@ -288,9 +288,58 @@
 			</mat-footer-cell>
 		</ng-container>
 
+		<!-- Diff Sum  -->
+		<ng-container matColumnDef="diffSum">
+			<mat-header-cell
+				*matHeaderCellDef
+				mat-sort-header
+				sortActionDescription="Sort by diff sum"
+			>
+				Diff Sum
+			</mat-header-cell>
+			<mat-cell
+				*matCellDef="let row"
+				[ngClass]="row.diffSum > 0 ? 'pos-diff' : row.diffSum < 0 ? 'neg-diff' : 'neu-diff'"
+			>
+				{{ row.diffSum | posNeg }}</mat-cell
+			>
+			<mat-footer-cell *matFooterCellDef>
+				<!-- {{ footerData ? footerData.megaplierRangeStart : 0 }}-{{
+					footerData ? footerData.megaplierRangeEnd : 0
+				}} -->
+			</mat-footer-cell>
+		</ng-container>
+
+		<!-- Diff Mean  -->
+		<ng-container matColumnDef="diffMean">
+			<mat-header-cell
+				*matHeaderCellDef
+				mat-sort-header
+				sortActionDescription="Sort by diff sum"
+			>
+				Diff Mean
+			</mat-header-cell>
+			<mat-cell
+				*matCellDef="let row"
+				[ngClass]="row.diffMean > 0 ? 'pos-diff' : row.diffMean < 0 ? 'neg-diff' : 'neu-diff'"
+			>
+				{{ row.diffMean | posNeg }}
+			</mat-cell>
+			<mat-footer-cell *matFooterCellDef>
+				<!-- {{ footerData ? footerData.megaplierRangeStart : 0 }}-{{
+				footerData ? footerData.megaplierRangeEnd : 0
+			}} -->
+				<span class="footer-total">Total: {{ footerData ? footerData.totalSets : 0 }}</span>
+			</mat-footer-cell>
+		</ng-container>
+
 		<!-- Header and Row Declarations -->
 		<mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></mat-header-row>
-		<mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+		<mat-row
+			*matRowDef="let row; columns: displayedColumns"
+			(click)="handleRowSelection(row)"
+			[class.selected-row]="selectedRows.has(row)"
+		></mat-row>
 		<mat-footer-row *matFooterRowDef="displayedColumns; sticky: true"></mat-footer-row>
 	</mat-table>
 </ng-container>

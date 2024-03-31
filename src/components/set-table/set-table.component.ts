@@ -9,7 +9,7 @@ import {
 	inject,
 } from '@angular/core';
 import { WinningSet } from './../../types/winning-set';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatRow, MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MegaMillionsService } from '../../services/mega-millions.service';
 import { BehaviorSubject, Subscription, map, skip, debounceTime, filter, combineLatest, tap, Subject } from 'rxjs';
 import { buildSetData, buildSetRangeData } from '../../utils/synthesizers';
@@ -129,6 +129,8 @@ export class SetTableComponent implements AfterViewInit, OnDestroy {
 	protected dataSource = new MatTableDataSource<SetData>();
 	protected footerData?: SetRangeData;
 
+	protected selectedRows = new Set<SetData>();
+
 	private readonly columnsWithoutDiffs: string[] = [
 		'index',
 		'date',
@@ -142,7 +144,6 @@ export class SetTableComponent implements AfterViewInit, OnDestroy {
 	];
 	private readonly columnsWithDiffs: string[] = [
 		'index',
-		'date',
 		'firstBall',
 		'firstDiff',
 		'secondBall',
@@ -155,7 +156,8 @@ export class SetTableComponent implements AfterViewInit, OnDestroy {
 		'fifthDiff',
 		'megaBall',
 		'megaDiff',
-		'megaplier',
+		'diffSum',
+		'diffMean',
 	];
 
 	protected displayedColumns: string[] = this.columnsWithoutDiffs;
@@ -169,6 +171,14 @@ export class SetTableComponent implements AfterViewInit, OnDestroy {
 		this.filterSubscription?.unsubscribe();
 		this.recalculateSpansSubscription.unsubscribe();
 		this.diffColumnSubscription?.unsubscribe();
+	}
+
+	protected handleRowSelection(row: SetData): void {
+		if (this.selectedRows.has(row)) {
+			this.selectedRows.delete(row);
+		} else {
+			this.selectedRows.add(row);
+		}
 	}
 
 	private readonly filterPredicate = (data: SetData, filter: string): boolean => {

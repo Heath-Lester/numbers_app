@@ -7,7 +7,7 @@ import { SetData } from '../types/set-data';
 import { BallAverageData } from '../types/ball-average-data';
 import { SetRangeData } from '../types/set-range-data';
 import { BallStatistics } from '../types/ball-statistics';
-import { DrawnPosition } from '../types/drawnPosition';
+import { DrawnPosition } from '../types/drawn-position';
 import { BallStatsMeanModeRange } from '../types/ball-stats-mean-mode-range';
 import { setEnvironmentData } from 'node:worker_threads';
 
@@ -737,23 +737,49 @@ export function buildSetRangeData(setsData: SetData[]): SetRangeData {
 
 export function buildSetData(sets: WinningSet[]): SetData[] {
 	const setData = sets.map((set, index) => {
+		const firstDiff = sets[index - 1] ? set.firstBall.number - sets[index - 1].firstBall.number : 0;
+		const secondDiff = sets[index - 1] ? set.secondBall.number - sets[index - 1].secondBall.number : 0;
+		const thirdDiff = sets[index - 1] ? set.thirdBall.number - sets[index - 1].thirdBall.number : 0;
+		const fourthDiff = sets[index - 1] ? set.fourthBall.number - sets[index - 1].fourthBall.number : 0;
+		const fifthDiff = sets[index - 1] ? set.fifthBall.number - sets[index - 1].fifthBall.number : 0;
+		const megaDiff = sets[index - 1] ? set.megaBall.number - sets[index - 1].megaBall.number : 0;
+		const diffSum = firstDiff + secondDiff + thirdDiff + fourthDiff + fifthDiff;
+		const totalDiffSum = diffSum + megaDiff;
+		let diffMax = firstDiff;
+		let diffMin = firstDiff;
+
+		new Array(firstDiff, secondDiff, thirdDiff, fourthDiff, fifthDiff).forEach((diff: number) => {
+			if (diff > diffMax) {
+				diffMax = diffMax;
+			}
+			if (diff < diffMin) {
+				diffMin = diffMin;
+			}
+		});
+
 		const data: SetData = {
 			index,
 			date: set.date,
 			firstBall: set.firstBall.number,
-			firstDiff: sets[index - 1] ? set.firstBall.number - sets[index - 1].firstBall.number : 0,
+			firstDiff,
 			secondBall: set.secondBall.number,
-			secondDiff: sets[index - 1] ? set.secondBall.number - sets[index - 1].secondBall.number : 0,
+			secondDiff,
 			thirdBall: set.thirdBall.number,
-			thirdDiff: sets[index - 1] ? set.thirdBall.number - sets[index - 1].thirdBall.number : 0,
+			thirdDiff,
 			fourthBall: set.fourthBall.number,
-			fourthDiff: sets[index - 1] ? set.fourthBall.number - sets[index - 1].fourthBall.number : 0,
+			fourthDiff,
 			fifthBall: set.fifthBall.number,
-			fifthDiff: sets[index - 1] ? set.fifthBall.number - sets[index - 1].fifthBall.number : 0,
+			fifthDiff,
 			megaBall: set.megaBall.number,
-			megaDiff: sets[index - 1] ? set.megaBall.number - sets[index - 1].megaBall.number : 0,
+			megaDiff,
 			megaplier: set.megaplier,
+			diffSum,
+			totalDiffSum,
+			diffMean: diffSum / 5,
+			diffMax,
+			diffMin,
 		};
+
 		return data;
 	});
 
